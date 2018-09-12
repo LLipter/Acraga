@@ -32,6 +32,7 @@ Acraga是一种简单的强类型编程语言，支持整数、实数、布尔�
  - 标识符
 
     `alphabet_english ::= [a-zA-Z]`
+
     `alphabet_id ::= alphabet_english | _ | digits`
 
     `alphabet_id_first ::= alphabet_english | _`
@@ -84,21 +85,24 @@ Acraga是一种简单的强类型编程语言，支持整数、实数、布尔�
 
    `mul_expression ::= expression * value`
 
-   `div_expression ::= expression / value`	
+   `div_expression ::= expression / value`
 
 `expression ::= add_expression | sub_expression | mul_expression | div_expression | value`
 
  - if语句
 
    `if_statement ::= if(expression){statements}(else{statements})?`
-   
+
  - while语句
 
    `while_statement ::= while(expression){statements}`
 
- 
+- for语句
 
- 
+  `for_statement ::= for(initialization; boolean expression; control variable){statements}`
+
+
+  
 
 # TODO
 
