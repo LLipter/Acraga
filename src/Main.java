@@ -6,7 +6,9 @@ public class Main {
 
 		InputReader.initWithFilename("input1.acg");
 		while(!InputReader.eof()) {
-			System.out.println(InputReader.getChCur());
+			int ch = InputReader.getChCur();
+			System.out.println(ch);
+			System.out.println((char)ch);
 			InputReader.next();
 		}
 	}
