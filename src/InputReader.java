@@ -6,30 +6,30 @@ import java.io.Reader;
 
 public class InputReader {
 	
-	private static Reader reader ;
-	private static int ch_cur;
-	private static int ch_next;
-	private static int line;
-	private static int pos;
+	private Reader reader;
+	private int ch_cur;
+	private int ch_next;
+	private int line;
+	private int pos;
 	
 	
-	public static int getChCur() {
+	public int getChCur() {
 		return ch_cur;
 	}
 	
-	public static int getChNext() {
+	public int getChNext() {
 		return ch_next;
 	}
 
-	public static int getLine() {
+	public int getLine() {
 		return line;
 	}
 
-	public static int getPos() {
+	public int getPos() {
 		return pos;
 	}
 	
-	public static void initWithFilename(String inputFile){
+	public InputReader(String inputFile) {
 		try {
 			reader = new InputStreamReader(new FileInputStream(inputFile));
 			ch_cur = -1;
@@ -43,7 +43,8 @@ public class InputReader {
 		}
 	}
 	
-	public static void close(){
+	
+	public void close(){
 		try {
 			reader.close();
 		} catch (IOException e) {
@@ -51,7 +52,7 @@ public class InputReader {
 		}
 	}
 	
-	public static void next(){
+	public void next(){
 		try {
 			if(ch_cur == '\n') {
 				line++;
@@ -71,8 +72,8 @@ public class InputReader {
 	}
 	
 	// eof stands for 'end of file'
-	public static boolean eof() {
-		return InputReader.getChCur() == -1;
+	public boolean eof() {
+		return getChCur() == -1;
 	}
 
 }

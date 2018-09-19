@@ -4,12 +4,12 @@ public class Main {
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 
-		InputReader.initWithFilename("input1.acg");
-		while(!InputReader.eof()) {
-			int ch = InputReader.getChCur();
+		InputReader input = new InputReader("input1.acg");
+		while(!input.eof()) {
+			int ch = input.getChCur();
 			System.out.println(ch);
 			System.out.println((char)ch);
-			InputReader.next();
+			input.next();
 		}
 	}
 
