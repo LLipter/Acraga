@@ -1,3 +1,4 @@
+package main;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -63,7 +64,7 @@ public class InputReader {
 			pos++;
 			
 			if(ch_cur == '/' && ch_next == '/') { // ignore all comments
-				while(ch_cur != '\n' && !eof())
+				while(ch_cur != '\n' && !iseof())
 					next();
 			}
 		} catch (IOException e) {
@@ -72,8 +73,14 @@ public class InputReader {
 	}
 	
 	// eof stands for 'end of file'
-	public boolean eof() {
+	public boolean iseof() {
 		return getChCur() == -1;
 	}
+	
+	public boolean isDigit() {
+		return Character.isDigit(getChCur());
+	}
+	
+	
 
 }

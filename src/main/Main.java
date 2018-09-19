@@ -1,3 +1,6 @@
+package main;
+
+import node.*;
 
 public class Main {
 
@@ -5,12 +8,8 @@ public class Main {
 		// TODO Auto-generated method stub
 
 		InputReader input = new InputReader("input1.acg");
-		while(!input.eof()) {
-			int ch = input.getChCur();
-			System.out.println(ch);
-			System.out.println((char)ch);
-			input.next();
-		}
+		AcragaDecimalInteger integer = new AcragaDecimalInteger(input);
+		System.out.println(integer.getValue());
 	}
 
 }
