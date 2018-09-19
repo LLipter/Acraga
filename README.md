@@ -11,23 +11,29 @@ Acraga是一种简单的强类型编程语言，支持整数、实数、布尔�
 
  - 整数
 
-   `digits ::= 0|1|2|3|4|5|6|7|8|9`
+   `digit ::= 0|1|2|3|4|5|6|7|8|9`
 
-   `integer ::= integer digits|digits`
+   `hex ::= digit|A|B|C|D|E|F`
+
+   `integer ::= decimal | hexadecimal`
+
+   `decimal ::= (+|-)? digit+`
+
+   `hexadecimal ::= (0x|0X)hex+`  
 
  - 实数
 
-   `real ::= integer . integer`
+   `real ::= decimal.digit+`
 
  - 布尔值
 
-   `boolean ::= true : false`
+   `boolean ::= true|false`
 
  - 字符串
 
-   `alphabet ::= ASCII能表示的所有字符`
+   `alphabet ::= ASCII码能表示的所有字符`
 
-   `literal ::= "alphabet*"`
+   `literal ::= alphabet*`
 
  - 标识符
 
@@ -40,14 +46,14 @@ Acraga是一种简单的强类型编程语言，支持整数、实数、布尔�
     `identifier ::= alphabet_id_first alphabet_id*`
 
  - 保留字/关键字
-		- if
-		- else
-		- while
-		- int
-		- float
-		- bool
-		- string
-		- print
+    - if
+    	- else
+    	- while
+    	- int
+    	- float
+    	- bool
+    	- string
+    	- print
 
 # 语法规则
 
@@ -67,27 +73,26 @@ Acraga是一种简单的强类型编程语言，支持整数、实数、布尔�
  - 赋值语句
 
    `immediate_value ::= integer | real | boolean | literal`
-   
+
    `value ::= immediate_value | identifier`
 
    `assign_statement ::= identifier = (value | expression);`
-   
+
  - 输出语句
 
    `output_statement ::= print(value)`
-   
+
  - 表达式
 
+   `expression ::= T`
 
-   `add_expression ::= expression + value`
+   `T ::= T+F | T-F | F`
 
-   `sub_expression ::= expression - value`
+   `F ::= F*G | F/G | F%G | G`
 
-   `mul_expression ::= expression * value`
+   `G ::=  value | (T)`
 
-   `div_expression ::= expression / value`
-
-`expression ::= add_expression | sub_expression | mul_expression | div_expression | value`
+   `value ::= integer | real | boolean | string`
 
  - if语句
 
@@ -102,7 +107,7 @@ Acraga是一种简单的强类型编程语言，支持整数、实数、布尔�
   `for_statement ::= for(initialization; boolean expression; control variable){statements}`
 
 
-  
+
 
 # TODO
 
@@ -117,3 +122,41 @@ Acraga是一种简单的强类型编程语言，支持整数、实数、布尔�
   - 支持for循环语句
   - 支持+=、-=、/=、*=
   - 修改表达式部分的定义，加入括号，并且使之可以提现运算符优先级的区别，可以参考上学期ppt
+
+
+
+
+
+# How to use Acraga
+
+## 算术表达式
+
+Acraga支持整型、实型、布尔型、字符串类型与十六进制数的运算。其中包括加法 `+`、减法`-`、乘法`*`、除法`/`、取模`%`。
+
+==注意：**仅对字符串类型支持加法运算**==
+
+**运算符优先级（数字越小优先级越高）：**
+
+- 0级：(、)
+- 1级：*、/、%
+- 2级：+、-
+- 3级：tbd...
+
+因此我们可以进行如下运算：
+
+- `(1 + 2) * (3 * (4 + 5) - 6) = 63`
+- `1 + 2 * 3 * 4 + 5 - 6 =24`
+- `1 + 3 % 2 = 2`
+- `0x0001 + 0x0A02 = 0x0A03`
+
+在Java中：
+
+```java
+String str1 = "abc";
+System.out.println(str1 + "d");// output:abcd
+String str2 = "1";
+String str3 = "2";
+System.out.println(str2 + str3);// output:12
+```
+
+- `a + b = ab`
