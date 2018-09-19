@@ -8,8 +8,10 @@ public class Main {
 		// TODO Auto-generated method stub
 
 		InputReader input = new InputReader("input1.acg");
-		AcragaDecimalInteger integer = new AcragaDecimalInteger(input);
-		System.out.println(integer.getValue());
+		while(!input.iseof()) {
+			System.out.print((char)input.getChCur());
+			input.next();
+		}
 	}
 
 }

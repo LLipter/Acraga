@@ -55,17 +55,33 @@ public class InputReader {
 	
 	public void next(){
 		try {
-			if(ch_cur == '\n') {
-				line++;
-				pos = 0;
-			}
 			ch_cur = ch_next;
 			ch_next = reader.read();
 			pos++;
 			
-			if(ch_cur == '/' && ch_next == '/') { // ignore all comments
-				while(ch_cur != '\n' && !iseof())
+			// ignore all new lines
+			while(ch_cur == '\n') {
+				line++;
+				pos = 0;
+				next();
+			}
+			
+			// ignore all white spaces
+			while(isWhiteSpace())
+				next();
+			
+			// ignore all comments
+			if(ch_cur == '/' && ch_next == '/') { 
+				while(ch_cur != '\n' && !iseof()) {
+					ch_cur = ch_next;
+					ch_next = reader.read();
+				}
+				if(ch_cur == '\n') {
+					line++;
+					pos = 0;
 					next();
+				}
+					
 			}
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -79,6 +95,12 @@ public class InputReader {
 	
 	public boolean isDigit() {
 		return Character.isDigit(getChCur());
+	}
+	
+	public boolean isWhiteSpace() {
+		if(getChCur() == ' ' || getChCur() == '\t')
+			return true;
+		return false;
 	}
 	
 	

@@ -15,7 +15,8 @@ public class AcragaDecimalInteger {
 		}else if(input.getChCur() == '+') {
 			isPositive = true;
 			input.next();
-		}
+		}else if(input.isDigit())
+			isPositive = true;
 		
 		if(!input.isDigit())
 			SyntaxException.stop(input, "invalid integer value");
