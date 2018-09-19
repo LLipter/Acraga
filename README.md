@@ -11,23 +11,29 @@ Acraga是一种简单的强类型编程语言，支持整数、实数、布尔�
 
  - 整数
 
-   `digits ::= 0|1|2|3|4|5|6|7|8|9`
+   `digit ::= 0|1|2|3|4|5|6|7|8|9`
 
-   `integer ::= integer digits|digits`
+   `hex ::= digit|A|B|C|D|E|F`
+
+   `integer ::= decimal | hexadecimal`
+
+   `decimal ::= (+|-)? digit+`
+
+   `hexadecimal ::= (0x|0X)hex+`  
 
  - 实数
 
-   `real ::= integer . integer`
+   `real ::= decimal.digit+`
 
  - 布尔值
 
-   `boolean ::= true : false`
+   `boolean ::= true|false`
 
  - 字符串
 
-   `alphabet ::= ASCII能表示的所有字符`
+   `alphabet ::= ASCII码能表示的所有字符`
 
-   `literal ::= "alphabet*"`
+   `literal ::= alphabet*`
 
  - 标识符
 
@@ -40,14 +46,14 @@ Acraga是一种简单的强类型编程语言，支持整数、实数、布尔�
     `identifier ::= alphabet_id_first alphabet_id*`
 
  - 保留字/关键字
-		- if
-		- else
-		- while
-		- int
-		- float
-		- bool
-		- string
-		- print
+    - if
+    	- else
+    	- while
+    	- int
+    	- float
+    	- bool
+    	- string
+    	- print
 
 # 语法规则
 
@@ -67,27 +73,26 @@ Acraga是一种简单的强类型编程语言，支持整数、实数、布尔�
  - 赋值语句
 
    `immediate_value ::= integer | real | boolean | literal`
-   
+
    `value ::= immediate_value | identifier`
 
    `assign_statement ::= identifier = (value | expression);`
-   
+
  - 输出语句
 
    `output_statement ::= print(value)`
-   
+
  - 表达式
 
+   `expression ::= T`
 
-   `add_expression ::= expression + value`
+   `T ::= T+F | T-F | F`
 
-   `sub_expression ::= expression - value`
+   `F ::= F*G | F/G | F%G | G`
 
-   `mul_expression ::= expression * value`
+   `G ::=  value | (T)`
 
-   `div_expression ::= expression / value`
-
-`expression ::= add_expression | sub_expression | mul_expression | div_expression | value`
+   `value ::= integer | real | boolean | string`
 
  - if语句
 
@@ -102,7 +107,7 @@ Acraga是一种简单的强类型编程语言，支持整数、实数、布尔�
   `for_statement ::= for(initialization; boolean expression; control variable){statements}`
 
 
-  
+
 
 # TODO
 
