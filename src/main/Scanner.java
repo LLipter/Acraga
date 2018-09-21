@@ -8,8 +8,10 @@ import token.Keyword;
 import token.Operator;
 import token.Token;
 import token.UnaryOperator;
+import token.Separator;
 import type.KeywordType;
 import type.OperatorType;
+import type.SeparatorType;
 
 public class Scanner {
 
@@ -34,7 +36,18 @@ public class Scanner {
 
 			
 			// detect keywords
+			Keyword keyword = detectKeyword();
+			if(keyword != null) {
+				tokens.addLast(keyword);
+				continue;
+			}
 			
+			// detect separator
+			Separator separator = detectSeparator();
+			if(separator != null) {
+				tokens.addLast(separator);
+				continue;
+			}
 			
 		}
 	}
@@ -78,5 +91,29 @@ public class Scanner {
 		keyword.setPos(pos);
 		
 		return keyword;
+	}
+	
+	// detect separator
+	public Separator detectSeparator() {
+		Separator separater;
+		if(input.getCh() == '(') 
+			separater = new Separator(SeparatorType.LeftParentheses);
+		else if(input.getCh() == ')')
+			separater = new Separator(SeparatorType.RightParentheses);
+		else if(input.getCh() == '[')
+			separater = new Separator(SeparatorType.LeftBracket);
+		else if(input.getCh() == ']')
+			separater = new Separator(SeparatorType.RightBracket);
+		else if(input.getCh() == '{')
+			separater = new Separator(SeparatorType.LeftBrace);
+		else if(input.getCh() == '}')
+			separater = new Separator(SeparatorType.RightBrace);
+		else
+			return null;
+		separater.setLines(input.getLine());
+		separater.setPos(input.getPos());
+		input.next();
+		
+		return separater;
 	}
 }
