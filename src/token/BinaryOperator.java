@@ -8,8 +8,8 @@ public class BinaryOperator extends Operator {
 	private Token operand1;
 	private Token operand2;
 
-	
 	public BinaryOperator(OperatorType type) {
+		super();
 		operatorType = type;
 	}
 	

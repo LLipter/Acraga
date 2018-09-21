@@ -8,6 +8,7 @@ public class UnaryOperator extends Operator {
 	private Token operand1;
 	
 	public UnaryOperator(OperatorType type) {
+		super();
 		operatorType = type;
 	}
 	

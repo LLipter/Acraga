@@ -2,7 +2,7 @@ package type;
 
 public enum TokenType {
 	Operator,
-	KeyWord,
+	Keyword,
 	Seperator,
 	Value,
 	Identifier
