@@ -80,11 +80,21 @@ public class InputReader {
 		return buffer.getFirst();
 	}
 	
+	public String getCh(int n) {
+		char[] chs = new char[n];
+		for(int i=0;i<n;i++) {
+			int ch = getCh();
+			chs[i] = (char)ch;
+		}
+		return new String(chs);
+	}
+	
 	public void nextNotWhiteSpace() {
 		while(isWhiteSpace() && !iseof())
 			next();
 	}
 	
+
 	
 
 
