@@ -26,9 +26,9 @@ public class Value extends Token {
 		retValue.setErrorMsg(msg);
 	}
 
-	@Override
-	public ReturnValue run() {
-		return retValue;
-	}
+//	@Override
+//	public ReturnValue run() {
+//		return retValue;
+//	}
 
 }

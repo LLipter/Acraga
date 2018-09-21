@@ -8,10 +8,10 @@ public class Main {
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 
-//		InputReader input = new InputReader("input1.acg");
-//		Interpreter interpreter = new Interpreter(input);
+		InputReader input = new InputReader("input1.acg");
+		System.out.println(input.isKeyword("if"));
 		
-		System.out.println(OperatorType.Add.toString());
+
 	}
 
 }

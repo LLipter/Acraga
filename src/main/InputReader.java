@@ -59,7 +59,11 @@ public class InputReader {
 	}
 	
 	public boolean isWhiteSpace() {
-		return getCh() == ' ' || getCh() == '\t' || getCh() == '\n';
+		return isWhiteSpace(getCh());
+	}
+	
+	public boolean isWhiteSpace(int ch) {
+		return ch == ' ' || ch == '\t' || ch == '\n' || ch == -1;
 	}
 	
 	
@@ -80,18 +84,37 @@ public class InputReader {
 		return buffer.getFirst();
 	}
 	
-	public String getCh(int n) {
-		char[] chs = new char[n];
-		for(int i=0;i<n;i++) {
-			int ch = getCh();
-			chs[i] = (char)ch;
-		}
-		return new String(chs);
-	}
-	
 	public void nextNotWhiteSpace() {
 		while(isWhiteSpace() && !iseof())
 			next();
+	}
+	
+	public boolean isKeyword(String keyword) {
+		int len = keyword.length();
+		if(buffer.size() < len)
+			return false;
+		
+		int[] chs = new int[len+1];
+		for(int i=0;i<len;i++)
+			chs[i] = buffer.get(i);
+		if(buffer.size() == len)
+			chs[len] = -1;
+		else 
+			chs[len] = buffer.get(len);
+		
+		for(int i=0;i<len;i++) {
+			if((int)keyword.charAt(i) != chs[i])
+				return false;
+		}
+		if(!isWhiteSpace(chs[len]))
+			return false;
+		
+		// if detect keyword successfully, remove all of these characters from input stream
+		for(int i=0;i<len;i++)
+			next();
+		
+		return true;
+			
 	}
 	
 

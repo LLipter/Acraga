@@ -4,9 +4,11 @@ import java.util.LinkedList;
 
 import exception.AcragaException;
 import token.BinaryOperator;
+import token.Keyword;
 import token.Operator;
 import token.Token;
 import token.UnaryOperator;
+import type.KeywordType;
 import type.OperatorType;
 
 public class Scanner {
@@ -23,6 +25,12 @@ public class Scanner {
 		while(!input.iseof()) {
 			input.nextNotWhiteSpace();
 			
+			// detect operators
+			Operator op = detectOperator();
+			if(op != null) {
+				tokens.addLast(op);
+				continue;
+			}
 
 			
 			// detect keywords
@@ -46,12 +54,29 @@ public class Scanner {
 			op = new UnaryOperator(OperatorType.BitwiseNegate);
 		else
 			return null;
-			
-		
 		op.setLines(input.getLine());
 		op.setPos(input.getPos());
 		input.next();
 		
 		return op;
+	}
+	
+	// detect keyword
+	public Keyword detectKeyword() {
+		Keyword keyword;
+		int lines = input.getLine();
+		int pos = input.getPos();
+		if(input.isKeyword("if"))
+			keyword = new Keyword(KeywordType.If);
+		else if(input.isKeyword("else"))
+			keyword = new Keyword(KeywordType.Else);
+		else if(input.isKeyword("while"))
+			keyword = new Keyword(KeywordType.While);
+		else
+			return null;
+		keyword.setLines(lines);
+		keyword.setPos(pos);
+		
+		return keyword;
 	}
 }

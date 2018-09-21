@@ -15,17 +15,17 @@ public class Interpreter {
 	}
 	
 	public int run() {
-		Token result = expression();
-		ReturnValue ret = result.run();
-		if(ret.isDouble()) {
-			System.out.println(ret.getDoubleValue());
-		}else if(ret.isInt()){
-			System.out.println(ret.getIntValue());
-		}else if(ret.isError()) {
-			error.runtime(ret.getErrorMsg());
-		}else {
-			error.runtime("unknow return type");
-		}
+//		Token result = expression();
+//		ReturnValue ret = result.run();
+//		if(ret.isDouble()) {
+//			System.out.println(ret.getDoubleValue());
+//		}else if(ret.isInt()){
+//			System.out.println(ret.getIntValue());
+//		}else if(ret.isError()) {
+//			error.runtime(ret.getErrorMsg());
+//		}else {
+//			error.runtime("unknow return type");
+//		}
 		
 		// return code
 		// 0 represents the program ends normally without errors

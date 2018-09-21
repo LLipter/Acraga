@@ -8,8 +8,6 @@ public abstract class Token {
 	private int lines;
 	private int pos;
 	
-	public abstract ReturnValue run();
-	
 	
 	public int getLines() {
 		return lines;
