@@ -1,8 +1,13 @@
 package token;
 
 public enum OperatorType {
+	
+	// binary operator
 	Add,
 	Subtract,
 	Multiply,
-	Divide
+	Divide,
+	
+	// unary operator
+	BitwiseNegate
 }

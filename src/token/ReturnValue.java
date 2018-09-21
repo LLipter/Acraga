@@ -4,7 +4,9 @@ public class ReturnValue {
 	private DataType dataType;
 	private int intValue;
 	private double doubleValue;
+	private String identifierValue;
 	
+
 	public ReturnValue(DataType type) {
 		dataType = type;
 	}
@@ -16,6 +18,10 @@ public class ReturnValue {
 	public void setDoubleValue(double value) {
 		doubleValue = value;
 	}
+
+	public void setIdentifierValue(String identifierValue) {
+		this.identifierValue = identifierValue;
+	}
 	
 	public int getIntValue() {
 		return intValue;
@@ -23,6 +29,10 @@ public class ReturnValue {
 
 	public double getDoubleValue() {
 		return doubleValue;
+	}
+	
+	public String getIdentifierValue() {
+		return identifierValue;
 	}
 
 	public boolean isInt() {
@@ -32,6 +42,9 @@ public class ReturnValue {
 	public boolean isDouble() {
 		return dataType == DataType.Double;
 	}
-	
+
+	public boolean isIdentifier() {
+		return dataType == DataType.Identifier;
+	}
 	
 }

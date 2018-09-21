@@ -2,5 +2,6 @@ package token;
 
 public enum DataType {
 	Double,
-	Integer
+	Integer,
+	Identifier
 }
