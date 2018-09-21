@@ -25,7 +25,7 @@ public class Value extends Token {
 	}
 
 	@Override
-	ReturnValue run() {
+	public ReturnValue run() {
 		return retValue;
 	}
 

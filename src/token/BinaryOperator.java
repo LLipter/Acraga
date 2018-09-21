@@ -20,7 +20,7 @@ public class BinaryOperator extends Operator {
 	
 
 	@Override
-	ReturnValue run() {
+	public ReturnValue run() {
 		
 		ReturnValue leftValue = operand1.run();
 		ReturnValue rightValue = operand2.run();

@@ -13,7 +13,7 @@ public class UnaryOperator extends Operator {
 	}
 
 	@Override
-	ReturnValue run() {
+	public ReturnValue run() {
 		
 		ReturnValue subValue = operand1.run();
 		ReturnValue retValue;
