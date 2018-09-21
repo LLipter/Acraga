@@ -12,4 +12,7 @@ public class Keyword extends Token {
 		tokenType = TokenType.Keyword;
 		keywordType = kType;
 	}
+	
+	
+	
 }

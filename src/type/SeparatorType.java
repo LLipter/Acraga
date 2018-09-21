@@ -1,10 +1,11 @@
 package type;
 
 public enum SeparatorType {
-	LeftParentheses,
-	RightParentheses,
-	LeftBracket,
-	RightBracket,
-	LeftBrace,
-	RightBrace
+	LEFTPARENTHESES,
+	RIGHTPARENTHESES,
+	LEFTBRACKET,
+	RIGHTBRACKET,
+	LEFTBRACE,
+	RRIGHTBRACE,
+	SEMICOLON
 }

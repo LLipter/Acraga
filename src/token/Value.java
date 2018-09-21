@@ -8,6 +8,7 @@ public class Value extends Token {
 	private int intValue;
 	private double doubleValue;
 	private boolean boolValue;
+	private String stringValue;
 	
 	public Value(ValueType type) {
 		valueType = type;
@@ -37,6 +38,14 @@ public class Value extends Token {
 		this.boolValue = boolValue;
 	}
 	
+	public String getStringValue() {
+		return stringValue;
+	}
+
+	public void setStringValue(String stringValue) {
+		this.stringValue = stringValue;
+	}
+
 	public boolean isInt() {
 		return valueType == ValueType.INTEGER;
 	}
@@ -47,6 +56,10 @@ public class Value extends Token {
 	
 	public boolean isBool() {
 		return valueType == ValueType.BOOLEAN;
+	}
+	
+	public boolean isString() {
+		return valueType == ValueType.STRING;
 	}
 	
 

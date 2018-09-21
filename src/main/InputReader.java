@@ -4,7 +4,12 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.Reader;
+import java.util.Iterator;
 import java.util.LinkedList;
+
+import token.Identifier;
+import token.Value;
+import type.ValueType;
 
 public class InputReader {
 	
@@ -115,6 +120,224 @@ public class InputReader {
 		
 		return true;
 			
+	}
+	
+	public boolean isDigit(int ch) {
+		return Character.isDigit(ch);
+	}
+	
+	public boolean isDigit() {
+		return isDigit(getCh());
+	}
+	
+	public boolean isHexDigit(int ch) {
+		if(isDigit(ch))
+			return true;
+		if(ch >= 'A' && ch <= 'F')
+			return true;
+		if(ch >= 'a' && ch <= 'f')
+			return true;
+		return false;
+	}
+	
+	public boolean isHexDigit() {
+		return isHexDigit(getCh());
+	}
+	
+	public boolean isUpper(int ch) {
+		return Character.isUpperCase(ch);
+	}
+	
+	public boolean isUpper() {
+		return isUpper(getCh());
+	}
+	
+	public Value isHexInteger() {
+		if(buffer.size() < 3)
+			return null;
+		if(buffer.get(0) != '0')
+			return null;
+		if(buffer.get(1) != 'x' && buffer.get(1) != 'X')
+			return null;
+		if(!isHexDigit(buffer.get(2)))
+			return null;
+		
+		next();
+		next();
+		Value value = new Value(ValueType.INTEGER);
+		int intValue = 0;
+		while(isHexDigit()) {
+			intValue *= 16;
+			if(isDigit())
+				intValue += getCh() - '0';
+			else if(isUpper())
+				intValue += getCh() - 'A' + 10;
+			else
+				intValue += getCh() - 'a' + 10;
+			next();
+		}
+		value.setIntValue(intValue);
+		return value;
+		
+	}
+	
+	public Value isDecInteger() {
+		boolean isPositive;
+		if(getCh() == '+' && isDigit(buffer.get(1))) {
+			isPositive = true;
+			next();
+		}else if(getCh() == '-' && isDigit(buffer.get(1))) {
+			isPositive = false;
+			next();
+		}else if(isDigit())
+			isPositive = true;
+		else
+			return null;
+		
+		Value value = new Value(ValueType.INTEGER);
+		int intValue = 0;
+		
+		while(isDigit()) {
+			intValue *= 10;
+			intValue += getCh() - '0';
+			next();
+		}
+		
+		
+		if(!isPositive)
+			intValue *= -1;
+		value.setIntValue(intValue);
+		return value;
+	}
+	
+	public Value isInteger() {
+		Value value;
+		value = isDecInteger();
+		if(value != null)
+			return value;
+		
+		value = isHexInteger();
+		if(value != null)
+			return value;
+		
+		return null;
+	}
+	
+	
+	public Value isDouble() {
+		boolean isPositive;
+		int i=0;
+		if(getCh() == '+' && isDigit(buffer.get(1))) {
+			isPositive = true;
+			i++;
+		}else if(getCh() == '-' && isDigit(buffer.get(1))) {
+			isPositive = false;
+			i++;
+		}else if(isDigit())
+			isPositive = true;
+		else
+			return null;
+		
+		int len = buffer.size();
+		for(;i<len;i++) {
+			int ch = buffer.get(i);
+			
+			if(ch == '.' && i < len-1 && isDigit(buffer.get(i+1)))
+				break;
+			
+			if(!isDigit(ch))
+				return null;
+		}
+		
+		if(i == len)
+			return null;
+		
+		int intPart = isDecInteger().getIntValue();
+		next();
+		int fractionPart = isDecInteger().getIntValue();
+		
+		double doubleValue = fractionPart;
+		while(doubleValue > 0)
+			doubleValue /= 10;
+		doubleValue += intPart;
+		
+		Value value = new Value(ValueType.DOUBLE);
+		value.setDoubleValue(doubleValue);
+		return value;
+	}
+	
+	public Value isBool() {
+		Value value = new Value(ValueType.BOOLEAN);
+		if(isKeyword("true"))
+			value.setBoolValue(true);
+		else if(isKeyword("false"))
+			value.setBoolValue(false);
+		else
+			return null;
+		
+		return value;
+	}
+	
+	public Value isString() {
+		if(getCh() != '"')
+			return null;
+		
+		int len = buffer.size();
+		int i = 1;
+		for(;i<len;i++) {
+			int ch = buffer.get(i);
+			if(ch == '\n')
+				return null;
+			if(ch == '"')
+				break;
+		}
+		if(i == len)
+			return null;
+		
+		Value value = new Value(ValueType.STRING);
+		char[] chs = new char[i-1];
+		next();
+		for(int j=0;j<i-1;j++) {
+			chs[j] = (char)getCh();
+			next();
+		}
+		next();
+		value.setStringValue(String.valueOf(chs));
+		return value;
+			
+	}
+	
+	public boolean isLetter(int ch) {
+		return Character.isLetter(ch);
+	}
+	
+	public boolean isLetter() {
+		return isLetter(getCh());
+	}
+	
+	public boolean isIdLetter(int ch) {
+		return isLetter(ch) || isDigit() || ch == '_';
+	}
+	
+	public boolean isIdLetter() {
+		return isIdLetter(getCh());
+	}
+	
+	
+	public Identifier isIdentifier() {
+		if(getCh() != '_' && !isLetter())
+			return null;
+		
+		StringBuffer bString = new StringBuffer();
+		while(!isWhiteSpace()) {
+			bString.append((char)getCh());
+			next();
+		}
+		
+		Identifier identifier = new Identifier();
+		identifier.setId(bString.toString());
+		return identifier;
+		
 	}
 	
 

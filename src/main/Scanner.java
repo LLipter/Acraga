@@ -4,10 +4,12 @@ import java.util.LinkedList;
 
 import exception.AcragaException;
 import token.BinaryOperator;
+import token.Identifier;
 import token.Keyword;
 import token.Operator;
 import token.Token;
 import token.UnaryOperator;
+import token.Value;
 import token.Separator;
 import type.KeywordType;
 import type.OperatorType;
@@ -26,13 +28,8 @@ public class Scanner {
 		
 		while(!input.iseof()) {
 			input.nextNotWhiteSpace();
-			
-			// detect operators
-			Operator op = detectOperator();
-			if(op != null) {
-				tokens.addLast(op);
-				continue;
-			}
+			if(input.iseof())
+				break;
 
 			
 			// detect keywords
@@ -48,6 +45,29 @@ public class Scanner {
 				tokens.addLast(separator);
 				continue;
 			}
+			
+			// detect values
+			Value value = detectValue();
+			if(value != null) {
+				tokens.addLast(value);
+				continue;
+			}
+			
+			// detect identifier
+			Identifier identifier = detectIdentifier();
+			if(identifier != null) {
+				tokens.addLast(identifier);
+				continue;
+			}
+			
+			// detect operators
+			Operator op = detectOperator();
+			if(op != null) {
+				tokens.addLast(op);
+				continue;
+			}
+			
+			error.syntax("invalid token");
 			
 		}
 	}
@@ -97,17 +117,19 @@ public class Scanner {
 	public Separator detectSeparator() {
 		Separator separater;
 		if(input.getCh() == '(') 
-			separater = new Separator(SeparatorType.LeftParentheses);
+			separater = new Separator(SeparatorType.LEFTPARENTHESES);
 		else if(input.getCh() == ')')
-			separater = new Separator(SeparatorType.RightParentheses);
+			separater = new Separator(SeparatorType.RIGHTPARENTHESES);
 		else if(input.getCh() == '[')
-			separater = new Separator(SeparatorType.LeftBracket);
+			separater = new Separator(SeparatorType.LEFTBRACKET);
 		else if(input.getCh() == ']')
-			separater = new Separator(SeparatorType.RightBracket);
+			separater = new Separator(SeparatorType.RIGHTBRACKET);
 		else if(input.getCh() == '{')
-			separater = new Separator(SeparatorType.LeftBrace);
+			separater = new Separator(SeparatorType.LEFTBRACE);
 		else if(input.getCh() == '}')
-			separater = new Separator(SeparatorType.RightBrace);
+			separater = new Separator(SeparatorType.RRIGHTBRACE);
+		else if(input.getCh() == ';')
+			separater = new Separator(SeparatorType.SEMICOLON);
 		else
 			return null;
 		separater.setLines(input.getLine());
@@ -115,5 +137,40 @@ public class Scanner {
 		input.next();
 		
 		return separater;
+	}
+	
+	
+	public Value detectValue() {
+		Value value;
+		int lines = input.getLine();
+		int pos = input.getPos();
+		
+		if((value = input.isDouble()) == null)
+			if((value = input.isInteger()) == null) 
+				if((value = input.isBool()) == null)
+					if((value = input.isString()) == null)
+						return null;
+		
+		value.setLines(lines);
+		value.setPos(pos);
+		
+		return value;
+			
+	}
+	
+	public Identifier detectIdentifier() {
+		int lines = input.getLine();
+		int pos = input.getPos();
+		Identifier identifier = input.isIdentifier();
+		if(identifier == null)
+			return null;
+		identifier.setLines(lines);
+		identifier.setPos(pos);
+		return identifier;
+	}
+	
+	public void print() {
+		for(Token token : tokens)
+			System.out.println(token);
 	}
 }

@@ -9,7 +9,8 @@ public class Main {
 		// TODO Auto-generated method stub
 
 		InputReader input = new InputReader("input1.acg");
-		System.out.println(input.isKeyword("if"));
+		Scanner scanner = new Scanner(input);
+		scanner.print();
 		
 
 	}
