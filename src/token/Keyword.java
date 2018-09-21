@@ -9,7 +9,7 @@ public class Keyword extends Token {
 	
 	
 	public Keyword(KeywordType kType) {
-		tokenType = TokenType.Keyword;
+		tokenType = TokenType.KEYWORD;
 		keywordType = kType;
 	}
 

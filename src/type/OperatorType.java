@@ -3,12 +3,13 @@ package type;
 public enum OperatorType {
 	
 	// binary operator
-	Add,
-	Subtract,
-	Multiply,
-	Divide,
+	ADD,
+	SUB,
+	MUL,
+	DIV,
+	MOD,
 	
 	// unary operator
-	BitwiseNegate;
+	BITWISENEGATE;
 
 }

@@ -80,15 +80,17 @@ public class Scanner {
 	public Operator detectOperator() {
 		Operator op;
 		if(input.getCh() == '+') 
-			op = new BinaryOperator(OperatorType.Add);
+			op = new BinaryOperator(OperatorType.ADD);
 		else if(input.getCh() == '-')
-			op = new BinaryOperator(OperatorType.Subtract);
+			op = new BinaryOperator(OperatorType.SUB);
 		else if(input.getCh() == '*')
-			op = new BinaryOperator(OperatorType.Multiply);
+			op = new BinaryOperator(OperatorType.MUL);
 		else if(input.getCh() == '/')
-			op = new BinaryOperator(OperatorType.Divide);
+			op = new BinaryOperator(OperatorType.DIV);
+		else if(input.getCh() == '%')
+			op = new BinaryOperator(OperatorType.MOD);
 		else if(input.getCh() == '~')
-			op = new UnaryOperator(OperatorType.BitwiseNegate);
+			op = new UnaryOperator(OperatorType.BITWISENEGATE);
 		else
 			return null;
 		op.setLines(input.getLine());
@@ -104,11 +106,13 @@ public class Scanner {
 		int lines = input.getLine();
 		int pos = input.getPos();
 		if(input.isKeyword("if"))
-			keyword = new Keyword(KeywordType.If);
+			keyword = new Keyword(KeywordType.IF);
 		else if(input.isKeyword("else"))
-			keyword = new Keyword(KeywordType.Else);
+			keyword = new Keyword(KeywordType.ELSE);
 		else if(input.isKeyword("while"))
-			keyword = new Keyword(KeywordType.While);
+			keyword = new Keyword(KeywordType.WHILE);
+		else if(input.isKeyword("for"))
+			keyword = new Keyword(KeywordType.FOR);
 		else
 			return null;
 		keyword.setLines(lines);

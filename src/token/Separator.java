@@ -8,7 +8,7 @@ public class Separator extends Token {
 	
 	
 	public Separator(SeparatorType sType) {
-		tokenType = TokenType.Seperator;
+		tokenType = TokenType.SEPARATOR;
 		seperaterType = sType;
 	}
 	

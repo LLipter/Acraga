@@ -8,7 +8,7 @@ public class Identifier extends Token {
 	private String id;
 	
 	public Identifier() {
-		tokenType = TokenType.Identifier;
+		tokenType = TokenType.IDENTIFIER;
 	}
 
 	public String getId() {
