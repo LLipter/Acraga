@@ -1,5 +1,7 @@
 package token;
 
+import type.ValueType;
+
 public class ReturnValue {
 	private ValueType valueType;
 	private int intValue;

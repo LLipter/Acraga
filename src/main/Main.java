@@ -1,6 +1,7 @@
 package main;
 
 import token.*;
+import type.OperatorType;
 
 public class Main {
 

@@ -1,5 +1,7 @@
 package token;
 
+import type.ValueType;
+
 public class Value extends Token {
 	
 	private ReturnValue retValue;

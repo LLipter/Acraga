@@ -1,5 +1,8 @@
 package token;
 
+import type.OperatorType;
+import type.ValueType;
+
 public class UnaryOperator extends Operator {
 	
 	private Token operand1;

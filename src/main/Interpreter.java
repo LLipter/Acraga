@@ -19,8 +19,12 @@ public class Interpreter {
 		ReturnValue ret = result.run();
 		if(ret.isDouble()) {
 			System.out.println(ret.getDoubleValue());
-		}else {
+		}else if(ret.isInt()){
 			System.out.println(ret.getIntValue());
+		}else if(ret.isError()) {
+			error.runtime(ret.getErrorMsg());
+		}else {
+			error.runtime("unknow return type");
 		}
 		
 		// return code

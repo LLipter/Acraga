@@ -1,6 +1,9 @@
 package token;
 
-import java.util.HashMap;;
+import java.util.HashMap;
+
+import type.OperatorType;
+import type.TokenType;;
 
 public abstract class Operator extends Token {
 	

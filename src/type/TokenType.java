@@ -1,4 +1,4 @@
-package token;
+package type;
 
 public enum TokenType {
 	Operator,
