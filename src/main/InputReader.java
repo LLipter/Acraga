@@ -12,7 +12,6 @@ public class InputReader {
 	private int line;
 	private int pos;
 	
-	
 
 	public int getLine() {
 		return line;
@@ -38,7 +37,6 @@ public class InputReader {
 						ch_cur = ch_next;
 						ch_next = reader.read();
 					}
-					
 					if(ch_cur == -1)
 						return;
 				}
@@ -47,13 +45,29 @@ public class InputReader {
 				ch_next = reader.read();
 			}
 			reader.close();
+			
 		} catch (FileNotFoundException e) {
 			System.err.println(e.getMessage());
 		} catch (IOException e) {
 			System.err.println(e.getMessage());
 		}
 		
-
+	}
+	
+	public boolean iseof() {
+		return buffer.isEmpty();
+	}
+	
+	public int getCh() {
+		if(iseof())
+			return -1;
+		int ch = buffer.pollFirst();
+		if(ch == '\n') {
+			line++;
+			pos = 0;
+		}
+		pos++;
+		return ch;
 	}
 	
 	

@@ -1,6 +1,6 @@
 package main;
 
-import node.*;
+import token.*;
 
 public class Main {
 
