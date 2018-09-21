@@ -25,10 +25,16 @@ public class BinaryOperator extends Operator {
 		ReturnValue leftValue = operand1.run();
 		ReturnValue rightValue = operand2.run();
 		
+		if(leftValue.isError())
+			return leftValue;
+		if(rightValue.isError())
+			return rightValue;
+		
+		
 		ReturnValue ret;
 		if(leftValue.isDouble() || rightValue.isDouble()) {
-			ret = new ReturnValue(DataType.Double);
-			double result = 0;
+			ret = new ReturnValue(ValueType.Double);
+			double result;
 			double op1;
 			double op2;
 			if(leftValue.isDouble())
@@ -45,17 +51,24 @@ public class BinaryOperator extends Operator {
 				result = op1 - op2;
 			else if(operatorType == OperatorType.Multiply)
 				result = op1 * op2;
-			else if(operatorType == OperatorType.Divide)
+			else if(operatorType == OperatorType.Divide) {
+				if(op2 == 0) {
+					ret = new ReturnValue(ValueType.RuntimeError);
+					ret.setErrorMsg("divided by zero");
+					return ret;
+				}
 				result = op1 / op2;
+			}
 			else {
-				System.err.println("Binary Operator : unknown operator type");
-				System.exit(1);
+				ret = new ReturnValue(ValueType.RuntimeError);
+				ret.setErrorMsg("unknown binary operator type");
+				return ret;
 			}
 			
 			ret.setDoubleValue(result);
 		}else {
-			ret = new ReturnValue(DataType.Integer);
-			int result = 0;
+			ret = new ReturnValue(ValueType.Integer);
+			int result;
 			int op1 = leftValue.getIntValue();
 			int op2 = rightValue.getIntValue();
 			
@@ -65,11 +78,18 @@ public class BinaryOperator extends Operator {
 				result = op1 - op2;
 			else if(operatorType == OperatorType.Multiply)
 				result = op1 * op2;
-			else if(operatorType == OperatorType.Divide)
+			else if(operatorType == OperatorType.Divide) {
+				if(op2 == 0) {
+					ret = new ReturnValue(ValueType.RuntimeError);
+					ret.setErrorMsg("divided by zero");
+					return ret;
+				}
 				result = op1 / op2;
+			}
 			else {
-				System.err.println("Binary Operator : unknown operator type");
-				System.exit(1);
+				ret = new ReturnValue(ValueType.RuntimeError);
+				ret.setErrorMsg("unknown binary operator type");
+				return ret;
 			}
 			
 			ret.setIntValue(result);

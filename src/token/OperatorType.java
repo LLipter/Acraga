@@ -9,5 +9,6 @@ public enum OperatorType {
 	Divide,
 	
 	// unary operator
-	BitwiseNegate
+	BitwiseNegate;
+
 }

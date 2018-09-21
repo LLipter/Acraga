@@ -1,14 +1,15 @@
 package token;
 
 public class ReturnValue {
-	private DataType dataType;
+	private ValueType valueType;
 	private int intValue;
 	private double doubleValue;
 	private String identifierValue;
+	private String errorMsg;
 	
 
-	public ReturnValue(DataType type) {
-		dataType = type;
+	public ReturnValue(ValueType type) {
+		valueType = type;
 	}
 	
 	public void setIntValue(int value) {
@@ -22,7 +23,15 @@ public class ReturnValue {
 	public void setIdentifierValue(String identifierValue) {
 		this.identifierValue = identifierValue;
 	}
+
+	public void setErrorMsg(String errorMsg) {
+		this.errorMsg = errorMsg;
+	}
 	
+	public String getErrorMsg() {
+		return errorMsg;
+	}
+
 	public int getIntValue() {
 		return intValue;
 	}
@@ -36,15 +45,19 @@ public class ReturnValue {
 	}
 
 	public boolean isInt() {
-		return dataType == DataType.Integer;
+		return valueType == ValueType.Integer;
 	}
 	
 	public boolean isDouble() {
-		return dataType == DataType.Double;
+		return valueType == ValueType.Double;
 	}
 
 	public boolean isIdentifier() {
-		return dataType == DataType.Identifier;
+		return valueType == ValueType.Identifier;
+	}
+	
+	public boolean isError() {
+		return valueType == ValueType.RuntimeError;
 	}
 	
 }

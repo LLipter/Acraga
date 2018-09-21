@@ -4,7 +4,7 @@ public class Value extends Token {
 	
 	private ReturnValue retValue;
 	
-	public Value(DataType type) {
+	public Value(ValueType type) {
 		retValue = new ReturnValue(type);
 	}
 	
@@ -14,6 +14,14 @@ public class Value extends Token {
 	
 	public void setDoubleValue(double value) {
 		retValue.setDoubleValue(value);
+	}
+	
+	public void setIdentifierValue(String identifier) {
+		retValue.setIdentifierValue(identifier);
+	}
+	
+	public void setErrorMsg(String msg) {
+		retValue.setErrorMsg(msg);
 	}
 
 	@Override

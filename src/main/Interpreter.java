@@ -15,20 +15,26 @@ public class Interpreter {
 	}
 	
 	public int run() {
-		
-		
+		Token result = expression();
+		ReturnValue ret = result.run();
+		if(ret.isDouble()) {
+			System.out.println(ret.getDoubleValue());
+		}else {
+			System.out.println(ret.getIntValue());
+		}
 		
 		// return code
 		// 0 represents the program ends normally without errors
 		return 0;
 	}
 	
-	private ReturnValue expression() {
+	private Token expression() {
 		input.nextNotWhiteSpace();
 		if(input.iseof())
 			error.syntax("missing expression");
 		
-		Stack<Token> stack = new Stack<Token>();
+		Stack<Token> opStack = new Stack<Token>();
+		Stack<Token> valStack = new Stack<Token>();
 		
 		
 		return null;

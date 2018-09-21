@@ -14,5 +14,10 @@ public class AcragaException {
 		System.err.printf("Syntax error in line %d, position %d : %s\n", input.getLine(), input.getPos(), msg);
 		System.exit(1);
 	}
+	
+	public void runtime(String msg) {
+		System.err.printf("Runtime error in line %d, position %d : %s\n", input.getLine(), input.getPos(), msg);
+		System.exit(1);
+	}
 
 }
