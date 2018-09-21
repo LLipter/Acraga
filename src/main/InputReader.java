@@ -78,11 +78,11 @@ public class InputReader {
 		if(iseof())
 			return -1;
 		return buffer.getFirst();
-
 	}
 	
 	public void nextNotWhiteSpace() {
-		
+		while(isWhiteSpace() && !iseof())
+			next();
 	}
 	
 	
