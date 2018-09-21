@@ -62,6 +62,19 @@ public class Value extends Token {
 		return valueType == ValueType.STRING;
 	}
 	
+	@Override
+	public String toString() {
+		if(isInt())
+			return String.format("<IntValue,%d>", intValue);
+		if(isDouble())
+			return String.format("<DoubleValue,%f>", doubleValue);
+		if(isBool())
+			return String.format("<BoolValue,%b>", boolValue);
+		if(isString())
+			return String.format("<StringValue,%s>", stringValue);
+		return "<UnknownValue>";
+	}
+	
 
 
 

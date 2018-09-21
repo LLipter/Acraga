@@ -11,4 +11,10 @@ public class Separator extends Token {
 		tokenType = TokenType.Seperator;
 		seperaterType = sType;
 	}
+	
+	@Override
+	public String toString() {
+		return String.format("<Separator,%s>", seperaterType);
+	}
+	
 }

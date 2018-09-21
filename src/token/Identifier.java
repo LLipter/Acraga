@@ -19,6 +19,11 @@ public class Identifier extends Token {
 		this.id = id;
 	}
 	
+	@Override
+	public String toString() {
+		return String.format("<Identifier,%s>", id);
+	}
+	
 	
 
 }

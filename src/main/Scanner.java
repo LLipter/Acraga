@@ -32,12 +32,7 @@ public class Scanner {
 				break;
 
 			
-			// detect keywords
-			Keyword keyword = detectKeyword();
-			if(keyword != null) {
-				tokens.addLast(keyword);
-				continue;
-			}
+
 			
 			// detect separator
 			Separator separator = detectSeparator();
@@ -53,6 +48,14 @@ public class Scanner {
 				continue;
 			}
 			
+			// detect keywords
+			Keyword keyword = detectKeyword();
+			if(keyword != null) {
+				tokens.addLast(keyword);
+				continue;
+			}
+			
+			
 			// detect identifier
 			Identifier identifier = detectIdentifier();
 			if(identifier != null) {
@@ -67,6 +70,7 @@ public class Scanner {
 				continue;
 			}
 			
+
 			error.syntax("invalid token");
 			
 		}
@@ -127,7 +131,7 @@ public class Scanner {
 		else if(input.getCh() == '{')
 			separater = new Separator(SeparatorType.LEFTBRACE);
 		else if(input.getCh() == '}')
-			separater = new Separator(SeparatorType.RRIGHTBRACE);
+			separater = new Separator(SeparatorType.RIGHTBRACE);
 		else if(input.getCh() == ';')
 			separater = new Separator(SeparatorType.SEMICOLON);
 		else

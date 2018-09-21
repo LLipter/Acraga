@@ -21,6 +21,11 @@ public class BinaryOperator extends Operator {
 		operand2 = op2;
 	}
 	
+	@Override
+	public String toString() {
+		return String.format("<BinaryOperator,%s>", operatorType);
+	}
+	
 
 //	@Override
 //	public ReturnValue run() {

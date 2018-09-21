@@ -12,7 +12,12 @@ public class Keyword extends Token {
 		tokenType = TokenType.Keyword;
 		keywordType = kType;
 	}
-	
+
+
+	@Override
+	public String toString() {
+		return String.format("<Keyword,%s>", keywordType);
+	}
 	
 	
 }

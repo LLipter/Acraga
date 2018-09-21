@@ -212,13 +212,17 @@ public class InputReader {
 	
 	public Value isInteger() {
 		Value value;
-		value = isDecInteger();
-		if(value != null)
-			return value;
 		
 		value = isHexInteger();
 		if(value != null)
 			return value;
+		
+		
+		value = isDecInteger();
+		if(value != null)
+			return value;
+		
+
 		
 		return null;
 	}
@@ -257,7 +261,7 @@ public class InputReader {
 		int fractionPart = isDecInteger().getIntValue();
 		
 		double doubleValue = fractionPart;
-		while(doubleValue > 0)
+		while(doubleValue > 1)
 			doubleValue /= 10;
 		doubleValue += intPart;
 		

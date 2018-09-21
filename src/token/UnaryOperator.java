@@ -15,6 +15,11 @@ public class UnaryOperator extends Operator {
 	public void setOp1(Token op1) {
 		operand1 = op1;
 	}
+	
+	@Override
+	public String toString() {
+		return String.format("<UnaryOperator,%s>", operatorType);
+	}
 
 //	@Override
 //	public ReturnValue run() {
