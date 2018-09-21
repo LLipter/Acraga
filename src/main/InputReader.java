@@ -4,23 +4,15 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.Reader;
+import java.util.LinkedList;
 
 public class InputReader {
 	
-	private Reader reader;
-	private int ch_cur;
-	private int ch_next;
+	public LinkedList<Integer> buffer;
 	private int line;
 	private int pos;
 	
 	
-	public int getChCur() {
-		return ch_cur;
-	}
-	
-	public int getChNext() {
-		return ch_next;
-	}
 
 	public int getLine() {
 		return line;
@@ -32,77 +24,39 @@ public class InputReader {
 	
 	public InputReader(String inputFile) {
 		try {
-			reader = new InputStreamReader(new FileInputStream(inputFile));
-			ch_cur = -1;
-			ch_next = -1;
+			Reader reader = new InputStreamReader(new FileInputStream(inputFile));
+			buffer = new LinkedList<Integer>();
 			line = 1;
 			pos = 0;
-			next();
-			next();
-		} catch (FileNotFoundException e) {
-			System.err.println("no such file as " + inputFile);
-		}
-	}
-	
-	
-	public void close(){
-		try {
-			reader.close();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-	}
-	
-	public void next(){
-		try {
-			ch_cur = ch_next;
-			ch_next = reader.read();
-			pos++;
 			
-			// ignore all new lines
-			while(ch_cur == '\n') {
-				line++;
-				pos = 0;
-				next();
-			}
-			
-			// ignore all white spaces
-			while(isWhiteSpace())
-				next();
-			
-			// ignore all comments
-			if(ch_cur == '/' && ch_next == '/') { 
-				while(ch_cur != '\n' && !iseof()) {
-					ch_cur = ch_next;
-					ch_next = reader.read();
-				}
-				if(ch_cur == '\n') {
-					line++;
-					pos = 0;
-					next();
-				}
+			int ch_cur = reader.read();
+			int ch_next = reader.read();
+			while(ch_cur != -1) {
+				// ignore all comments
+				if(ch_cur == '/' && ch_next == '/') {
+					while(ch_cur != '\n' && ch_cur != -1) {
+						ch_cur = ch_next;
+						ch_next = reader.read();
+					}
 					
+					if(ch_cur == -1)
+						return;
+				}
+				buffer.addLast(ch_cur);
+				ch_cur = ch_next;
+				ch_next = reader.read();
 			}
+			reader.close();
+		} catch (FileNotFoundException e) {
+			System.err.println(e.getMessage());
 		} catch (IOException e) {
-			e.printStackTrace();
+			System.err.println(e.getMessage());
 		}
-	}
-	
-	// eof stands for 'end of file'
-	public boolean iseof() {
-		return getChCur() == -1;
-	}
-	
-	public boolean isDigit() {
-		return Character.isDigit(getChCur());
-	}
-	
-	public boolean isWhiteSpace() {
-		if(getChCur() == ' ' || getChCur() == '\t')
-			return true;
-		return false;
+		
+
 	}
 	
 	
+
 
 }

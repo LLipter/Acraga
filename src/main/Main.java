@@ -8,9 +8,8 @@ public class Main {
 		// TODO Auto-generated method stub
 
 		InputReader input = new InputReader("input1.acg");
-		while(!input.iseof()) {
-			System.out.print((char)input.getChCur());
-			input.next();
+		for(Integer i : input.buffer) {
+			System.out.print((char)i.intValue());
 		}
 	}
 

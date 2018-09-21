@@ -9,27 +9,27 @@ public class AcragaDecimalInteger {
 	private int value;
 	
 	public AcragaDecimalInteger(InputReader input) {
-		if(input.getChCur() == '-') {
-			isPositive = false;
-			input.next();
-		}else if(input.getChCur() == '+') {
-			isPositive = true;
-			input.next();
-		}else if(input.isDigit())
-			isPositive = true;
-		
-		if(!input.isDigit())
-			SyntaxException.stop(input, "invalid integer value");
-		
-		value = 0;
-		while(input.isDigit()) {
-			value *= 10;
-			value += input.getChCur() - '0';
-			input.next();
-		}
-		
-		if(!isPositive)
-			value *= -1;
+//		if(input.getChCur() == '-') {
+//			isPositive = false;
+//			input.next();
+//		}else if(input.getChCur() == '+') {
+//			isPositive = true;
+//			input.next();
+//		}else if(input.isDigit())
+//			isPositive = true;
+//		
+//		if(!input.isDigit())
+//			SyntaxException.stop(input, "invalid integer value");
+//		
+//		value = 0;
+//		while(input.isDigit()) {
+//			value *= 10;
+//			value += input.getChCur() - '0';
+//			input.next();
+//		}
+//		
+//		if(!isPositive)
+//			value *= -1;
 	}
 	
 	public int getValue() {
