@@ -4,7 +4,9 @@ import java.util.LinkedList;
 
 import exception.AcragaException;
 import token.BinaryOperator;
+import token.Operator;
 import token.Token;
+import token.UnaryOperator;
 import type.OperatorType;
 
 public class Scanner {
@@ -21,37 +23,35 @@ public class Scanner {
 		while(!input.iseof()) {
 			input.nextNotWhiteSpace();
 			
-			// detect operators
-			if(input.getCh() == '+') {
-				BinaryOperator op = new BinaryOperator(OperatorType.Add);
-				op.setLines(input.getLine());
-				op.setPos(input.getPos());
-				input.next();
-			}else if(input.getCh() == '-') {
-				BinaryOperator op = new BinaryOperator(OperatorType.Subtract);
-				op.setLines(input.getLine());
-				op.setPos(input.getPos());
-				input.next();
-			}else if(input.getCh() == '*') {
-				BinaryOperator op = new BinaryOperator(OperatorType.Multiply);
-				op.setLines(input.getLine());
-				op.setPos(input.getPos());
-				input.next();
-			}else if(input.getCh() == '/') {
-				BinaryOperator op = new BinaryOperator(OperatorType.Divide);
-				op.setLines(input.getLine());
-				op.setPos(input.getPos());
-				input.next();
-			}else if(input.getCh() == '~') {
-				BinaryOperator op = new BinaryOperator(OperatorType.BitwiseNegate);
-				op.setLines(input.getLine());
-				op.setPos(input.getPos());
-				input.next();
-			}
+
 			
 			// detect keywords
 			
 			
 		}
+	}
+	
+	// detect operators
+	public Operator detectOperator() {
+		Operator op;
+		if(input.getCh() == '+') 
+			op = new BinaryOperator(OperatorType.Add);
+		else if(input.getCh() == '-')
+			op = new BinaryOperator(OperatorType.Subtract);
+		else if(input.getCh() == '*')
+			op = new BinaryOperator(OperatorType.Multiply);
+		else if(input.getCh() == '/')
+			op = new BinaryOperator(OperatorType.Divide);
+		else if(input.getCh() == '~')
+			op = new UnaryOperator(OperatorType.BitwiseNegate);
+		else
+			return null;
+			
+		
+		op.setLines(input.getLine());
+		op.setPos(input.getPos());
+		input.next();
+		
+		return op;
 	}
 }
