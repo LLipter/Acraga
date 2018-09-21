@@ -8,7 +8,7 @@ import java.util.LinkedList;
 
 public class InputReader {
 	
-	public LinkedList<Integer> buffer;
+	private LinkedList<Integer> buffer;
 	private int line;
 	private int pos;
 	
@@ -58,16 +58,31 @@ public class InputReader {
 		return buffer.isEmpty();
 	}
 	
-	public int getCh() {
+	public boolean isWhiteSpace() {
+		return getCh() == ' ' || getCh() == '\t' || getCh() == '\n';
+	}
+	
+	
+	public void next() {
 		if(iseof())
-			return -1;
+			return;
 		int ch = buffer.pollFirst();
 		if(ch == '\n') {
 			line++;
 			pos = 0;
 		}
 		pos++;
-		return ch;
+	}
+	
+	public int getCh() {
+		if(iseof())
+			return -1;
+		return buffer.getFirst();
+
+	}
+	
+	public void nextNotWhiteSpace() {
+		
 	}
 	
 	
