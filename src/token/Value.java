@@ -4,31 +4,52 @@ import type.ValueType;
 
 public class Value extends Token {
 	
-	private ReturnValue retValue;
+	private ValueType valueType;
+	private int intValue;
+	private double doubleValue;
+	private boolean boolValue;
 	
 	public Value(ValueType type) {
-		retValue = new ReturnValue(type);
-	}
-	
-	public void setIntValue(int value) {
-		retValue.setIntValue(value);
-	}
-	
-	public void setDoubleValue(double value) {
-		retValue.setDoubleValue(value);
-	}
-	
-	public void setIdentifierValue(String identifier) {
-		retValue.setIdentifierValue(identifier);
-	}
-	
-	public void setErrorMsg(String msg) {
-		retValue.setErrorMsg(msg);
+		valueType = type;
 	}
 
-//	@Override
-//	public ReturnValue run() {
-//		return retValue;
-//	}
+	public int getIntValue() {
+		return intValue;
+	}
+
+	public void setIntValue(int intValue) {
+		this.intValue = intValue;
+	}
+
+	public double getDoubleValue() {
+		return doubleValue;
+	}
+
+	public void setDoubleValue(double doubleValue) {
+		this.doubleValue = doubleValue;
+	}
+
+	public boolean isBoolValue() {
+		return boolValue;
+	}
+
+	public void setBoolValue(boolean boolValue) {
+		this.boolValue = boolValue;
+	}
+	
+	public boolean isInt() {
+		return valueType == ValueType.INTEGER;
+	}
+	
+	public boolean isDouble() {
+		return valueType == ValueType.DOUBLE;
+	}
+	
+	public boolean isBool() {
+		return valueType == ValueType.BOOLEAN;
+	}
+	
+
+
 
 }
