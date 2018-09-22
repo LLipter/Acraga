@@ -7,6 +7,7 @@ import java.io.Reader;
 import java.util.Iterator;
 import java.util.LinkedList;
 
+import exception.SyntaxException;
 import token.Identifier;
 import token.Value;
 import type.ValueType;
@@ -228,7 +229,25 @@ public class InputReader {
 	}
 	
 	
-	public Value isDouble() {
+	public Value isDouble() throws SyntaxException {
+		Value value = isNormalDouble();
+		if(value == null)
+			return null;
+		
+		// check scientific representation
+		int ch = getCh();
+		if(ch == 'e' || ch == 'E') {
+			next();
+			Value exp = isDecInteger();
+			if(exp == null)
+				throw new SyntaxException(line, pos,"invalid scientific representation");
+			value.setDoubleValue(value.getDoubleValue() * Math.pow(10, exp.getIntValue()));
+		}
+		
+		return value;
+	}
+	
+	public Value isNormalDouble() {
 		boolean isPositive;
 		int i=0;
 		if(getCh() == '+' && isDigit(buffer.get(1))) {
@@ -257,6 +276,8 @@ public class InputReader {
 			return null;
 		
 		int intPart = isDecInteger().getIntValue();
+		if(intPart < 0)
+			intPart = -intPart;
 		next();
 		int fractionPart = isDecInteger().getIntValue();
 		
@@ -265,7 +286,7 @@ public class InputReader {
 			doubleValue /= 10;
 		doubleValue += intPart;
 		
-		if(isPositive)
+		if(!isPositive)
 			doubleValue *= -1;
 		
 		Value value = new Value(ValueType.DOUBLE);

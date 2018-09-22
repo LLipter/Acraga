@@ -154,7 +154,7 @@ public class Scanner {
 	}
 
 	// detect value
-	public Value detectValue() {
+	public Value detectValue() throws SyntaxException {
 		Value value;
 		int lines = input.getLine();
 		int pos = input.getPos();

@@ -9,6 +9,7 @@ public class FunctionSignature {
 	
 	private String functionName;
 	private LinkedList<ValueType> parameters;
+	public static FunctionSignature mainFunctionSignature = new FunctionSignature("main");
 	
 	public FunctionSignature(String fName) {
 		functionName = fName;

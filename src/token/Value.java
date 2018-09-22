@@ -29,8 +29,8 @@ public class Value extends Token {
 	public void setDoubleValue(double doubleValue) {
 		this.doubleValue = doubleValue;
 	}
-
-	public boolean isBoolValue() {
+	
+	public boolean getBoolValue() {
 		return boolValue;
 	}
 
