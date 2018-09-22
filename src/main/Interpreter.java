@@ -1,40 +1,37 @@
 package main;
 
-import exception.AcragaException;
 import exception.SyntaxException;
+import node.Function;
 import token.Token;
+
+import java.util.HashMap;
 import java.util.Stack;
 
 public class Interpreter {
 	
 	private Scanner scanner;
+	private HashMap<String, Function> functionMap;
 	
 	public Interpreter(InputReader inputReader) throws SyntaxException {
 		scanner = new Scanner(inputReader);
+		functionMap = new HashMap<String, Function>();
+		init();
 	}
 	
-	public int run() {
-//		Token result = expression();
-//		ReturnValue ret = result.run();
-//		if(ret.isDouble()) {
-//			System.out.println(ret.getDoubleValue());
-//		}else if(ret.isInt()){
-//			System.out.println(ret.getIntValue());
-//		}else if(ret.isError()) {
-//			error.runtime(ret.getErrorMsg());
-//		}else {
-//			error.runtime("unknow return type");
-//		}
-		
-		// return code
-		// 0 represents the program ends normally without errors
-		return 0;
+	private void init() throws SyntaxException {
+		while(!scanner.iseof()) {
+			Function function = detectFunction();
+			if(function == null) {
+				int lines = scanner.getToken().getLines();
+				int pos = scanner.getToken().getPos();
+				throw new SyntaxException(lines, pos, "invalid function declaration");
+			}
+				
+				
+		}
 	}
 	
-	private Token expression() {
-
+	private Function detectFunction() {
 		
-		
-		return null;
 	}
 }
