@@ -28,4 +28,10 @@ public abstract class Token {
 		this.pos = pos;
 	}
 
+	public TokenType getTokenType() {
+		return tokenType;
+	}
+	
+	
+
 }

@@ -8,20 +8,20 @@ import type.ValueType;
 public class FunctionSignature {
 	
 	private String functionName;
-	private LinkedList<ValueType> parameters;
+	private LinkedList<Parameter> parameters;
 	public static FunctionSignature mainFunctionSignature = new FunctionSignature("main");
 	
 	public FunctionSignature(String fName) {
 		functionName = fName;
-		parameters = new LinkedList<ValueType>();
+		parameters = new LinkedList<Parameter>();
 	}
 
 	public String getFunctionName() {
 		return functionName;
 	}
 	
-	public void addParameters(ValueType type) {
-		parameters.addLast(type);
+	public void addParameters(ValueType type, String name) {
+		parameters.addLast(new Parameter(type,name));
 	}
 	
 	
@@ -35,8 +35,8 @@ public class FunctionSignature {
 			hashCode *= chs[i];
 			hashCode %= MOD;
 		}
-		for(ValueType type : parameters) {
-			hashCode *= type.hashCode();
+		for(Parameter parameter : parameters) {
+			hashCode *= parameter.getDataType().hashCode();
 			hashCode %= MOD;
 		}
 		
@@ -50,16 +50,16 @@ public class FunctionSignature {
 		FunctionSignature fs = (FunctionSignature) obj;
 		if(!fs.functionName.equals(functionName))
 			return false;
-		LinkedList<ValueType> fsParameters = fs.parameters;
+		LinkedList<Parameter> fsParameters = fs.parameters;
 		if(fsParameters.size() != parameters.size())
 			return false;
 		
-		Iterator<ValueType> it1 = fsParameters.iterator();
-		Iterator<ValueType> it2 = parameters.iterator();
+		Iterator<Parameter> it1 = fsParameters.iterator();
+		Iterator<Parameter> it2 = parameters.iterator();
 		while(it1.hasNext()) {
-			ValueType type1 = it1.next();
-			ValueType type2 = it2.next();
-			if(type1 != type2)
+			Parameter type1 = it1.next();
+			Parameter type2 = it2.next();
+			if(type1.getDataType() != type2.getDataType())
 				return false;
 		}
 		

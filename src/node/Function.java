@@ -15,8 +15,8 @@ public class Function extends Node {
 		returnType = type;
 	}
 	
-	public void addParameter(ValueType type) {
-		functionSignature.addParameters(type);
+	public void addParameter(ValueType type, String name) {
+		functionSignature.addParameters(type, name);
 	}
 
 	public FunctionSignature getFunctionSignature() {

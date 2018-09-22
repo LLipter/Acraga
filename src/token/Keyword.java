@@ -13,10 +13,13 @@ public class Keyword extends Token {
 		keywordType = kType;
 	}
 
-
 	@Override
 	public String toString() {
 		return String.format("<Keyword,%s>", keywordType);
+	}
+
+	public KeywordType getKeywordType() {
+		return keywordType;
 	}
 	
 	

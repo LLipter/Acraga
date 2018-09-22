@@ -16,5 +16,11 @@ public class Separator extends Token {
 	public String toString() {
 		return String.format("<Separator,%s>", seperaterType);
 	}
+
+	public SeparatorType getSeparatorType() {
+		return seperaterType;
+	}
+	
+	
 	
 }
