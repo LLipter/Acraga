@@ -1,15 +1,16 @@
 package main;
 
 import exception.AcragaException;
+import exception.SyntaxException;
 import token.Token;
 import java.util.Stack;
 
 public class Interpreter {
-	private InputReader input;
-	private AcragaException error;
 	
-	public Interpreter(InputReader inputReader) {
-
+	private Scanner scanner;
+	
+	public Interpreter(InputReader inputReader) throws SyntaxException {
+		scanner = new Scanner(inputReader);
 	}
 	
 	public int run() {

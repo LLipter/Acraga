@@ -29,9 +29,6 @@ public class Scanner {
 			input.nextNotWhiteSpace();
 			if(input.iseof())
 				break;
-
-			
-
 			
 			// detect separator
 			Separator separator = detectSeparator();
@@ -155,8 +152,8 @@ public class Scanner {
 		
 		return separater;
 	}
-	
-	
+
+	// detect value
 	public Value detectValue() {
 		Value value;
 		int lines = input.getLine();
@@ -175,6 +172,7 @@ public class Scanner {
 			
 	}
 	
+	// detect identifier
 	public Identifier detectIdentifier() {
 		int lines = input.getLine();
 		int pos = input.getPos();
@@ -187,7 +185,21 @@ public class Scanner {
 	}
 	
 	public void print() {
-		for(Token token : tokens)
-			System.out.println(token);
+		for(Token token : tokens) {
+			String msg = String.format("line %-3d pos %-2d : %s", token.getLines(), token.getPos(), token.toString());
+			System.out.println(msg);
+		}
+	}
+
+	public Token getToken() {
+		return tokens.peekFirst();
+	}
+
+	public boolean iseof() {
+		return tokens.isEmpty();
+	}
+	
+	public void next() {
+		tokens.pollFirst();
 	}
 }
