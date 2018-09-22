@@ -155,6 +155,9 @@ public class Interpreter {
 		scanner.next();
 		
 		
+		// TODO: detect statements 
+		
+		
 			
 		return function;
 			
