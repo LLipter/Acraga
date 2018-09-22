@@ -3,6 +3,7 @@ package main;
 import java.util.LinkedList;
 
 import exception.AcragaException;
+import exception.SyntaxException;
 import token.BinaryOperator;
 import token.Identifier;
 import token.Keyword;
@@ -18,12 +19,10 @@ import type.SeparatorType;
 public class Scanner {
 
 	private InputReader input;
-	private AcragaException error;
 	private LinkedList<Token> tokens;
 	
-	public Scanner(InputReader inputReader) {
+	public Scanner(InputReader inputReader) throws SyntaxException {
 		input = inputReader;
-		error = new AcragaException(inputReader);
 		tokens = new LinkedList<Token>();
 		
 		while(!input.iseof()) {
@@ -71,7 +70,7 @@ public class Scanner {
 			}
 			
 
-			error.syntax("invalid token");
+			throw new SyntaxException(input.getLine(), input.getPos(), "invalid token");
 			
 		}
 	}

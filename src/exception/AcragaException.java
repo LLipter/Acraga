@@ -2,22 +2,45 @@ package exception;
 
 import main.InputReader;
 
-public class AcragaException {
+public class AcragaException extends Exception {
 	
-	private InputReader input;
+	protected String exceptionType;
+	protected int lines;
+	protected int pos;
 	
-	public AcragaException(InputReader reader) {
-		input = reader;
+	public AcragaException(String exceptionType, int lines, int pos, String msg) {
+		super(msg);
+		this.exceptionType = exceptionType;
+		this.lines = lines;
+		this.pos = pos;
 	}
 	
-	public void syntax(String msg) {
-		System.err.printf("Syntax error in line %d, position %d : %s\n", input.getLine(), input.getPos(), msg);
-		System.exit(1);
+	public AcragaException(int lines, int pos, String msg) {
+		this("Acraga Exception", lines, pos, msg);
 	}
 	
-	public void runtime(String msg) {
-		System.err.printf("Runtime error in line %d, position %d : %s\n", input.getLine(), input.getPos(), msg);
-		System.exit(1);
+	public AcragaException(int lines, String msg) {
+		this("Acraga Exception", lines, -1, msg);
 	}
-
+	
+	public AcragaException(String msg) {
+		this("Acraga Exception", -1, -1, msg);
+	}
+	
+	public AcragaException() {
+		this("Acraga Exception", -1, -1, "Unknown error");
+	}
+	
+	@Override
+	public String toString() {
+		String msg;
+		if(pos == -1 && lines == -1)
+			msg = String.format("%s : %s", exceptionType, this.getMessage());
+		else if(pos == -1 && lines != -1)
+			msg = String.format("%s in line %d : %s", exceptionType, lines, this.getMessage());
+		else
+			msg = String.format("%s in line %d, position %d : %s", exceptionType, lines, pos, this.getMessage());
+		return msg;
+	}
+	
 }

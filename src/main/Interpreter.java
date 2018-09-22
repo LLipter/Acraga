@@ -9,8 +9,7 @@ public class Interpreter {
 	private AcragaException error;
 	
 	public Interpreter(InputReader inputReader) {
-		input = inputReader;
-		error = new AcragaException(inputReader);
+
 	}
 	
 	public int run() {
@@ -32,12 +31,7 @@ public class Interpreter {
 	}
 	
 	private Token expression() {
-		input.nextNotWhiteSpace();
-		if(input.iseof())
-			error.syntax("missing expression");
-		
-		Stack<Token> opStack = new Stack<Token>();
-		Stack<Token> valStack = new Stack<Token>();
+
 		
 		
 		return null;
