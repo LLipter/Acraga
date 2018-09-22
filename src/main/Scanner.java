@@ -112,6 +112,14 @@ public class Scanner {
 			keyword = new Keyword(KeywordType.WHILE);
 		else if(input.isKeyword("for"))
 			keyword = new Keyword(KeywordType.FOR);
+		else if(input.isKeyword("int"))
+			keyword = new Keyword(KeywordType.INT);
+		else if(input.isKeyword("double"))
+			keyword = new Keyword(KeywordType.DOUBLE);
+		else if(input.isKeyword("string"))
+			keyword = new Keyword(KeywordType.STRING);
+		else if(input.isKeyword("bool"))
+			keyword = new Keyword(KeywordType.BOOL);
 		else
 			return null;
 		keyword.setLines(lines);
@@ -137,6 +145,8 @@ public class Scanner {
 			separater = new Separator(SeparatorType.RIGHTBRACE);
 		else if(input.getCh() == ';')
 			separater = new Separator(SeparatorType.SEMICOLON);
+		else if(input.getCh() == ',')
+			separater = new Separator(SeparatorType.COMMA);
 		else
 			return null;
 		separater.setLines(input.getLine());

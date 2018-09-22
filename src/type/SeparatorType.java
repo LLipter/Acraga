@@ -7,5 +7,6 @@ public enum SeparatorType {
 	RIGHTBRACKET,
 	LEFTBRACE,
 	RIGHTBRACE,
-	SEMICOLON
+	SEMICOLON,
+	COMMA
 }

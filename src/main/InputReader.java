@@ -111,7 +111,7 @@ public class InputReader {
 			if((int)keyword.charAt(i) != chs[i])
 				return false;
 		}
-		if(!isWhiteSpace(chs[len]))
+		if(isIdAlphabet(chs[len]))
 			return false;
 		
 		// if detect keyword successfully, remove all of these characters from input stream
@@ -265,6 +265,9 @@ public class InputReader {
 			doubleValue /= 10;
 		doubleValue += intPart;
 		
+		if(isPositive)
+			doubleValue *= -1;
+		
 		Value value = new Value(ValueType.DOUBLE);
 		value.setDoubleValue(doubleValue);
 		return value;
@@ -327,13 +330,21 @@ public class InputReader {
 		return isIdLetter(getCh());
 	}
 	
+	public boolean isIdAlphabet(int ch) {
+		return isDigit(ch) || isLetter(ch) || ch == '_';
+	}
+	
+	public boolean isIdAlphabet() {
+		return isIdAlphabet(getCh());
+	}
+	
 	
 	public Identifier isIdentifier() {
 		if(getCh() != '_' && !isLetter())
 			return null;
 		
 		StringBuffer bString = new StringBuffer();
-		while(!isWhiteSpace()) {
+		while(isIdAlphabet()) {
 			bString.append((char)getCh());
 			next();
 		}

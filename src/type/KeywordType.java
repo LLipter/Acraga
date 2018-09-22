@@ -4,5 +4,9 @@ public enum KeywordType {
 	WHILE,
 	IF,
 	ELSE,
-	FOR
+	FOR,
+	DOUBLE,
+	INT,
+	BOOL,
+	STRING
 }
