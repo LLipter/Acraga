@@ -1,12 +1,12 @@
 package type;
 
 public enum KeywordType {
-	WHILE,
-	IF,
-	ELSE,
-	FOR,
-	DOUBLE,
-	INT,
-	BOOL,
-	STRING
+    WHILE,
+    IF,
+    ELSE,
+    FOR,
+    DOUBLE,
+    INT,
+    BOOL,
+    STRING
 }

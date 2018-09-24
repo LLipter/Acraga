@@ -4,34 +4,33 @@ import type.TokenType;
 
 public abstract class Token {
 
-	protected TokenType tokenType;
-	private int lines;
-	private int pos;
-	
-	
-	public int getLines() {
-		return lines;
-	}
+    protected TokenType tokenType;
+    private int lines;
+    private int pos;
 
 
-	public void setLines(int lines) {
-		this.lines = lines;
-	}
+    public int getLines() {
+        return lines;
+    }
 
 
-	public int getPos() {
-		return pos;
-	}
+    public void setLines(int lines) {
+        this.lines = lines;
+    }
 
 
-	public void setPos(int pos) {
-		this.pos = pos;
-	}
+    public int getPos() {
+        return pos;
+    }
 
-	public TokenType getTokenType() {
-		return tokenType;
-	}
-	
-	
+
+    public void setPos(int pos) {
+        this.pos = pos;
+    }
+
+    public TokenType getTokenType() {
+        return tokenType;
+    }
+
 
 }

@@ -1,9 +1,9 @@
 package type;
 
 public enum TokenType {
-	OPERATOR,
-	KEYWORD,
-	SEPARATOR,
-	VALUE,
-	IDENTIFIER
+    OPERATOR,
+    KEYWORD,
+    SEPARATOR,
+    VALUE,
+    IDENTIFIER
 }

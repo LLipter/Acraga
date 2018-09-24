@@ -3,8 +3,8 @@ package main;
 import exception.RuntimeException;
 import node.Function;
 import node.FunctionSignature;
-import token.Value;
 import node.Statement;
+import token.Value;
 
 import java.util.HashMap;
 
@@ -12,40 +12,40 @@ public class Interpreter {
 
     private Parser parser;
 
-    public Interpreter(Parser parser) throws RuntimeException{
+    public Interpreter(Parser parser) throws RuntimeException {
         this.parser = parser;
         interpret();
     }
 
-    private void interpret() throws RuntimeException{
+    private void interpret() throws RuntimeException {
         Value exitCode = runFunction(FunctionSignature.mainFunctionSignature);
         String format = "Program ends with '%";
-        if(exitCode.isInt())
+        if (exitCode.isInt())
             System.out.println(String.format(format + "d'", exitCode.getIntValue()));
-        else if(exitCode.isDouble())
+        else if (exitCode.isDouble())
             System.out.println(String.format(format + "f'", exitCode.getDoubleValue()));
-        else if(exitCode.isBool())
+        else if (exitCode.isBool())
             System.out.println(String.format(format + "b'", exitCode.getBoolValue()));
-        else if(exitCode.isString())
+        else if (exitCode.isString())
             System.out.println(String.format(format + "s'", exitCode.getStringValue()));
         else
             System.out.println("unknown exit code type");
     }
 
 
-    private Value runFunction(FunctionSignature signature) throws RuntimeException{
+    private Value runFunction(FunctionSignature signature) throws RuntimeException {
         HashMap<FunctionSignature, Function> functionMap = parser.getFunctionMap();
-        if(!functionMap.containsKey(signature))
+        if (!functionMap.containsKey(signature))
             throw new RuntimeException(String.format("function '%s' not found", signature));
         Function function = functionMap.get(FunctionSignature.mainFunctionSignature);
         Value retValue = null;
-        for(Statement statement : function)
+        for (Statement statement : function)
             retValue = runStatement(statement);
         // TODO: cast retValue to function return type
         return retValue;
     }
 
-    private Value runStatement(Statement statement){
+    private Value runStatement(Statement statement) {
         // TODO: interpret statement
 
         return null;
