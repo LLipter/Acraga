@@ -59,17 +59,17 @@ public class Interpreter {
 		int lines = retToken.getLines();
 		int pos = retToken.getPos();
 		if(retToken.getTokenType() != TokenType.KEYWORD)
-			throw new SyntaxException(lines, pos, "function decleration - missing return type");
+			throw new SyntaxException(lines, pos, "function declaration - missing return type");
 		Keyword keyword = (Keyword) retToken;
 		ValueType returnType = Casting.keywordType2ValueType(keyword.getKeywordType());
 		if(returnType == null)
-			throw new SyntaxException(lines, pos, "function decleration - missing return type");
+			throw new SyntaxException(lines, pos, "function declaration - missing return type");
 		scanner.next();
 		
 		// check function name
 		Token functionNameToken = scanner.getToken();
 		if(functionNameToken == null)
-			throw new SyntaxException(lines, pos, "function decleration - missing function name");
+			throw new SyntaxException(lines, pos, "function declaration - missing function name");
 		lines = functionNameToken.getLines();
 		pos = functionNameToken.getPos();
 		if(functionNameToken.getTokenType() != TokenType.IDENTIFIER)
@@ -81,42 +81,42 @@ public class Interpreter {
 		// check left-parentheses
 		Token leftParentheses = scanner.getToken();
 		if(leftParentheses == null)
-			throw new SyntaxException(lines, pos, "function decleration - missing left-parentheses");
+			throw new SyntaxException(lines, pos, "function declaration - missing left-parentheses");
 		lines = leftParentheses.getLines();
 		pos = leftParentheses.getPos();
 		if(leftParentheses.getTokenType() != TokenType.SEPARATOR)
-			throw new SyntaxException(lines, pos, "function decleration - missing left-parentheses");
+			throw new SyntaxException(lines, pos, "function declaration - missing left-parentheses");
 		Separator separator = (Separator)leftParentheses;
 		if(separator.getSeparatorType() != SeparatorType.LEFTPARENTHESES)
-			throw new SyntaxException(lines, pos, "function decleration - missing left-parentheses");
+			throw new SyntaxException(lines, pos, "function declaration - missing left-parentheses");
 		scanner.next();
 		
 		// check parameters
 		Token dataTypeToken = scanner.getToken();
 		if(dataTypeToken == null)
-			throw new SyntaxException(lines, pos, "function decleration - missing right-parentheses");
+			throw new SyntaxException(lines, pos, "function declaration - missing right-parentheses");
 		lines = dataTypeToken.getLines();
 		pos = dataTypeToken.getPos();
 		while(dataTypeToken.getTokenType() != TokenType.SEPARATOR) {
 			// check data type
 			if(dataTypeToken.getTokenType() != TokenType.KEYWORD)
-				throw new SyntaxException(lines, pos, "function decleration - missing parameter data type");
+				throw new SyntaxException(lines, pos, "function declaration - missing parameter data type");
 			lines = dataTypeToken.getLines();
 			pos = dataTypeToken.getPos();
 			Keyword key = (Keyword) dataTypeToken;
 			ValueType dataType = Casting.keywordType2ValueType(key.getKeywordType());
 			if(dataType == null)
-				throw new SyntaxException(lines, pos, "function decleration - missing parameter data type");
+				throw new SyntaxException(lines, pos, "function declaration - missing parameter data type");
 			scanner.next();
 			
 			// check parameter name
 			Token idToken = scanner.getToken();
 			if(idToken == null)
-				throw new SyntaxException(lines, pos, "function decleration - missing parameter name");
+				throw new SyntaxException(lines, pos, "function declaration - missing parameter name");
 			lines = idToken.getLines();
 			pos = idToken.getPos();
 			if(idToken.getTokenType() != TokenType.IDENTIFIER)
-				throw new SyntaxException(lines, pos, "function decleration - missing parameter name");
+				throw new SyntaxException(lines, pos, "function declaration - missing parameter name");
 			String parameterName = ((Identifier)idToken).getId();
 			function.addParameter(dataType, parameterName);
 			scanner.next();
@@ -124,18 +124,18 @@ public class Interpreter {
 			// check comma
 			Token commaToken = scanner.getToken();
 			if(commaToken == null)
-				throw new SyntaxException(lines, pos, "function decleration - missing right-parentheses");
+				throw new SyntaxException(lines, pos, "function declaration - missing right-parentheses");
 			lines = commaToken.getLines();
 			pos = commaToken.getPos();
 			if(commaToken.getTokenType() != TokenType.SEPARATOR)
-				throw new SyntaxException(lines, pos, "function decleration - missing comma");
+				throw new SyntaxException(lines, pos, "function declaration - missing comma");
 			Separator comma = (Separator) commaToken;
 			if(comma.getSeparatorType() == SeparatorType.RIGHTPARENTHESES) {
 				dataTypeToken = commaToken;
 				continue;
 			}
 			if(comma.getSeparatorType() != SeparatorType.COMMA)
-				throw new SyntaxException(lines, pos, "function decleration - invalid separator");
+				throw new SyntaxException(lines, pos, "function declaration - invalid separator");
 			scanner.next();
 			
 			dataTypeToken = scanner.getToken();
@@ -144,14 +144,14 @@ public class Interpreter {
 		// check right-parentheses
 		Token rightParentheses = scanner.getToken();
 		if(rightParentheses == null)
-			throw new SyntaxException(lines, pos, "function decleration - missing right-parentheses");
+			throw new SyntaxException(lines, pos, "function declaration - missing right-parentheses");
 		lines = rightParentheses.getLines();
 		pos = rightParentheses.getPos();
 		if(rightParentheses.getTokenType() != TokenType.SEPARATOR)
-			throw new SyntaxException(lines, pos, "function decleration - missing right-parentheses");
+			throw new SyntaxException(lines, pos, "function declaration - missing right-parentheses");
 		separator = (Separator)rightParentheses;
 		if(separator.getSeparatorType() != SeparatorType.RIGHTPARENTHESES)
-			throw new SyntaxException(lines, pos, "function decleration - missing right-parentheses");
+			throw new SyntaxException(lines, pos, "function declaration - missing right-parentheses");
 		scanner.next();
 		
 		
