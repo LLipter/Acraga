@@ -33,10 +33,10 @@ public class Interpreter {
     }
 
 
-    private Value runFunction(FunctionSignature signature){
+    private Value runFunction(FunctionSignature signature) throws RuntimeException{
         HashMap<FunctionSignature, Function> functionMap = parser.getFunctionMap();
         if(!functionMap.containsKey(signature))
-            throw new RuntimeException(String.format("function '%s' not found", signature);
+            throw new RuntimeException(String.format("function '%s' not found", signature));
         Function function = functionMap.get(FunctionSignature.mainFunctionSignature);
         Value retValue = null;
         for(Statement statement : function)

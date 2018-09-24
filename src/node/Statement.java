@@ -1,4 +1,12 @@
 package node;
 
-public class Statement {
+import type.NodeType;
+import type.ValueType;
+
+public class Statement extends Node {
+    // TODO:
+
+    public Statement() {
+        nodeType = NodeType.STATEMENT;
+    }
 }
