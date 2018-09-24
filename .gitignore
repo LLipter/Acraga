@@ -3,3 +3,8 @@
 .project
 .settings
 bin/
+
+# idea
+.idea/
+*.iml
+out/
