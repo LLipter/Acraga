@@ -77,5 +77,18 @@ public class Value extends Token {
         return "<UnknownValue>";
     }
 
+    public void setDefaultValue(){
+        if(isInt())
+            setIntValue(0);
+        else if(isDouble())
+            setDoubleValue(0.0);
+        else if(isBool())
+            setBoolValue(false);
+        else if(isString())
+            setStringValue("");
+        else
+            System.err.println("Unknown data type");
+    }
+
 
 }

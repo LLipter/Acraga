@@ -8,6 +8,7 @@ public enum OperatorType {
     MUL,
     DIV,
     MOD,
+    ASSIGN,
 
     // unary operator
     BITWISENEGATE;

@@ -1,16 +1,9 @@
 package main;
 
 import exception.SyntaxException;
-import node.Function;
-import node.FunctionSignature;
-import token.Identifier;
-import token.Keyword;
-import token.Separator;
-import token.Token;
-import type.Casting;
-import type.SeparatorType;
-import type.TokenType;
-import type.ValueType;
+import node.*;
+import token.*;
+import type.*;
 
 import java.util.HashMap;
 
@@ -41,49 +34,51 @@ public class Parser {
         // check return type
         ValueType returnType = detectDataType();
         if (returnType == null)
-            throwException("missing return type in function declaration");
+            throwException("missing return type");
 
         // check function name
         String functionName = detectIdentifier();
         if (functionName == null)
-            throwException("missing function identifier in function declaration");
+            throwException("missing function identifier");
         function = new Function(functionName, returnType);
 
 
         // check left-parentheses
         if (!detectSeparator(SeparatorType.LEFTPARENTHESES))
-            throwException("missing left-parentheses in function declaration");
+            throwException("missing left-parentheses");
 
         // check parameters and right-parentheses
         while (!detectSeparator(SeparatorType.RIGHTPARENTHESES)) {
             // check data type
             ValueType dataType = detectDataType();
             if (dataType == null)
-                throwException("missing parameter data type in function declaration");
+                throwException("missing parameter data type");
 
             // check parameter name
             String parameterName = detectIdentifier();
             if (parameterName == null)
-                throwException("missing parameter identifier in function declaration");
+                throwException("missing parameter identifier");
             function.addParameter(dataType, parameterName);
 
             // check comma
             if (detectSeparator(SeparatorType.COMMA) && detectSeparator(SeparatorType.RIGHTPARENTHESES))
-                throwException("missing parameter in function declaration");
+                throwException("missing parameter");
 
         }
 
         // check left-brace
         if (!detectSeparator(SeparatorType.LEFTBRACE))
-            throwException("missing left-brace in function declaration");
+            throwException("missing left-brace");
 
 
-        // TODO: detect statements
+        // check statements
+        while(!detectSeparator(SeparatorType.RIGHTBRACE)){
+            // TODO:
+        }
 
+        if(scanner.iseof())
+            throwException("missing right-brace");
 
-        // check right-brace
-        if (!detectSeparator(SeparatorType.RIGHTBRACE))
-            throwException("missing right-brace in function declaration");
 
 
         return function;
@@ -128,6 +123,20 @@ public class Parser {
         return true;
     }
 
+    // check whether current token is certain operator
+    private boolean detectOperator(OperatorType type) {
+        Token token = getToken();
+        if (token == null)
+            return false;
+        if (token.getTokenType() != TokenType.OPERATOR)
+            return false;
+        Operator operator = (Operator) token;
+        if (operator.getOperatorType() != type)
+            return false;
+        next();
+        return true;
+    }
+
     // check whether current token indicates a data type
     private ValueType detectDataType() {
         Token token = getToken();
@@ -157,6 +166,36 @@ public class Parser {
 
     public HashMap<FunctionSignature, Function> getFunctionMap() {
         return functionMap;
+    }
+
+    private Statement detectStatement(){
+        // TODO:
+        return null;
+    }
+
+    private Expression detectExpression(){
+        // TODO:
+        return null;
+    }
+
+
+    private Initialization detectInitialization() throws SyntaxException{
+        ValueType dataType = detectDataType();
+        if(dataType == null)
+            return null;
+        String id = detectIdentifier();
+        if(id == null)
+            throwException("missing identifier");
+        Value value = new Value(dataType);
+        if(detectSeparator(SeparatorType.SEMICOLON))
+            value.setDefaultValue();
+        else if(detectOperator(OperatorType.ASSIGN)){
+            // TODO: detect expression
+        }else
+            throwException("missing semicolon");
+
+
+        return new Initialization(id, value);
     }
 
 }

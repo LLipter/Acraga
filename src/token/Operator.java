@@ -23,4 +23,8 @@ public abstract class Operator extends Token {
         priorityMap.put(OperatorType.DIV, 2);
         return priorityMap.get(type1) > priorityMap.get(type2);
     }
+
+    public OperatorType getOperatorType() {
+        return operatorType;
+    }
 }

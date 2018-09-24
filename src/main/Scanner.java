@@ -77,6 +77,8 @@ public class Scanner {
             op = new BinaryOperator(OperatorType.DIV);
         else if (input.getCh() == '%')
             op = new BinaryOperator(OperatorType.MOD);
+        else if (input.getCh() == '=')
+            op = new BinaryOperator(OperatorType.ASSIGN);
         else if (input.getCh() == '~')
             op = new UnaryOperator(OperatorType.BITWISENEGATE);
         else
