@@ -24,7 +24,10 @@ public class Parameter {
 	public void setParameterName(String parameterName) {
 		this.parameterName = parameterName;
 	}
-	
-	
 
+
+	@Override
+	public String toString() {
+		return String.format("%s %s", dataType, parameterName);
+	}
 }

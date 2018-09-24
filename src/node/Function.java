@@ -4,10 +4,14 @@ import token.Value;
 import type.NodeType;
 import type.ValueType;
 
-public class Function extends Node {
+import java.util.Iterator;
+import java.util.LinkedList;
+
+public class Function extends Node implements Iterable<Statement>{
 	
 	private FunctionSignature functionSignature;
 	private ValueType returnType;
+	private LinkedList<Statement> statements;
 	
 	public Function(String functionName, ValueType type) {
 		nodeType = NodeType.FUNCTION;
@@ -26,9 +30,13 @@ public class Function extends Node {
 	public ValueType getReturnType() {
 		return returnType;
 	}
-	
-	public Value run() {
-		// TODO:
-		return null;
+
+	public void addStatement(Statement statement){
+		statements.addLast(statement);
+	}
+
+	@Override
+	public Iterator<Statement> iterator() {
+		return statements.iterator();
 	}
 }

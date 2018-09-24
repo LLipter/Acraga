@@ -24,8 +24,6 @@ public class FunctionSignature {
 		parameters.addLast(new Parameter(type,name));
 	}
 	
-	
-
 	@Override
 	public int hashCode() {
 		long hashCode = 0;
@@ -65,7 +63,27 @@ public class FunctionSignature {
 		
 		return true;
 	}
-	
-	
 
+
+	@Override
+	public String toString() {
+		if(parameters.size() == 0)
+			return String.format("%s()",functionName);
+		else if(parameters.size() == 1)
+			return String.format("%s(%s)",functionName,parameters.get(0));
+		else{
+			StringBuffer sb = new StringBuffer();
+			sb.append(functionName);
+			sb.append("(");
+			Iterator<Parameter> it = parameters.iterator();
+			sb.append(it.next());
+			while(it.hasNext()){
+				sb.append(", ");
+				sb.append(it.next());
+			}
+			sb.append(")");
+			return sb.toString();
+		}
+
+	}
 }
