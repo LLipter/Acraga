@@ -17,6 +17,7 @@ public class Function extends Node implements Iterable<Statement>{
 		nodeType = NodeType.FUNCTION;
 		functionSignature = new FunctionSignature(functionName);
 		returnType = type;
+		statements = new LinkedList<Statement>();
 	}
 	
 	public void addParameter(ValueType type, String name) {
