@@ -9,22 +9,23 @@ import token.Separator;
 import token.Token;
 import token.Value;
 import type.Casting;
-import type.KeywordType;
 import type.SeparatorType;
 import type.TokenType;
 import type.ValueType;
 
 import java.util.HashMap;
-import java.util.Stack;
 
 public class Interpreter {
 	
 	private Scanner scanner;
 	private HashMap<FunctionSignature, Function> functionMap;
+	private int line;
+	private int pos;
 	
 	public Interpreter(InputReader inputReader) throws SyntaxException {
 		scanner = new Scanner(inputReader);
 		functionMap = new HashMap<FunctionSignature, Function>();
+		updateLinePos();
 		interpret();
 	}
 	
@@ -53,109 +54,53 @@ public class Interpreter {
 	
 	private Function detectFunction() throws SyntaxException {
 		Function function;
-		
+
 		// check return type
-		Token retToken = scanner.getToken();
-		int lines = retToken.getLines();
-		int pos = retToken.getPos();
-		if(retToken.getTokenType() != TokenType.KEYWORD)
-			throw new SyntaxException(lines, pos, "function declaration - missing return type");
-		Keyword keyword = (Keyword) retToken;
-		ValueType returnType = Casting.keywordType2ValueType(keyword.getKeywordType());
+		ValueType returnType = detectDataType();
 		if(returnType == null)
-			throw new SyntaxException(lines, pos, "function declaration - missing return type");
-		scanner.next();
+			throwException("missing return type in function declaration");
 		
 		// check function name
-		Token functionNameToken = scanner.getToken();
-		if(functionNameToken == null)
-			throw new SyntaxException(lines, pos, "function declaration - missing function name");
-		lines = functionNameToken.getLines();
-		pos = functionNameToken.getPos();
-		if(functionNameToken.getTokenType() != TokenType.IDENTIFIER)
-			throw new SyntaxException(lines, pos, "missing function name");
-		String functionName = ((Identifier)functionNameToken).getId();
+		String functionName = detectIdentifier();
+		if(functionName == null)
+			throwException("missing function identifier in function declaration");
 		function = new Function(functionName, returnType);
-		scanner.next();
-		
+
+
 		// check left-parentheses
-		Token leftParentheses = scanner.getToken();
-		if(leftParentheses == null)
-			throw new SyntaxException(lines, pos, "function declaration - missing left-parentheses");
-		lines = leftParentheses.getLines();
-		pos = leftParentheses.getPos();
-		if(leftParentheses.getTokenType() != TokenType.SEPARATOR)
-			throw new SyntaxException(lines, pos, "function declaration - missing left-parentheses");
-		Separator separator = (Separator)leftParentheses;
-		if(separator.getSeparatorType() != SeparatorType.LEFTPARENTHESES)
-			throw new SyntaxException(lines, pos, "function declaration - missing left-parentheses");
-		scanner.next();
+		if(!detectSeparator(SeparatorType.LEFTPARENTHESES))
+			throwException("missing left-parentheses in function declaration");
 		
-		// check parameters
-		Token dataTypeToken = scanner.getToken();
-		if(dataTypeToken == null)
-			throw new SyntaxException(lines, pos, "function declaration - missing right-parentheses");
-		lines = dataTypeToken.getLines();
-		pos = dataTypeToken.getPos();
-		while(dataTypeToken.getTokenType() != TokenType.SEPARATOR) {
+		// check parameters and right-parentheses
+		while(!detectSeparator(SeparatorType.RIGHTPARENTHESES)) {
 			// check data type
-			if(dataTypeToken.getTokenType() != TokenType.KEYWORD)
-				throw new SyntaxException(lines, pos, "function declaration - missing parameter data type");
-			lines = dataTypeToken.getLines();
-			pos = dataTypeToken.getPos();
-			Keyword key = (Keyword) dataTypeToken;
-			ValueType dataType = Casting.keywordType2ValueType(key.getKeywordType());
+			ValueType dataType = detectDataType();
 			if(dataType == null)
-				throw new SyntaxException(lines, pos, "function declaration - missing parameter data type");
-			scanner.next();
+				throwException("missing parameter data type in function declaration");
 			
 			// check parameter name
-			Token idToken = scanner.getToken();
-			if(idToken == null)
-				throw new SyntaxException(lines, pos, "function declaration - missing parameter name");
-			lines = idToken.getLines();
-			pos = idToken.getPos();
-			if(idToken.getTokenType() != TokenType.IDENTIFIER)
-				throw new SyntaxException(lines, pos, "function declaration - missing parameter name");
-			String parameterName = ((Identifier)idToken).getId();
+			String parameterName = detectIdentifier();
+			if(parameterName == null)
+				throwException("missing parameter identifier in function declaration");
 			function.addParameter(dataType, parameterName);
-			scanner.next();
-			
+
 			// check comma
-			Token commaToken = scanner.getToken();
-			if(commaToken == null)
-				throw new SyntaxException(lines, pos, "function declaration - missing right-parentheses");
-			lines = commaToken.getLines();
-			pos = commaToken.getPos();
-			if(commaToken.getTokenType() != TokenType.SEPARATOR)
-				throw new SyntaxException(lines, pos, "function declaration - missing comma");
-			Separator comma = (Separator) commaToken;
-			if(comma.getSeparatorType() == SeparatorType.RIGHTPARENTHESES) {
-				dataTypeToken = commaToken;
-				continue;
-			}
-			if(comma.getSeparatorType() != SeparatorType.COMMA)
-				throw new SyntaxException(lines, pos, "function declaration - invalid separator");
-			scanner.next();
-			
-			dataTypeToken = scanner.getToken();
+			if(detectSeparator(SeparatorType.COMMA) && detectSeparator(SeparatorType.RIGHTPARENTHESES))
+				throwException("missing parameter in function declaration");
+
 		}
 		
-		// check right-parentheses
-		Token rightParentheses = scanner.getToken();
-		if(rightParentheses == null)
-			throw new SyntaxException(lines, pos, "function declaration - missing right-parentheses");
-		lines = rightParentheses.getLines();
-		pos = rightParentheses.getPos();
-		if(rightParentheses.getTokenType() != TokenType.SEPARATOR)
-			throw new SyntaxException(lines, pos, "function declaration - missing right-parentheses");
-		separator = (Separator)rightParentheses;
-		if(separator.getSeparatorType() != SeparatorType.RIGHTPARENTHESES)
-			throw new SyntaxException(lines, pos, "function declaration - missing right-parentheses");
-		scanner.next();
+		// check left-brace
+		if(!detectSeparator(SeparatorType.LEFTBRACE))
+			throwException("missing left-brace in function declaration");
 		
 		
-		// TODO: detect statements 
+		// TODO: detect statements
+
+
+		// check right-brace
+		if(!detectSeparator(SeparatorType.RIGHTBRACE))
+			throwException("missing right-brace in function declaration");
 		
 		
 			
@@ -163,4 +108,70 @@ public class Interpreter {
 			
 			
 	}
+
+	private void throwException(String msg) throws SyntaxException{
+		throw new SyntaxException(line, pos, msg);
+	}
+
+	private Token getToken(){
+		return scanner.getToken();
+	}
+
+	private void next(){
+		scanner.next();
+		updateLinePos();
+	}
+
+	private void updateLinePos(){
+		Token token = getToken();
+		if(token == null)
+			line = pos = -1;
+		else{
+			line = token.getLines();
+			pos = token.getPos();
+		}
+	}
+
+	// check whether current token is certain separator
+	private boolean detectSeparator(SeparatorType type){
+		Token token = getToken();
+		if(token == null)
+			return false;
+		if(token.getTokenType() != TokenType.SEPARATOR)
+			return false;
+		Separator separator = (Separator) token;
+		if(separator.getSeparatorType() != type)
+			return false;
+		next();
+		return true;
+	}
+
+	// check whether current token indicates a data type
+	private ValueType detectDataType(){
+		Token token = getToken();
+		if(token == null)
+			return null;
+		if(token.getTokenType() != TokenType.KEYWORD)
+			return null;
+		Keyword keyword = (Keyword) token;
+		ValueType result = Casting.keywordType2ValueType(keyword.getKeywordType());
+		if(result == null)
+			return null;
+		next();
+		return result;
+	}
+
+	// check whether current token is a indicator
+	private String detectIdentifier(){
+		Token token = getToken();
+		if(token == null)
+			return null;
+		if(token.getTokenType() != TokenType.IDENTIFIER)
+			return null;
+		String id = ((Identifier)token).getId();
+		next();
+		return id;
+	}
+
+
 }
