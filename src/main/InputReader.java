@@ -25,6 +25,13 @@ public class InputReader {
             int ch_cur = reader.read();
             int ch_next = reader.read();
             while (ch_cur != -1) {
+                // ignore /r in windows system
+                if (ch_cur == '\r') {
+                    ch_cur = ch_next;
+                    ch_next = reader.read();
+                    continue;
+                }
+
                 // ignore all comments
                 if (ch_cur == '/' && ch_next == '/') {
                     while (ch_cur != '\n' && ch_cur != -1) {
