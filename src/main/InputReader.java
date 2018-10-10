@@ -93,6 +93,14 @@ public class InputReader {
         return buffer.getFirst();
     }
 
+    public int getNextCh() {
+        if (iseof())
+            return -1;
+        if(buffer.size()<2)
+            return -1;
+        return buffer.get(1);
+    }
+
     public void nextNotWhiteSpace() {
         while (isWhiteSpace() && !iseof())
             next();
@@ -343,14 +351,6 @@ public class InputReader {
 
     public boolean isLetter() {
         return isLetter(getCh());
-    }
-
-    public boolean isIdLetter(int ch) {
-        return isLetter(ch) || isDigit() || ch == '_';
-    }
-
-    public boolean isIdLetter() {
-        return isIdLetter(getCh());
     }
 
     public boolean isIdAlphabet(int ch) {

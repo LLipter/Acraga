@@ -9,6 +9,12 @@ public enum OperatorType {
     DIV,
     MOD,
     ASSIGN,
+    GREATERTHAN,
+    LESSTHAN,
+    GREATERTHANOREQUAL,
+    LESSTHANOREQUAL,
+    NOTEQUAL,
+
 
     // unary operator
     BITWISENEGATE;

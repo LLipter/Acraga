@@ -67,7 +67,20 @@ public class Scanner {
     // detect operators
     public Operator detectOperator() {
         Operator op;
-        if (input.getCh() == '+')
+
+        if (input.getCh() == '>' && input.getNextCh() == '=') {
+            op = new BinaryOperator(OperatorType.GREATERTHANOREQUAL);
+            input.next();
+        }
+        else if (input.getCh() == '<' && input.getNextCh() == '=') {
+            op = new BinaryOperator(OperatorType.LESSTHANOREQUAL);
+            input.next();
+        }
+        else if ((input.getCh() == '!' && input.getNextCh() == '=') || (input.getCh() == '<' && input.getNextCh() == '>')){
+            op = new BinaryOperator(OperatorType.NOTEQUAL);
+            input.next();
+        }
+        else if (input.getCh() == '+')
             op = new BinaryOperator(OperatorType.ADD);
         else if (input.getCh() == '-')
             op = new BinaryOperator(OperatorType.SUB);
@@ -77,6 +90,10 @@ public class Scanner {
             op = new BinaryOperator(OperatorType.DIV);
         else if (input.getCh() == '%')
             op = new BinaryOperator(OperatorType.MOD);
+        else if (input.getCh() == '>')
+            op = new BinaryOperator(OperatorType.GREATERTHAN);
+        else if (input.getCh() == '<')
+            op = new BinaryOperator(OperatorType.LESSTHAN);
         else if (input.getCh() == '=')
             op = new BinaryOperator(OperatorType.ASSIGN);
         else if (input.getCh() == '~')
