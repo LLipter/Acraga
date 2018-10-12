@@ -173,8 +173,10 @@ public class Parser {
         return null;
     }
 
-    private Expression detectExpression(){
+    private Expression detectExpression() throws SyntaxException{
         // TODO:
+
+
         return null;
     }
 

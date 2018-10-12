@@ -13,6 +13,7 @@ public enum OperatorType {
     LESSTHAN,
     GREATERTHANOREQUAL,
     LESSTHANOREQUAL,
+    EQUAL,
     NOTEQUAL,
 
 
