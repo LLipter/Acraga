@@ -3,7 +3,7 @@ package token;
 import type.TokenType;
 import type.ValueType;
 
-public class Value extends Token {
+public class Value extends ExpressionToken {
 
     private ValueType valueType;
     private int intValue;

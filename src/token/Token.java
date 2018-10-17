@@ -8,21 +8,17 @@ public abstract class Token {
     private int lines;
     private int pos;
 
-
     public int getLines() {
         return lines;
     }
-
 
     public void setLines(int lines) {
         this.lines = lines;
     }
 
-
     public int getPos() {
         return pos;
     }
-
 
     public void setPos(int pos) {
         this.pos = pos;
@@ -31,6 +27,4 @@ public abstract class Token {
     public TokenType getTokenType() {
         return tokenType;
     }
-
-
 }

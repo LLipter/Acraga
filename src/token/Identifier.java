@@ -2,7 +2,7 @@ package token;
 
 import type.TokenType;
 
-public class Identifier extends Token {
+public class Identifier extends ExpressionToken {
 
     private String id;
 

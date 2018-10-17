@@ -292,7 +292,7 @@ public class InputReader {
         int fractionPart = isDecInteger().getIntValue();
 
         double doubleValue = fractionPart;
-        while (doubleValue > 1)
+        while (doubleValue >= 1)
             doubleValue /= 10;
         doubleValue += intPart;
 
