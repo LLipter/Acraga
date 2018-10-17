@@ -13,10 +13,19 @@ public abstract class Operator extends ExpressionToken {
     private static HashMap<OperatorType, Integer> priorityMap = new HashMap<OperatorType, Integer>();
 
     static{
-        priorityMap.put(OperatorType.ADD, 1);
-        priorityMap.put(OperatorType.SUB, 1);
-        priorityMap.put(OperatorType.MUL, 2);
-        priorityMap.put(OperatorType.DIV, 2);
+        priorityMap.put(OperatorType.ADD,4);
+        priorityMap.put(OperatorType.SUB,4);
+        priorityMap.put(OperatorType.MUL,5);
+        priorityMap.put(OperatorType.DIV,5);
+        priorityMap.put(OperatorType.MOD,5);
+        priorityMap.put(OperatorType.ASSIGN,1);
+        priorityMap.put(OperatorType.GREATERTHAN,3);
+        priorityMap.put(OperatorType.LESSTHAN,3);
+        priorityMap.put(OperatorType.GREATERTHANOREQUAL,3);
+        priorityMap.put(OperatorType.LESSTHANOREQUAL,3);
+        priorityMap.put(OperatorType.EQUAL,2);
+        priorityMap.put(OperatorType.NOTEQUAL,2);
+        priorityMap.put(OperatorType.NEGATIVE,6);
     }
 
     public Operator() {
