@@ -29,6 +29,13 @@ public class Scanner {
                 continue;
             }
 
+            // detect operators
+            Operator op = detectOperator();
+            if (op != null) {
+                tokens.addLast(op);
+                continue;
+            }
+
             // detect values
             Value value = detectValue();
             if (value != null) {
@@ -50,14 +57,6 @@ public class Scanner {
                 tokens.addLast(identifier);
                 continue;
             }
-
-            // detect operators
-            Operator op = detectOperator();
-            if (op != null) {
-                tokens.addLast(op);
-                continue;
-            }
-
 
             throw new SyntaxException(input.getLine(), input.getPos(), "invalid token");
 
@@ -86,8 +85,17 @@ public class Scanner {
         }
         else if (input.getCh() == '+')
             op = new BinaryOperator(OperatorType.ADD);
-        else if (input.getCh() == '-')
-            op = new BinaryOperator(OperatorType.SUB);
+        else if (input.getCh() == '-') {
+            if(tokens.isEmpty()||(tokens.getLast() instanceof Operator))
+                op=new UnaryOperator(OperatorType.NEGATIVE);
+            else if((tokens.getLast() instanceof Separator)
+                    &&((Separator) tokens.getLast()).getSeparatorType()!=SeparatorType.RIGHTPARENTHESES
+                    &&((Separator) tokens.getLast()).getSeparatorType()!=SeparatorType.RIGHTBRACKET
+                    &&((Separator) tokens.getLast()).getSeparatorType()!=SeparatorType.RIGHTBRACE)
+                    op=new UnaryOperator(OperatorType.NEGATIVE);
+            else
+                op = new BinaryOperator(OperatorType.SUB);
+        }
         else if (input.getCh() == '*')
             op = new BinaryOperator(OperatorType.MUL);
         else if (input.getCh() == '/')
