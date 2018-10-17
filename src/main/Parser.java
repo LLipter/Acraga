@@ -173,7 +173,13 @@ public class Parser {
         return null;
     }
 
+<<<<<<< HEAD
     private Expression detectExpression(){
+=======
+    private Expression detectExpression() throws SyntaxException{
+        // TODO:
+
+>>>>>>> 5c0b7192d430374c4d21174d34b0c08fe276bc36
 
         return null;
     }

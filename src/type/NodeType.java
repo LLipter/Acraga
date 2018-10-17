@@ -4,5 +4,4 @@ public enum NodeType {
     FUNCTION,
     STATEMENT,
     EXPRESSION
-
 }

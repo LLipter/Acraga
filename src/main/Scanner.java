@@ -76,6 +76,10 @@ public class Scanner {
             op = new BinaryOperator(OperatorType.LESSTHANOREQUAL);
             input.next();
         }
+        else if (input.getCh() == '=' && input.getNextCh() == '=') {
+            op = new BinaryOperator(OperatorType.EQUAL);
+            input.next();
+        }
         else if ((input.getCh() == '!' && input.getNextCh() == '=') || (input.getCh() == '<' && input.getNextCh() == '>')){
             op = new BinaryOperator(OperatorType.NOTEQUAL);
             input.next();
