@@ -18,6 +18,7 @@ public enum OperatorType {
 
 
     // unary operator
+    NEGATIVE,
     BITWISENEGATE;
 
 }
