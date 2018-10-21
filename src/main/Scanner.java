@@ -218,6 +218,12 @@ public class Scanner {
         return tokens.peekFirst();
     }
 
+    public Token getNextToken(){
+        if(tokens.size()<2)
+            return null;
+        return tokens.get(1);
+    }
+
     public boolean iseof() {
         return tokens.isEmpty();
     }

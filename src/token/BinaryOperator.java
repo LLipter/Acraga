@@ -1,11 +1,15 @@
 package token;
 
+import node.Expression;
 import type.OperatorType;
 
 public class BinaryOperator extends Operator {
 
     private Token operand1;
     private Token operand2;
+
+    private ExpressionToken lChild;
+    private ExpressionToken rChild;
 
     public BinaryOperator(OperatorType type) {
         super();
@@ -25,4 +29,19 @@ public class BinaryOperator extends Operator {
         return String.format("<BinaryOperator,%s>", operatorType);
     }
 
+    public void setlChild(ExpressionToken ExToken) {
+        lChild = ExToken;
+    }
+
+    public void setrChild(ExpressionToken ExToken) {
+        rChild = ExToken;
+    }
+
+    public ExpressionToken getlChild() {
+        return lChild;
+    }
+
+    public ExpressionToken getrChild() {
+        return rChild;
+    }
 }

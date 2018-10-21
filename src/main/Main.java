@@ -10,8 +10,7 @@ public class Main {
         InputReader input = new InputReader("input1.acg");
         Scanner scanner = new Scanner(input);
         scanner.print();
-
-
+        Parser parser=new Parser(scanner);
     }
 
 }

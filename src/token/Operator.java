@@ -1,5 +1,6 @@
 package token;
 
+import node.Expression;
 import type.OperatorType;
 import type.TokenType;
 
@@ -10,6 +11,7 @@ import java.util.HashMap;
 public abstract class Operator extends ExpressionToken {
 
     protected OperatorType operatorType;
+
     private static HashMap<OperatorType, Integer> priorityMap = new HashMap<OperatorType, Integer>();
 
     static{
