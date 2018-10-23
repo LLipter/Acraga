@@ -16,6 +16,12 @@ public class FunctionId extends Identifier {
         expressions.addLast(e);
     }
 
+    public ExpressionToken getParameter(int i){
+        if(expressions.size()<i+1)
+            return null;
+        return expressions.get(i);
+    }
+
     @Override
     public String toString() {
         return String.format("<FunctionId,%s>", fid);

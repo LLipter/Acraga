@@ -21,6 +21,8 @@ public class Parser {
         functionMap = new HashMap<FunctionSignature, Function>();
         updateLinePos();
         //parse();
+
+        //test
         ExpressionToken ex=detectExpression();
         test(ex);
     }
@@ -216,6 +218,12 @@ public class Parser {
                 && ((Separator) getToken()).getSeparatorType()==SeparatorType.LEFTPARENTHESES);
     }
 
+    private boolean detectComma(){
+        return (getToken()!=null
+                && getToken().getTokenType()==TokenType.SEPARATOR
+                &&((Separator) getToken()).getSeparatorType()==SeparatorType.COMMA);
+    }
+
     //stack operation (condition is checked in detectExpression)
     private void StackOperation(Stack<ExpressionToken> OperandSt,Operator op) throws SyntaxException{
         if(op instanceof BinaryOperator){
@@ -295,12 +303,17 @@ public class Parser {
                 Token tk=getToken();
                 FunctionId fid=new FunctionId(detectIdentifier());
                 OperandSt.push(fid);
+                //no parameters
+                if(getNextToken()!=null
+                        &&getNextToken().getTokenType()==TokenType.SEPARATOR
+                        &&((Separator) getNextToken()).getSeparatorType()==SeparatorType.RIGHTPARENTHESES) {
+                    next();
+                    continue;
+                }
                 do{
                     next();
                     fid.addExpression(detectExpression());
-                }while (getToken()!=null
-                        && getToken().getTokenType()==TokenType.SEPARATOR
-                        &&((Separator) getToken()).getSeparatorType()==SeparatorType.COMMA);
+                }while (detectComma());
                 if(!detectRightParentheses())
                     throw new SyntaxException(tk.getLines(),tk.getPos(),"Syntax Error");
                 else
