@@ -150,6 +150,32 @@ public class Parser {
         return true;
     }
 
+    // check whether current token belongs to separator
+    private boolean isSeparator() {
+        Token token = getToken();
+        if (token == null)
+            return false;
+        return token.getTokenType() == TokenType.SEPARATOR;
+    }
+
+    // check whether current token is certain separator
+    private boolean isSeparator(SeparatorType type) {
+        if(!isSeparator())
+            return false;
+        Separator operator = (Separator) getToken();
+        if (operator.getSeparatorType() != type)
+            return false;
+        return true;
+    }
+
+    // check whether current token is certain separator, if so remove it
+    private boolean detectSeparator(SeparatorType type) {
+        if(!isSeparator(type))
+            return false;
+        next();
+        return true;
+    }
+
     // check whether current token indicates a data type
     private ValueType detectDataType() {
         Token token = getToken();
@@ -190,7 +216,7 @@ public class Parser {
         return null;
     }
 
-    private boolean isIdOperator(OperatorType type){
+    private boolean isIdSeparator(SeparatorType type){
         Token token = getToken();
         if (token == null)
             return false;
@@ -201,18 +227,18 @@ public class Parser {
             return false;
         if (token.getTokenType() != TokenType.OPERATOR)
             return false;
-        Operator operator = (Operator) token;
-        if(operator.getOperatorType() != type)
+        Separator operator = (Separator) token;
+        if(operator.getSeparatorType() != type)
             return false;
         return true;
     }
 
     private boolean isFunctionId() {
-        return isIdOperator(OperatorType.LEFTPARENTHESES);
+        return isIdSeparator(SeparatorType.LEFTPARENTHESES);
     }
 
     private boolean isArrayId(){
-        return isIdOperator(OperatorType.LEFTBRACKET);
+        return isIdSeparator(SeparatorType.LEFTBRACKET);
     }
 
 
@@ -249,16 +275,16 @@ public class Parser {
 
         while (isExpressionToken()) {
             // Whenever meets "(" go recursion
-            if (isOperator(OperatorType.LEFTPARENTHESES)) {
+            if (isSeparator(SeparatorType.LEFTPARENTHESES)) {
                 Token tk = getToken();
                 next();
                 OperandSt.push(detectExpression());
-                if (!isOperator(OperatorType.RIGHTPARENTHESES))
+                if (!isSeparator(SeparatorType.RIGHTPARENTHESES))
                     throw new SyntaxException(tk.getLines(), tk.getPos(), "unmatched left parentheses");
                 next();
             }
             // Whenever meets ")" or "]" break recursion
-            else if (isOperator(OperatorType.RIGHTPARENTHESES) || isOperator(OperatorType.RIGHTBRACKET))
+            else if (isSeparator(SeparatorType.RIGHTPARENTHESES) || isSeparator(SeparatorType.RIGHTBRACKET))
                 break;
                 // Operator
             else if (isOperator()) {
@@ -290,7 +316,7 @@ public class Parser {
                 OperandSt.push(aid);
                 next();
                 aid.setIndex(detectExpression());
-                if(!isOperator(OperatorType.RIGHTBRACKET))
+                if(!isSeparator(SeparatorType.RIGHTBRACKET))
                     throw new SyntaxException(tk.getLines(),tk.getPos(),"unmatched left bracket");
                 next();
             }
@@ -303,16 +329,16 @@ public class Parser {
                 OperandSt.push(fid);
                 //no parameters
                 if (getNextToken() != null
-                        && getNextToken().getTokenType() == TokenType.OPERATOR
-                        && ((Operator) getNextToken()).getOperatorType() == OperatorType.RIGHTPARENTHESES) {
+                        && getNextToken().getTokenType() == TokenType.SEPARATOR
+                        && ((Separator) getNextToken()).getSeparatorType() == SeparatorType.RIGHTPARENTHESES) {
                     next();
                     continue;
                 }
                 do {
                     next();
                     fid.addParameter(detectExpression());
-                } while (isOperator(OperatorType.COMMA));
-                if (!isOperator(OperatorType.RIGHTPARENTHESES))
+                } while (isSeparator(SeparatorType.COMMA));
+                if (!isSeparator(SeparatorType.RIGHTPARENTHESES))
                     throw new SyntaxException(tk.getLines(), tk.getPos(), "unmatched left parentheses");
                 next();
             }
@@ -333,7 +359,7 @@ public class Parser {
         }
         return OperandSt.pop();
     }
-    
+
     //print the tree(just for testing)
     private void test(ExpressionToken ex) {
         if (ex != null) {

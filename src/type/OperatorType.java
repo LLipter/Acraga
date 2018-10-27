@@ -37,13 +37,6 @@ public enum OperatorType {
     NOT,
     NEGATIVESIGN,
     POSITIVESIGN,
-    BITWISENEGATE,
-
-    // separator
-    LEFTPARENTHESES,
-    RIGHTPARENTHESES,
-    LEFTBRACKET,
-    RIGHTBRACKET,
-    COMMA
+    BITWISENEGATE
 
 }

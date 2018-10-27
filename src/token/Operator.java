@@ -9,53 +9,42 @@ public abstract class Operator extends ExpressionToken {
 
     protected OperatorType operatorType;
 
-    private static HashMap<OperatorType, Integer> outStackPriorityMap = new HashMap<OperatorType, Integer>();
-    private static HashMap<OperatorType, Integer> inStackPriorityMap = new HashMap<OperatorType, Integer>();
+    private static HashMap<OperatorType, Integer> priorityMap = new HashMap<OperatorType, Integer>();
 
     static{
-        outStackPriorityMap.put(OperatorType.LEFTPARENTHESES,1);
-        outStackPriorityMap.put(OperatorType.LEFTBRACKET,1);
-        outStackPriorityMap.put(OperatorType.NEGATIVESIGN,2);
-        outStackPriorityMap.put(OperatorType.NOT,2);
-        outStackPriorityMap.put(OperatorType.BITWISENEGATE,2);
-        outStackPriorityMap.put(OperatorType.MOD,3);
-        outStackPriorityMap.put(OperatorType.DIV,3);
-        outStackPriorityMap.put(OperatorType.MUL,3);
-        outStackPriorityMap.put(OperatorType.ADD,4);
-        outStackPriorityMap.put(OperatorType.SUB,4);
-        outStackPriorityMap.put(OperatorType.LEFTSHIFTING,5);
-        outStackPriorityMap.put(OperatorType.RIGHTSHIFTING,5);
-        outStackPriorityMap.put(OperatorType.LESSTHAN,6);
-        outStackPriorityMap.put(OperatorType.LESSTHANOREQUAL,6);
-        outStackPriorityMap.put(OperatorType.GREATERTHAN,6);
-        outStackPriorityMap.put(OperatorType.GREATERTHANOREQUAL,6);
-        outStackPriorityMap.put(OperatorType.EQUAL,7);
-        outStackPriorityMap.put(OperatorType.NOTEQUAL,7);
-        outStackPriorityMap.put(OperatorType.BITWISEAND,8);
-        outStackPriorityMap.put(OperatorType.BITWISEXOR,9);
-        outStackPriorityMap.put(OperatorType.BITWISEOR,10);
-        outStackPriorityMap.put(OperatorType.LOGICALAND,11);
-        outStackPriorityMap.put(OperatorType.LOGICALOR,12);
-        outStackPriorityMap.put(OperatorType.ASSIGN,14);
-        outStackPriorityMap.put(OperatorType.ADDASSIGN,14);
-        outStackPriorityMap.put(OperatorType.SUBASSIGN,14);
-        outStackPriorityMap.put(OperatorType.MULASSIGN,14);
-        outStackPriorityMap.put(OperatorType.DIVASSIGN,14);
-        outStackPriorityMap.put(OperatorType.MODASSIGN,14);
-        outStackPriorityMap.put(OperatorType.BITWISEANDASSIGN,14);
-        outStackPriorityMap.put(OperatorType.BITWISEORASSIGN,14);
-        outStackPriorityMap.put(OperatorType.BITWISEXORASSIGN,14);
-        outStackPriorityMap.put(OperatorType.LEFTSHIFTINGASSIGN,14);
-        outStackPriorityMap.put(OperatorType.RIGHTSHIFTINGASSIGN,14);
-        outStackPriorityMap.put(OperatorType.COMMA,15);
-        outStackPriorityMap.put(OperatorType.RIGHTPARENTHESES,16);
-        outStackPriorityMap.put(OperatorType.RIGHTBRACKET,16);
+        priorityMap.put(OperatorType.NEGATIVESIGN,2);
+        priorityMap.put(OperatorType.NOT,2);
+        priorityMap.put(OperatorType.BITWISENEGATE,2);
+        priorityMap.put(OperatorType.MOD,3);
+        priorityMap.put(OperatorType.DIV,3);
+        priorityMap.put(OperatorType.MUL,3);
+        priorityMap.put(OperatorType.ADD,4);
+        priorityMap.put(OperatorType.SUB,4);
+        priorityMap.put(OperatorType.LEFTSHIFTING,5);
+        priorityMap.put(OperatorType.RIGHTSHIFTING,5);
+        priorityMap.put(OperatorType.LESSTHAN,6);
+        priorityMap.put(OperatorType.LESSTHANOREQUAL,6);
+        priorityMap.put(OperatorType.GREATERTHAN,6);
+        priorityMap.put(OperatorType.GREATERTHANOREQUAL,6);
+        priorityMap.put(OperatorType.EQUAL,7);
+        priorityMap.put(OperatorType.NOTEQUAL,7);
+        priorityMap.put(OperatorType.BITWISEAND,8);
+        priorityMap.put(OperatorType.BITWISEXOR,9);
+        priorityMap.put(OperatorType.BITWISEOR,10);
+        priorityMap.put(OperatorType.LOGICALAND,11);
+        priorityMap.put(OperatorType.LOGICALOR,12);
+        priorityMap.put(OperatorType.ASSIGN,14);
+        priorityMap.put(OperatorType.ADDASSIGN,14);
+        priorityMap.put(OperatorType.SUBASSIGN,14);
+        priorityMap.put(OperatorType.MULASSIGN,14);
+        priorityMap.put(OperatorType.DIVASSIGN,14);
+        priorityMap.put(OperatorType.MODASSIGN,14);
+        priorityMap.put(OperatorType.BITWISEANDASSIGN,14);
+        priorityMap.put(OperatorType.BITWISEORASSIGN,14);
+        priorityMap.put(OperatorType.BITWISEXORASSIGN,14);
+        priorityMap.put(OperatorType.LEFTSHIFTINGASSIGN,14);
+        priorityMap.put(OperatorType.RIGHTSHIFTINGASSIGN,14);
 
-        inStackPriorityMap = (HashMap<OperatorType, Integer>) outStackPriorityMap.clone();
-        inStackPriorityMap.put(OperatorType.LEFTPARENTHESES,16);
-        inStackPriorityMap.put(OperatorType.LEFTBRACKET,16);
-        inStackPriorityMap.put(OperatorType.RIGHTPARENTHESES,1);
-        inStackPriorityMap.put(OperatorType.RIGHTBRACKET,1);
 
     }
 
@@ -63,8 +52,8 @@ public abstract class Operator extends ExpressionToken {
         tokenType = TokenType.OPERATOR;
     }
 
-    public static boolean isPrioriThan(Operator outStackOp, Operator inStackOp) {
-        return outStackPriorityMap.get(outStackOp.getOperatorType()) < inStackPriorityMap.get(inStackOp.getOperatorType());
+    public static boolean isPrioriThan(Operator op1, Operator op2) {
+        return priorityMap.get(op1.getOperatorType()) < priorityMap.get(op2.getOperatorType());
     }
 
     public OperatorType getOperatorType() {

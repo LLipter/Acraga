@@ -125,23 +125,12 @@ public class Scanner {
             op = new BinaryOperator(OperatorType.BITWISEXOR);
         else if (preprocessor.isOperator("!"))
             op = new UnaryOperator(OperatorType.NOT);
-        else if (preprocessor.isOperator("("))
-            op = new UnaryOperator(OperatorType.LEFTPARENTHESES);
-        else if (preprocessor.isOperator(")"))
-            op = new UnaryOperator(OperatorType.RIGHTPARENTHESES);
-        else if (preprocessor.isOperator("["))
-            op = new UnaryOperator(OperatorType.LEFTBRACKET);
-        else if (preprocessor.isOperator("]"))
-            op = new UnaryOperator(OperatorType.RIGHTBRACKET);
-        else if (preprocessor.isOperator(","))
-            op = new UnaryOperator(OperatorType.COMMA);
         else if (preprocessor.isOperator("+")){
             if(tokens.isEmpty() || (tokens.getLast() instanceof Operator))
                 op = new UnaryOperator(OperatorType.POSITIVESIGN);
-            else if((tokens.getLast() instanceof Operator)
-                    &&((Operator) tokens.getLast()).getOperatorType()!= OperatorType.RIGHTPARENTHESES
-                    &&((Operator) tokens.getLast()).getOperatorType()!= OperatorType.RIGHTBRACKET
-                    || (tokens.getLast() instanceof Separator)
+            else if((tokens.getLast() instanceof Separator)
+                    &&((Separator) tokens.getLast()).getSeparatorType()!= SeparatorType.RIGHTPARENTHESES
+                    &&((Separator) tokens.getLast()).getSeparatorType()!= SeparatorType.RIGHTBRACKET
                     &&((Separator) tokens.getLast()).getSeparatorType()!= SeparatorType.RIGHTBRACE)
                 op = new UnaryOperator(OperatorType.POSITIVESIGN);
             else
@@ -150,10 +139,9 @@ public class Scanner {
         else if (preprocessor.isOperator("-")) {
             if(tokens.isEmpty() || (tokens.getLast() instanceof Operator))
                 op = new UnaryOperator(OperatorType.NEGATIVESIGN);
-            else if((tokens.getLast() instanceof Operator)
-                    &&((Operator) tokens.getLast()).getOperatorType() != OperatorType.RIGHTPARENTHESES
-                    &&((Operator) tokens.getLast()).getOperatorType() != OperatorType.RIGHTBRACKET
-                    || (tokens.getLast() instanceof Separator)
+            else if((tokens.getLast() instanceof Separator)
+                    &&((Separator) tokens.getLast()).getSeparatorType() != SeparatorType.RIGHTPARENTHESES
+                    &&((Separator) tokens.getLast()).getSeparatorType() != SeparatorType.RIGHTBRACKET
                     &&((Separator) tokens.getLast()).getSeparatorType() != SeparatorType.RIGHTBRACE)
                 op = new UnaryOperator(OperatorType.NEGATIVESIGN);
             else
@@ -176,6 +164,16 @@ public class Scanner {
             separator = new Separator(SeparatorType.LEFTBRACE);
         else if(preprocessor.getCh() == '}')
             separator = new Separator(SeparatorType.RIGHTBRACE);
+        else if(preprocessor.getCh() == '[')
+            separator = new Separator(SeparatorType.LEFTBRACKET);
+        else if(preprocessor.getCh() == ']')
+            separator = new Separator(SeparatorType.RIGHTBRACKET);
+        else if(preprocessor.getCh() == '(')
+            separator = new Separator(SeparatorType.LEFTPARENTHESES);
+        else if(preprocessor.getCh() == ')')
+            separator = new Separator(SeparatorType.RIGHTPARENTHESES);
+        else if(preprocessor.getCh() == ',')
+            separator = new Separator(SeparatorType.COMMA);
         else
             return null;
 
