@@ -22,11 +22,11 @@ public class Parser {
         updateLinePos();
         //parse();
 
-        //test function detectExpression()
+        //printExpressionTree function detectExpression()
         ExpressionToken ex = detectExpression();
         System.out.println();
         System.out.println("Tree:");
-        test(ex);
+        printExpressionTree(ex);
     }
 
     private void parse() throws SyntaxException {
@@ -124,25 +124,31 @@ public class Parser {
         }
     }
 
-    // check whether current token belongs to operator
-    private boolean isOperator() {
-        Token token = getToken();
+    // check whether a given token is operator
+    private boolean isOperator(Token token) {
         if (token == null)
             return false;
         return token.getTokenType() == TokenType.OPERATOR;
     }
 
-    // check whether current token is certain operator
-    private boolean isOperator(OperatorType type) {
-        if(!isOperator())
-            return false;
-        Operator operator = (Operator) getToken();
-        if (operator.getOperatorType() != type)
-            return false;
-        return true;
+    // check whether current token is operator
+    private boolean isOperator(){
+        return isOperator(getToken());
     }
 
-    // check whether current token is certain operator, if so remove it
+    // check whether a given token is certain operator
+    private boolean isOperator(Token token, OperatorType type){
+        if(!isOperator(token))
+            return false;
+        return ((Operator)token).getOperatorType() == type;
+    }
+
+    // check whether current token is certain operator
+    private boolean isOperator(OperatorType type) {
+        return isOperator(getToken(), type);
+    }
+
+    // check whether current token is certain operator. if so, remove it
     private boolean detectOperator(OperatorType type) {
         if(!isOperator(type))
             return false;
@@ -150,25 +156,31 @@ public class Parser {
         return true;
     }
 
-    // check whether current token belongs to separator
-    private boolean isSeparator() {
-        Token token = getToken();
+    // check whether a given token is separator
+    private boolean isSeparator(Token token) {
         if (token == null)
             return false;
         return token.getTokenType() == TokenType.SEPARATOR;
     }
 
-    // check whether current token is certain separator
-    private boolean isSeparator(SeparatorType type) {
-        if(!isSeparator())
-            return false;
-        Separator operator = (Separator) getToken();
-        if (operator.getSeparatorType() != type)
-            return false;
-        return true;
+    // check whether current token is separator
+    private boolean isSeparator(){
+        return isSeparator(getToken());
     }
 
-    // check whether current token is certain separator, if so remove it
+    // check whether a given token is certain separator
+    private boolean isSeparator(Token token, SeparatorType type){
+        if(!isSeparator(token))
+            return false;
+        return ((Separator)token).getSeparatorType() == type;
+    }
+
+    // check whether current token is certain separator
+    private boolean isSeparator(SeparatorType type) {
+        return isSeparator(getToken(), type);
+    }
+
+    // check whether current token is certain separator. if so, remove it
     private boolean detectSeparator(SeparatorType type) {
         if(!isSeparator(type))
             return false;
@@ -208,11 +220,16 @@ public class Parser {
         Token token = getToken();
         if (token == null)
             return false;
-        return ((token instanceof ExpressionToken)
-                || (token instanceof Separator && ((Separator) token).getSeparatorType() == SeparatorType.LEFTPARENTHESES)
-                || (token instanceof Separator && ((Separator) token).getSeparatorType() == SeparatorType.RIGHTPARENTHESES)
-                || (token instanceof Separator && ((Separator) token).getSeparatorType() == SeparatorType.LEFTBRACKET)
-                || (token instanceof Separator && ((Separator) token).getSeparatorType() == SeparatorType.RIGHTBRACKET));
+        if (token instanceof ExpressionToken)
+            return true;
+        if (token instanceof Separator){
+            Separator separator = (Separator)token;
+            return separator.getSeparatorType() == SeparatorType.LEFTPARENTHESES
+                    || separator.getSeparatorType() == SeparatorType.RIGHTPARENTHESES
+                    || separator.getSeparatorType() == SeparatorType.LEFTBRACKET
+                    || separator.getSeparatorType() == SeparatorType.RIGHTBRACKET;
+        }
+        return false;
     }
 
     private Statement detectStatement() {
@@ -220,6 +237,7 @@ public class Parser {
         return null;
     }
 
+    // check whether current token is a identifier, and next token is a certain separator
     private boolean isIdSeparator(SeparatorType type){
         Token token = getToken();
         if (token == null)
@@ -237,15 +255,6 @@ public class Parser {
         return true;
     }
 
-    private boolean isFunctionId() {
-        return isIdSeparator(SeparatorType.LEFTPARENTHESES);
-    }
-
-    private boolean isArrayId(){
-        return isIdSeparator(SeparatorType.LEFTBRACKET);
-    }
-
-
     // stack operation (condition is checked in detectExpression)
     private void StackOperation(Stack<ExpressionToken> OperandSt, Operator op) throws SyntaxException {
         if (op instanceof BinaryOperator) {
@@ -257,7 +266,7 @@ public class Parser {
                 BinaryOp.setrChild(ExToken2);
                 OperandSt.push(BinaryOp);
             } else
-                throw new SyntaxException(op.getLines(), op.getPos(), "illegal expression");
+                throw new SyntaxException(op.getLines(), op.getPos(), "missing operand");
         } else {
             if (!OperandSt.isEmpty()) {
                 UnaryOperator UnaryOp = (UnaryOperator) op;
@@ -265,7 +274,7 @@ public class Parser {
                 UnaryOp.setChild(ExToken);
                 OperandSt.push(UnaryOp);
             } else
-                throw new SyntaxException(op.getLines(), op.getPos(), "illegal expression");
+                throw new SyntaxException(op.getLines(), op.getPos(), "missing operand");
         }
     }
 
@@ -290,7 +299,7 @@ public class Parser {
             // Whenever meets ")" or "]" break recursion
             else if (isSeparator(SeparatorType.RIGHTPARENTHESES) || isSeparator(SeparatorType.RIGHTBRACKET))
                 break;
-                // Operator
+            // Operator
             else if (isOperator()) {
                 Operator op = (Operator) getToken();
                 if (OperatorSt.isEmpty()) {
@@ -311,8 +320,8 @@ public class Parser {
                     next();
                 }
             }
-            //detect array
-            else if (isArrayId()){
+            // detect array
+            else if (isIdSeparator(SeparatorType.LEFTBRACKET)){
                 Token tk = getToken();
                 String id= detectIdentifier();
                 ArrayId aid = new ArrayId();
@@ -324,17 +333,15 @@ public class Parser {
                     throw new SyntaxException(tk.getLines(),tk.getPos(),"unmatched left bracket");
                 next();
             }
-            //detect function
-            else if (isFunctionId()) {
+            // detect function
+            else if (isIdSeparator(SeparatorType.LEFTPARENTHESES)) {
                 Token tk = getToken();
                 String id = detectIdentifier();
                 FunctionId fid = new FunctionId();
                 fid.setId(id);
                 OperandSt.push(fid);
-                //no parameters
-                if (getNextToken() != null
-                        && getNextToken().getTokenType() == TokenType.SEPARATOR
-                        && ((Separator) getNextToken()).getSeparatorType() == SeparatorType.RIGHTPARENTHESES) {
+                // no parameters
+                if (isSeparator(getNextToken(), SeparatorType.RIGHTPARENTHESES)) {
                     next();
                     continue;
                 }
@@ -346,11 +353,9 @@ public class Parser {
                     throw new SyntaxException(tk.getLines(), tk.getPos(), "unmatched left parentheses");
                 next();
             }
-            //Operand(value or identifier)
+            // Operand(value or identifier)
             else {
-                int a = 10;
-                ExpressionToken ExToken = ((ExpressionToken) getToken());
-                OperandSt.push(ExToken);
+                OperandSt.push((ExpressionToken)getToken());
                 next();
             }
         }
@@ -359,21 +364,21 @@ public class Parser {
             Operator op = OperatorSt.pop();
             StackOperation(OperandSt, op);
         }
-        if (OperandSt.size() != 1 || !OperatorSt.isEmpty()) {
-            throw new SyntaxException(token.getLines(), token.getPos(), "illegal expression");
+        if (OperandSt.size() > 1) {
+            throw new SyntaxException(token.getLines(), token.getPos(), "redundant operand");
         }
         return OperandSt.pop();
     }
 
     //print the tree(just for testing)
-    private void test(ExpressionToken ex) {
+    private void printExpressionTree(ExpressionToken ex) {
         if (ex != null) {
             System.out.println(ex);
             if (ex instanceof BinaryOperator) {
-                test(((BinaryOperator) ex).getlChild());
-                test(((BinaryOperator) ex).getrChild());
+                printExpressionTree(((BinaryOperator) ex).getlChild());
+                printExpressionTree(((BinaryOperator) ex).getrChild());
             } else if (ex instanceof UnaryOperator)
-                test(((UnaryOperator) ex).getChild());
+                printExpressionTree(((UnaryOperator) ex).getChild());
         }
     }
 

@@ -23,6 +23,16 @@ public class FunctionId extends Identifier {
 
     @Override
     public String toString() {
-        return String.format("<FunctionId,%s>", id);
+        StringBuffer sb = new StringBuffer();
+        sb.append(id);
+        sb.append("(");
+        for(ExpressionToken extoken : parameters){
+            sb.append(extoken.toString());
+            sb.append(",");
+        }
+        if(parameters.size() > 0)
+            sb.deleteCharAt(sb.length()-1);
+        sb.append(")");
+        return String.format("<FunctionId,%s>", sb.toString());
     }
 }
