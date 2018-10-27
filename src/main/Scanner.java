@@ -186,22 +186,22 @@ public class Scanner {
     // detect separator
     public Separator detectSeparator() {
         Separator separator;
-        if (preprocessor.getCh() == '(')
-            separator = new Separator(SeparatorType.LEFTPARENTHESES);
-        else if (preprocessor.getCh() == ')')
-            separator = new Separator(SeparatorType.RIGHTPARENTHESES);
+        if (preprocessor.getCh() == '{')
+            separator = new Separator(SeparatorType.LEFTBRACE);
+        else if (preprocessor.getCh() == '}')
+            separator = new Separator(SeparatorType.RIGHTBRACE);
         else if (preprocessor.getCh() == '[')
             separator = new Separator(SeparatorType.LEFTBRACKET);
         else if (preprocessor.getCh() == ']')
             separator = new Separator(SeparatorType.RIGHTBRACKET);
-        else if (preprocessor.getCh() == '{')
-            separator = new Separator(SeparatorType.LEFTBRACE);
-        else if (preprocessor.getCh() == '}')
-            separator = new Separator(SeparatorType.RIGHTBRACE);
-        else if (preprocessor.getCh() == ';')
-            separator = new Separator(SeparatorType.SEMICOLON);
+        else if (preprocessor.getCh() == '(')
+            separator = new Separator(SeparatorType.LEFTPARENTHESES);
+        else if (preprocessor.getCh() == ')')
+            separator = new Separator(SeparatorType.RIGHTPARENTHESES);
         else if (preprocessor.getCh() == ',')
             separator = new Separator(SeparatorType.COMMA);
+        else if (preprocessor.getCh() == ';')
+            separator = new Separator(SeparatorType.SEMICOLON);
         else
             return null;
         separator.setLines(preprocessor.getLine());
@@ -252,7 +252,7 @@ public class Scanner {
     }
 
     public Token getNextToken(){
-        if(tokens.size()<2)
+        if(tokens.size() < 2)
             return null;
         return tokens.get(1);
     }

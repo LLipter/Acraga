@@ -1,6 +1,6 @@
 package type;
 
-public enum SeparatorType {
+public enum SeparatorType{
     LEFTPARENTHESES,
     RIGHTPARENTHESES,
     LEFTBRACKET,

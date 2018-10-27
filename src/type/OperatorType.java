@@ -37,6 +37,9 @@ public enum OperatorType {
     NOT,
     NEGATIVESIGN,
     POSITIVESIGN,
-    BITWISENEGATE;
+    BITWISENEGATE,
+
+    // separator
+    SEPARATOR
 
 }

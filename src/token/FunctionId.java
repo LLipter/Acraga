@@ -6,9 +6,8 @@ import java.util.LinkedList;
 public class FunctionId extends Identifier {
     private LinkedList<ExpressionToken> parameters;
 
-    public FunctionId(String functionid){
+    public FunctionId(){
         super();
-        id = functionid;
         parameters =new LinkedList<>();
     }
 

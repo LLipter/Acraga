@@ -181,7 +181,7 @@ public class Parser {
         return result;
     }
 
-    // check whether current token is a indicator
+    // check whether current token is a identifier
     private String detectIdentifier() {
         Token token = getToken();
         if (token == null)

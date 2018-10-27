@@ -1,15 +1,17 @@
 package token;
 
-import type.SeparatorType;
+import type.OperatorType;
 import type.TokenType;
+import type.SeparatorType;
 
-public class Separator extends Token {
+public class Separator extends Operator {
     protected SeparatorType separatorType;
 
 
     public Separator(SeparatorType sType) {
-        tokenType = TokenType.SEPARATOR;
+        super();
         separatorType = sType;
+        operatorType = OperatorType.SEPARATOR;
     }
 
     @Override
