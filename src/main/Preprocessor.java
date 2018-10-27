@@ -170,7 +170,7 @@ public class Preprocessor {
         return isUpper(getCh());
     }
 
-    public Value isHexInteger() {
+    private Value isHexInteger() {
         if (buffer.size() < 3)
             return null;
         if (buffer.get(0) != '0')
@@ -199,7 +199,7 @@ public class Preprocessor {
 
     }
 
-    public Value isDecInteger() {
+    private Value isDecInteger() {
         boolean isPositive;
         if (getCh() == '+' && isDigit(buffer.get(1))) {
             isPositive = true;
@@ -227,7 +227,39 @@ public class Preprocessor {
         return value;
     }
 
-    public Value isInteger() {
+    private Value isCharInteger() throws SyntaxException{
+        int ch = getCh();
+        if(ch != '\'')
+            return null;
+        next();
+        ch = getCh();
+        if (ch == -1 || ch == '\n')
+            throwException("missing character");
+        if (ch == '\\'){
+            next();
+            ch = getCh();
+            if (ch == -1 || ch == '\n')
+                throwException("missing escape character");
+            if (ch == 'n')
+                ch = '\n';
+            else if (ch == 't')
+                ch = '\t';
+            else if (ch != '"' && ch != '\'' && ch != '\\')
+                throwException("undefined escape character");
+        }
+        Value value = new Value(ValueType.INTEGER);
+        value.setIntValue(ch);
+
+        next();
+        ch = getCh();
+        if(ch == '\n' || ch == -1 || ch != '\'')
+            throwException("missing right quote");
+        next();
+
+        return value;
+    }
+
+    private Value isInteger() throws SyntaxException{
         Value value;
 
         value = isHexInteger();
@@ -235,6 +267,10 @@ public class Preprocessor {
             return value;
 
         value = isDecInteger();
+        if (value != null)
+            return value;
+
+        value = isCharInteger();
         if (value != null)
             return value;
 
@@ -316,7 +352,7 @@ public class Preprocessor {
             if (ch == '\\'){
                 next();
                 ch = getCh();
-                if (ch == -1)
+                if (ch == -1 || ch == '\n')
                     throwException("missing escape character");
                 if (ch == 'n')
                     ch = '\n';
