@@ -6,15 +6,36 @@ import token.Value;
 import type.ValueType;
 
 import java.io.*;
+import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.util.Iterator;
 import java.util.LinkedList;
-import java.util.ListIterator;
+import java.util.HashMap;
 
 public class Preprocessor {
 
     private LinkedList<Integer> buffer;
     private int line;
     private int pos;
+    private static HashMap<Integer, BigInteger> bigIntegerDict;
+    private static BigInteger SIXTEEN = new BigInteger("16");
+
+    static{
+        bigIntegerDict = new HashMap<>();
+        for(int i='A';i<='F';i++){
+            Integer number = i - 'A' + 10;
+            BigInteger value = new BigInteger(number.toString());
+            bigIntegerDict.put(i, value);
+            int diff = 'a' - 'A';
+            bigIntegerDict.put(i + diff, value);
+        }
+
+        for(int i='0';i<='9';i++){
+            Integer number = i - '0';
+            BigInteger value = new BigInteger(number.toString());
+            bigIntegerDict.put(i, value);
+        }
+    }
 
     private void throwException(String msg) throws SyntaxException{
         throw new SyntaxException(line, pos, msg);
@@ -111,44 +132,15 @@ public class Preprocessor {
             next();
     }
 
-    public boolean isKeyword(String keyword) {
-        int len = keyword.length();
-        if (buffer.size() < len)
-            return false;
-
-        int[] chs = new int[len + 1];
-        Iterator<Integer> it = buffer.iterator();
-        for (int i = 0; i < len; i++)
-            chs[i] = it.next();
-        if (buffer.size() == len)
-            chs[len] = -1;
-        else
-            chs[len] = it.next();
-
-        for (int i = 0; i < len; i++) {
-            if ((int) keyword.charAt(i) != chs[i])
-                return false;
-        }
-        if (isIdAlphabet(chs[len]))
-            return false;
-
-        // if detect keyword successfully, remove all of these characters from input stream
-        for (int i = 0; i < len; i++)
-            next();
-
-        return true;
-
-    }
-
-    public boolean isDigit(int ch) {
+    private boolean isDigit(int ch) {
         return Character.isDigit(ch);
     }
 
-    public boolean isDigit() {
+    private boolean isDigit() {
         return isDigit(getCh());
     }
 
-    public boolean isHexDigit(int ch) {
+    private boolean isHexDigit(int ch) {
         if (isDigit(ch))
             return true;
         if (ch >= 'A' && ch <= 'F')
@@ -158,16 +150,32 @@ public class Preprocessor {
         return false;
     }
 
-    public boolean isHexDigit() {
+    private boolean isHexDigit() {
         return isHexDigit(getCh());
     }
 
-    public boolean isUpper(int ch) {
+    private boolean isUpper(int ch) {
         return Character.isUpperCase(ch);
     }
 
-    public boolean isUpper() {
+    private boolean isUpper() {
         return isUpper(getCh());
+    }
+
+    private boolean isLetter(int ch) {
+        return Character.isLetter(ch);
+    }
+
+    private boolean isLetter() {
+        return isLetter(getCh());
+    }
+
+    private boolean isIdAlphabet(int ch) {
+        return isDigit(ch) || isLetter(ch) || ch == '_';
+    }
+
+    private boolean isIdAlphabet() {
+        return isIdAlphabet(getCh());
     }
 
     private Value isHexInteger() {
@@ -182,18 +190,13 @@ public class Preprocessor {
 
         next();
         next();
-        Value value = new Value(ValueType.INTEGER);
-        int intValue = 0;
+        BigInteger intValue = BigInteger.ZERO;
         while (isHexDigit()) {
-            intValue *= 16;
-            if (isDigit())
-                intValue += getCh() - '0';
-            else if (isUpper())
-                intValue += getCh() - 'A' + 10;
-            else
-                intValue += getCh() - 'a' + 10;
+            intValue = intValue.multiply(SIXTEEN);
+            intValue = intValue.add(bigIntegerDict.get(getCh()));
             next();
         }
+        Value value = new Value(ValueType.INTEGER);
         value.setIntValue(intValue);
         return value;
 
@@ -212,17 +215,18 @@ public class Preprocessor {
         else
             return null;
 
-        Value value = new Value(ValueType.INTEGER);
-        int intValue = 0;
 
+        BigInteger intValue = BigInteger.ZERO;
         while (isDigit()) {
-            intValue *= 10;
-            intValue += getCh() - '0';
+            intValue = intValue.multiply(BigInteger.TEN);
+            intValue = intValue.add(bigIntegerDict.get(getCh()));
             next();
         }
 
         if (!isPositive)
-            intValue *= -1;
+            intValue = intValue.negate();
+
+        Value value = new Value(ValueType.INTEGER);
         value.setIntValue(intValue);
         return value;
     }
@@ -248,7 +252,8 @@ public class Preprocessor {
                 throwException("undefined escape character");
         }
         Value value = new Value(ValueType.INTEGER);
-        value.setIntValue(ch);
+        Integer chValue = ch;
+        value.setIntValue(new BigInteger(chValue.toString()));
 
         next();
         ch = getCh();
@@ -289,7 +294,7 @@ public class Preprocessor {
             return intPart;
         }
 
-        double result = intPart.getIntValue();
+        BigDecimal result = new BigDecimal(intPart.getIntValue());
 
         // decimal number
         if(getCh() == '.'){
@@ -299,13 +304,13 @@ public class Preprocessor {
                 throw new SyntaxException(line, pos, "missing fraction part number");
             if(getCh() != 'e' && getCh() != 'E' && isIdAlphabet())
                 throw new SyntaxException(line, pos, "invalid float point number");
-            double fractionValue = fractionPart.getIntValue();
-            while(fractionValue >= 1)
-                fractionValue /= 10;
-            if(intPart.getIntValue() >= 0)
-                result += fractionValue;
+            BigDecimal fractionValue = new BigDecimal(fractionPart.getIntValue());
+            while(fractionValue.compareTo(BigDecimal.ONE) == 1)
+                fractionValue = fractionValue.divide(BigDecimal.TEN);
+            if(intPart.getIntValue().compareTo(BigInteger.ZERO) == 1)
+                result = result.add(fractionValue);
             else
-                result -= fractionValue;
+                result = result.subtract(fractionValue);
         }
 
         // scientific number
@@ -316,7 +321,12 @@ public class Preprocessor {
                 throw new SyntaxException(line, pos, "missing exponent part number");
             if(isIdAlphabet())
                 throw new SyntaxException(line, pos, "invalid scientific representation");
-            result = result * Math.pow(10, expPart.getIntValue());
+            BigDecimal divisor = BigDecimal.ZERO;
+            while(expPart.getIntValue().compareTo(BigInteger.ZERO) == 1){
+                divisor = divisor.multiply(BigDecimal.TEN);
+                expPart.setIntValue(expPart.getIntValue().subtract(BigInteger.ONE));
+            }
+            result = result.multiply(divisor);
         }
 
         Value value = new Value(ValueType.DOUBLE);
@@ -370,22 +380,6 @@ public class Preprocessor {
 
     }
 
-    public boolean isLetter(int ch) {
-        return Character.isLetter(ch);
-    }
-
-    public boolean isLetter() {
-        return isLetter(getCh());
-    }
-
-    public boolean isIdAlphabet(int ch) {
-        return isDigit(ch) || isLetter(ch) || ch == '_';
-    }
-
-    public boolean isIdAlphabet() {
-        return isIdAlphabet(getCh());
-    }
-
     public Identifier isIdentifier() {
         if (getCh() != '_' && !isLetter())
             return null;
@@ -401,5 +395,33 @@ public class Preprocessor {
         return identifier;
     }
 
+    public boolean isKeyword(String keyword) {
+        int len = keyword.length();
+        if (buffer.size() < len)
+            return false;
+
+        int[] chs = new int[len + 1];
+        Iterator<Integer> it = buffer.iterator();
+        for (int i = 0; i < len; i++)
+            chs[i] = it.next();
+        if (buffer.size() == len)
+            chs[len] = -1;
+        else
+            chs[len] = it.next();
+
+        for (int i = 0; i < len; i++) {
+            if ((int) keyword.charAt(i) != chs[i])
+                return false;
+        }
+        if (isIdAlphabet(chs[len]))
+            return false;
+
+        // if detect keyword successfully, remove all of these characters from input stream
+        for (int i = 0; i < len; i++)
+            next();
+
+        return true;
+
+    }
 
 }

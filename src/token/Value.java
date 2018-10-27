@@ -3,11 +3,14 @@ package token;
 import type.TokenType;
 import type.ValueType;
 
+import java.math.BigDecimal;
+import java.math.BigInteger;
+
 public class Value extends ExpressionToken {
 
     private ValueType valueType;
-    private int intValue;
-    private double doubleValue;
+    private BigInteger intValue;
+    private BigDecimal doubleValue;
     private boolean boolValue;
     private String stringValue;
 
@@ -16,19 +19,19 @@ public class Value extends ExpressionToken {
         valueType = type;
     }
 
-    public int getIntValue() {
+    public BigInteger getIntValue() {
         return intValue;
     }
 
-    public void setIntValue(int intValue) {
+    public void setIntValue(BigInteger intValue) {
         this.intValue = intValue;
     }
 
-    public double getDoubleValue() {
+    public BigDecimal getDoubleValue() {
         return doubleValue;
     }
 
-    public void setDoubleValue(double doubleValue) {
+    public void setDoubleValue(BigDecimal doubleValue) {
         this.doubleValue = doubleValue;
     }
 
@@ -79,9 +82,9 @@ public class Value extends ExpressionToken {
 
     public void setDefaultValue(){
         if(isInt())
-            setIntValue(0);
+            setIntValue(BigInteger.ZERO);
         else if(isDouble())
-            setDoubleValue(0.0);
+            setDoubleValue(BigDecimal.ZERO);
         else if(isBool())
             setBoolValue(false);
         else if(isString())
