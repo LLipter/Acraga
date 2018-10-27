@@ -237,8 +237,6 @@ public class Preprocessor {
         return null;
     }
 
-
-
     public Value isNumber() throws SyntaxException{
         Value intPart = isInteger();
         if(intPart == null)
@@ -286,8 +284,6 @@ public class Preprocessor {
         return value;
     }
 
-
-
     public Value isBool() {
         Value value = new Value(ValueType.BOOLEAN);
         if (isKeyword("true"))
@@ -300,33 +296,31 @@ public class Preprocessor {
         return value;
     }
 
-    public Value isString() {
+    public Value isString() throws SyntaxException{
         if (getCh() != '"')
             return null;
 
-        int len = buffer.size();
-        int i = 1;
-        for (; i < len; i++) {
-            int ch = buffer.get(i);
-            if (ch == '\n')
-                return null;
+        Iterator<Integer> it = buffer.iterator();
+        it.next();
+        while(true){
+            int ch = it.next();
             if (ch == '"')
                 break;
+            if (ch == '\n' && !it.hasNext())
+                throw new SyntaxException(line, pos, "missing right quote");
         }
-        if (i == len)
-            return null;
 
         Value value = new Value(ValueType.STRING);
-        char[] chs = new char[i - 1];
+        StringBuffer sb = new StringBuffer();
         next();
-        for (int j = 0; j < i - 1; j++) {
-            chs[j] = (char) getCh();
+        int ch;
+        while((ch = getCh()) != '"'){
+            sb.append((char)ch);
             next();
         }
         next();
-        value.setStringValue(String.valueOf(chs));
+        value.setStringValue(sb.toString());
         return value;
-
     }
 
     public boolean isLetter(int ch) {
