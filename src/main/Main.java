@@ -1,6 +1,9 @@
 package main;
 
 import exception.SyntaxException;
+import token.ExpressionToken;
+import token.Value;
+import type.ValueType;
 
 public class Main {
 
@@ -10,7 +13,11 @@ public class Main {
         Preprocessor input = new Preprocessor("input1.acg");
         Scanner scanner = new Scanner(input);
         scanner.print();
-//        Parser parser=new Parser(scanner);
+        Parser parser=new Parser(scanner);
+
+        Value v = new Value(ValueType.INTEGER);
+        ExpressionToken exp = (ExpressionToken) v;
+
     }
 
 }

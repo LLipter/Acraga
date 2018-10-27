@@ -208,7 +208,11 @@ public class Parser {
         Token token = getToken();
         if (token == null)
             return false;
-        return token instanceof ExpressionToken;
+        return ((token instanceof ExpressionToken)
+                || (token instanceof Separator && ((Separator) token).getSeparatorType() == SeparatorType.LEFTPARENTHESES)
+                || (token instanceof Separator && ((Separator) token).getSeparatorType() == SeparatorType.RIGHTPARENTHESES)
+                || (token instanceof Separator && ((Separator) token).getSeparatorType() == SeparatorType.LEFTBRACKET)
+                || (token instanceof Separator && ((Separator) token).getSeparatorType() == SeparatorType.RIGHTBRACKET));
     }
 
     private Statement detectStatement() {
@@ -225,7 +229,7 @@ public class Parser {
         token = getNextToken();
         if (token == null)
             return false;
-        if (token.getTokenType() != TokenType.OPERATOR)
+        if (token.getTokenType() != TokenType.SEPARATOR)
             return false;
         Separator operator = (Separator) token;
         if(operator.getSeparatorType() != type)
@@ -344,6 +348,7 @@ public class Parser {
             }
             //Operand(value or identifier)
             else {
+                int a = 10;
                 ExpressionToken ExToken = ((ExpressionToken) getToken());
                 OperandSt.push(ExToken);
                 next();

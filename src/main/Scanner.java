@@ -23,9 +23,11 @@ public class Scanner {
             if (this.preprocessor.iseof())
                 break;
 
+
             // detect separators
             Separator separator = detectSeparator();
             if (separator != null) {
+                System.out.println(separator);
                 tokens.addLast(separator);
                 continue;
             }
@@ -59,6 +61,8 @@ public class Scanner {
             }
 
             throw new SyntaxException(this.preprocessor.getLine(), this.preprocessor.getPos(), "invalid token");
+
+
 
         }
     }
@@ -179,7 +183,7 @@ public class Scanner {
 
         separator.setLines(preprocessor.getLine());
         separator.setPos(preprocessor.getPos());
-        next();
+        preprocessor.next();
         return separator;
     }
 
