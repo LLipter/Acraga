@@ -17,6 +17,7 @@ public class Value extends ExpressionToken {
     public Value(ValueType type) {
         tokenType = TokenType.VALUE;
         valueType = type;
+        setDefaultValue();
     }
 
     public BigInteger getIntValue() {
