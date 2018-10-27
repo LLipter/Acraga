@@ -15,10 +15,17 @@ public enum OperatorType {
     LESSTHANOREQUAL,
     EQUAL,
     NOTEQUAL,
+    AND,
+    OR,
+    XOR,
+    BITWISEAND,
+    BITWISEOR,
+    BITWISEXOR,
 
 
     // unary operator
-    NEGATIVE,
+    NEGATIVESIGN,
+    POSITIVESIGN,
     BITWISENEGATE;
 
 }

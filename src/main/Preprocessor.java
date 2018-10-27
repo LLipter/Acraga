@@ -94,14 +94,6 @@ public class Preprocessor {
         return buffer.isEmpty();
     }
 
-    public boolean isWhiteSpace() {
-        return isWhiteSpace(getCh());
-    }
-
-    public boolean isWhiteSpace(int ch) {
-        return ch == ' ' || ch == '\t' || ch == '\n' || ch == -1;
-    }
-
     public void next() {
         if (iseof())
             return;
@@ -117,14 +109,6 @@ public class Preprocessor {
         if (iseof())
             return -1;
         return buffer.getFirst();
-    }
-
-    public int getNextCh() {
-        if (iseof())
-            return -1;
-        if(buffer.size()<2)
-            return -1;
-        return buffer.get(1);
     }
 
     public void nextNotWhiteSpace() {
@@ -154,14 +138,6 @@ public class Preprocessor {
         return isHexDigit(getCh());
     }
 
-    private boolean isUpper(int ch) {
-        return Character.isUpperCase(ch);
-    }
-
-    private boolean isUpper() {
-        return isUpper(getCh());
-    }
-
     private boolean isLetter(int ch) {
         return Character.isLetter(ch);
     }
@@ -176,6 +152,14 @@ public class Preprocessor {
 
     private boolean isIdAlphabet() {
         return isIdAlphabet(getCh());
+    }
+
+    private boolean isWhiteSpace() {
+        return isWhiteSpace(getCh());
+    }
+
+    private boolean isWhiteSpace(int ch) {
+        return ch == ' ' || ch == '\t' || ch == '\n' || ch == -1;
     }
 
     private Value isHexInteger() {
@@ -317,14 +301,22 @@ public class Preprocessor {
         if(getCh() == 'e' || getCh() == 'E'){
             next();
             Value expPart = isDecInteger();
+            System.out.println(expPart.getIntValue());
             if(expPart == null)
                 throw new SyntaxException(line, pos, "missing exponent part number");
             if(isIdAlphabet())
                 throw new SyntaxException(line, pos, "invalid scientific representation");
-            BigDecimal divisor = BigDecimal.ZERO;
-            while(expPart.getIntValue().compareTo(BigInteger.ZERO) == 1){
-                divisor = divisor.multiply(BigDecimal.TEN);
-                expPart.setIntValue(expPart.getIntValue().subtract(BigInteger.ONE));
+            BigDecimal divisor = BigDecimal.ONE;
+            if(expPart.getIntValue().compareTo(BigInteger.ZERO) == 1){
+                while(expPart.getIntValue().compareTo(BigInteger.ZERO) == 1){
+                    divisor = divisor.multiply(BigDecimal.TEN);
+                    expPart.setIntValue(expPart.getIntValue().subtract(BigInteger.ONE));
+                }
+            }else{
+                while(expPart.getIntValue().compareTo(BigInteger.ZERO) == -1){
+                    divisor = divisor.divide(BigDecimal.TEN);
+                    expPart.setIntValue(expPart.getIntValue().add(BigInteger.ONE));
+                }
             }
             result = result.multiply(divisor);
         }
@@ -421,7 +413,28 @@ public class Preprocessor {
             next();
 
         return true;
+    }
 
+    public boolean isOperator(String operator){
+        int len = operator.length();
+        if (buffer.size() < len)
+            return false;
+
+        int[] chs = new int[len];
+        Iterator<Integer> it = buffer.iterator();
+        for (int i = 0; i < len; i++)
+            chs[i] = it.next();
+
+        for (int i = 0; i < len; i++) {
+            if ((int) operator.charAt(i) != chs[i])
+                return false;
+        }
+
+        // if detect operator successfully, remove all of these characters from input stream
+        for (int i = 0; i < len; i++)
+            next();
+
+        return true;
     }
 
 }

@@ -67,55 +67,67 @@ public class Scanner {
     public Operator detectOperator() {
         Operator op;
 
-        if (preprocessor.getCh() == '>' && preprocessor.getNextCh() == '=') {
+        if (preprocessor.isOperator(">="))
             op = new BinaryOperator(OperatorType.GREATERTHANOREQUAL);
-            preprocessor.next();
-        }
-        else if (preprocessor.getCh() == '<' && preprocessor.getNextCh() == '=') {
+        else if (preprocessor.isOperator("<="))
             op = new BinaryOperator(OperatorType.LESSTHANOREQUAL);
-            preprocessor.next();
-        }
-        else if (preprocessor.getCh() == '=' && preprocessor.getNextCh() == '=') {
+        else if (preprocessor.isOperator("=="))
             op = new BinaryOperator(OperatorType.EQUAL);
-            preprocessor.next();
-        }
-        else if ((preprocessor.getCh() == '!' && preprocessor.getNextCh() == '=') || (preprocessor.getCh() == '<' && preprocessor.getNextCh() == '>')){
+        else if (preprocessor.isOperator("!=") || preprocessor.isOperator("<>"))
             op = new BinaryOperator(OperatorType.NOTEQUAL);
-            preprocessor.next();
-        }
-        else if (preprocessor.getCh() == '+')
-            op = new BinaryOperator(OperatorType.ADD);
-        else if (preprocessor.getCh() == '-') {
-            if(tokens.isEmpty()||(tokens.getLast() instanceof Operator))
-                op=new UnaryOperator(OperatorType.NEGATIVE);
+        else if (preprocessor.isOperator("&&"))
+            op = new BinaryOperator(OperatorType.AND);
+        else if (preprocessor.isOperator("||"))
+            op = new BinaryOperator(OperatorType.OR);
+        else if (preprocessor.isOperator("^^"))
+            op = new BinaryOperator(OperatorType.XOR);
+        else if (preprocessor.isOperator("*"))
+            op = new BinaryOperator(OperatorType.MUL);
+        else if (preprocessor.isOperator("/"))
+            op = new BinaryOperator(OperatorType.DIV);
+        else if (preprocessor.isOperator("%"))
+            op = new BinaryOperator(OperatorType.MOD);
+        else if (preprocessor.isOperator(">"))
+            op = new BinaryOperator(OperatorType.GREATERTHAN);
+        else if (preprocessor.isOperator("<"))
+            op = new BinaryOperator(OperatorType.LESSTHAN);
+        else if (preprocessor.isOperator("="))
+            op = new BinaryOperator(OperatorType.ASSIGN);
+        else if (preprocessor.isOperator("~"))
+            op = new UnaryOperator(OperatorType.BITWISENEGATE);
+        else if (preprocessor.isOperator("&"))
+            op = new BinaryOperator(OperatorType.BITWISEAND);
+        else if (preprocessor.isOperator("|"))
+            op = new BinaryOperator(OperatorType.BITWISEOR);
+        else if (preprocessor.isOperator("^"))
+            op = new BinaryOperator(OperatorType.BITWISEXOR);
+        else if (preprocessor.isOperator("+")){
+            if(tokens.isEmpty() || (tokens.getLast() instanceof Operator))
+                op = new UnaryOperator(OperatorType.POSITIVESIGN);
             else if((tokens.getLast() instanceof Separator)
                     &&((Separator) tokens.getLast()).getSeparatorType()!=SeparatorType.RIGHTPARENTHESES
                     &&((Separator) tokens.getLast()).getSeparatorType()!=SeparatorType.RIGHTBRACKET
                     &&((Separator) tokens.getLast()).getSeparatorType()!=SeparatorType.RIGHTBRACE)
-                    op=new UnaryOperator(OperatorType.NEGATIVE);
+                op=new UnaryOperator(OperatorType.POSITIVESIGN);
+            else
+                op = new BinaryOperator(OperatorType.ADD);
+        }
+        else if (preprocessor.isOperator("-")) {
+            if(tokens.isEmpty() || (tokens.getLast() instanceof Operator))
+                op = new UnaryOperator(OperatorType.NEGATIVESIGN);
+            else if((tokens.getLast() instanceof Separator)
+                    &&((Separator) tokens.getLast()).getSeparatorType()!=SeparatorType.RIGHTPARENTHESES
+                    &&((Separator) tokens.getLast()).getSeparatorType()!=SeparatorType.RIGHTBRACKET
+                    &&((Separator) tokens.getLast()).getSeparatorType()!=SeparatorType.RIGHTBRACE)
+                op=new UnaryOperator(OperatorType.NEGATIVESIGN);
             else
                 op = new BinaryOperator(OperatorType.SUB);
         }
-        else if (preprocessor.getCh() == '*')
-            op = new BinaryOperator(OperatorType.MUL);
-        else if (preprocessor.getCh() == '/')
-            op = new BinaryOperator(OperatorType.DIV);
-        else if (preprocessor.getCh() == '%')
-            op = new BinaryOperator(OperatorType.MOD);
-        else if (preprocessor.getCh() == '>')
-            op = new BinaryOperator(OperatorType.GREATERTHAN);
-        else if (preprocessor.getCh() == '<')
-            op = new BinaryOperator(OperatorType.LESSTHAN);
-        else if (preprocessor.getCh() == '=')
-            op = new BinaryOperator(OperatorType.ASSIGN);
-        else if (preprocessor.getCh() == '~')
-            op = new UnaryOperator(OperatorType.BITWISENEGATE);
         else
             return null;
+
         op.setLines(preprocessor.getLine());
         op.setPos(preprocessor.getPos());
-        preprocessor.next();
-
         return op;
     }
 

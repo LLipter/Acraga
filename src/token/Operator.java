@@ -1,6 +1,5 @@
 package token;
 
-import node.Expression;
 import type.OperatorType;
 import type.TokenType;
 
@@ -27,7 +26,7 @@ public abstract class Operator extends ExpressionToken {
         priorityMap.put(OperatorType.LESSTHANOREQUAL,3);
         priorityMap.put(OperatorType.EQUAL,2);
         priorityMap.put(OperatorType.NOTEQUAL,2);
-        priorityMap.put(OperatorType.NEGATIVE,6);
+        priorityMap.put(OperatorType.NEGATIVESIGN,6);
     }
 
     public Operator() {
