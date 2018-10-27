@@ -40,6 +40,10 @@ public enum OperatorType {
     BITWISENEGATE,
 
     // separator
-    SEPARATOR
+    LEFTPARENTHESES,
+    RIGHTPARENTHESES,
+    LEFTBRACKET,
+    RIGHTBRACKET,
+    COMMA
 
 }
