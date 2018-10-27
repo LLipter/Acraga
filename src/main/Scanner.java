@@ -10,11 +10,11 @@ import java.util.LinkedList;
 
 public class Scanner {
 
-    private InputReader input;
+    private Preprocessor input;
     private LinkedList<Token> tokens;
 
-    public Scanner(InputReader inputReader) throws SyntaxException {
-        input = inputReader;
+    public Scanner(Preprocessor preprocessor) throws SyntaxException {
+        input = preprocessor;
         tokens = new LinkedList<Token>();
 
         while (!input.iseof()) {

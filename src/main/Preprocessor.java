@@ -6,16 +6,17 @@ import token.Value;
 import type.ValueType;
 
 import java.io.*;
+import java.util.Iterator;
 import java.util.LinkedList;
 
-public class InputReader {
+public class Preprocessor {
 
     private LinkedList<Integer> buffer;
     private int line;
     private int pos;
 
 
-    public InputReader(String inputFile) {
+    public Preprocessor(String inputFile) {
         try {
             Reader reader = new InputStreamReader(new FileInputStream(inputFile));
             buffer = new LinkedList<Integer>();
@@ -75,7 +76,6 @@ public class InputReader {
         return ch == ' ' || ch == '\t' || ch == '\n' || ch == -1;
     }
 
-
     public void next() {
         if (iseof())
             return;
@@ -112,12 +112,13 @@ public class InputReader {
             return false;
 
         int[] chs = new int[len + 1];
+        Iterator<Integer> it = buffer.iterator();
         for (int i = 0; i < len; i++)
-            chs[i] = buffer.get(i);
+            chs[i] = it.next();
         if (buffer.size() == len)
             chs[len] = -1;
         else
-            chs[len] = buffer.get(len);
+            chs[len] = it.next();
 
         for (int i = 0; i < len; i++) {
             if ((int) keyword.charAt(i) != chs[i])
@@ -167,11 +168,13 @@ public class InputReader {
     public Value isHexInteger() {
         if (buffer.size() < 3)
             return null;
-        if (buffer.get(0) != '0')
+        Iterator<Integer> it = buffer.iterator();
+        if (it.next() != '0')
             return null;
-        if (buffer.get(1) != 'x' && buffer.get(1) != 'X')
+        int tmp = it.next();
+        if (tmp != 'x' && tmp != 'X')
             return null;
-        if (!isHexDigit(buffer.get(2)))
+        if (!isHexDigit(it.next()))
             return null;
 
         next();
