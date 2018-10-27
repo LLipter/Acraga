@@ -50,7 +50,6 @@ public class Scanner {
                 continue;
             }
 
-
             // detect identifier
             Identifier identifier = detectIdentifier();
             if (identifier != null) {
@@ -67,8 +66,12 @@ public class Scanner {
     public Operator detectOperator() {
         Operator op;
 
-        if (preprocessor.isOperator(">="))
-            op = new BinaryOperator(OperatorType.GREATERTHANOREQUAL);
+        if (preprocessor.isOperator("<<="))
+            op = new BinaryOperator(OperatorType.LEFTSHIFTINGASSIGN);
+        else if (preprocessor.isOperator(">>="))
+            op = new BinaryOperator(OperatorType.RIGHTSHIFTINGASSIGN);
+        else if (preprocessor.isOperator(">="))
+            op = new BinaryOperator(OperatorType.LESSTHANOREQUAL);
         else if (preprocessor.isOperator("<="))
             op = new BinaryOperator(OperatorType.LESSTHANOREQUAL);
         else if (preprocessor.isOperator("=="))
@@ -76,11 +79,29 @@ public class Scanner {
         else if (preprocessor.isOperator("!=") || preprocessor.isOperator("<>"))
             op = new BinaryOperator(OperatorType.NOTEQUAL);
         else if (preprocessor.isOperator("&&"))
-            op = new BinaryOperator(OperatorType.AND);
+            op = new BinaryOperator(OperatorType.LOGICALAND);
         else if (preprocessor.isOperator("||"))
-            op = new BinaryOperator(OperatorType.OR);
-        else if (preprocessor.isOperator("^^"))
-            op = new BinaryOperator(OperatorType.XOR);
+            op = new BinaryOperator(OperatorType.LOGICALOR);
+        else if (preprocessor.isOperator("<<"))
+            op = new BinaryOperator(OperatorType.LEFTSHIFTING);
+        else if (preprocessor.isOperator(">>"))
+            op = new BinaryOperator(OperatorType.RIGHTSHIFTING);
+        else if (preprocessor.isOperator("+="))
+            op = new BinaryOperator(OperatorType.ADDASSIGN);
+        else if (preprocessor.isOperator("-="))
+            op = new BinaryOperator(OperatorType.SUBASSIGN);
+        else if (preprocessor.isOperator("*="))
+            op = new BinaryOperator(OperatorType.MULASSIGN);
+        else if (preprocessor.isOperator("/="))
+            op = new BinaryOperator(OperatorType.DIVASSIGN);
+        else if (preprocessor.isOperator("%="))
+            op = new BinaryOperator(OperatorType.MODASSIGN);
+        else if (preprocessor.isOperator("&="))
+            op = new BinaryOperator(OperatorType.BITWISEANDASSIGN);
+        else if (preprocessor.isOperator("|="))
+            op = new BinaryOperator(OperatorType.BITWISEORASSIGN);
+        else if (preprocessor.isOperator("^="))
+            op = new BinaryOperator(OperatorType.BITWISEXORASSIGN);
         else if (preprocessor.isOperator("*"))
             op = new BinaryOperator(OperatorType.MUL);
         else if (preprocessor.isOperator("/"))
@@ -101,6 +122,8 @@ public class Scanner {
             op = new BinaryOperator(OperatorType.BITWISEOR);
         else if (preprocessor.isOperator("^"))
             op = new BinaryOperator(OperatorType.BITWISEXOR);
+        else if (preprocessor.isOperator("!"))
+            op = new UnaryOperator(OperatorType.NOT);
         else if (preprocessor.isOperator("+")){
             if(tokens.isEmpty() || (tokens.getLast() instanceof Operator))
                 op = new UnaryOperator(OperatorType.POSITIVESIGN);
@@ -203,7 +226,6 @@ public class Scanner {
         value.setPos(pos);
 
         return value;
-
     }
 
     // detect identifier

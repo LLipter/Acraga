@@ -4,21 +4,21 @@ import type.SeparatorType;
 import type.TokenType;
 
 public class Separator extends Token {
-    protected SeparatorType seperaterType;
+    protected SeparatorType separatorType;
 
 
     public Separator(SeparatorType sType) {
         tokenType = TokenType.SEPARATOR;
-        seperaterType = sType;
+        separatorType = sType;
     }
 
     @Override
     public String toString() {
-        return String.format("<Separator,%s>", seperaterType);
+        return String.format("<Separator,%s>", separatorType);
     }
 
     public SeparatorType getSeparatorType() {
-        return seperaterType;
+        return separatorType;
     }
 
 
