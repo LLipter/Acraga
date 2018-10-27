@@ -16,7 +16,6 @@ public class Function extends Node implements Iterable<Statement> {
         nodeType = NodeType.FUNCTION;
         functionSignature = new FunctionSignature(functionName);
         returnType = type;
-        statements = new LinkedList<Statement>();
     }
 
     public void addParameter(ValueType type, String name) {
@@ -31,8 +30,12 @@ public class Function extends Node implements Iterable<Statement> {
         return returnType;
     }
 
-    public void addStatement(Statement statement) {
-        statements.addLast(statement);
+    public LinkedList<Statement> getStatements() {
+        return statements;
+    }
+
+    public void setStatements(LinkedList<Statement> statements) {
+        this.statements = statements;
     }
 
     @Override

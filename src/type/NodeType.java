@@ -2,6 +2,5 @@ package type;
 
 public enum NodeType {
     FUNCTION,
-    STATEMENT,
-    EXPRESSION
+    STATEMENT
 }

@@ -5,6 +5,8 @@ import node.*;
 import token.*;
 import type.*;
 
+import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.Stack;
 import java.util.HashMap;
 
@@ -128,6 +130,29 @@ public class Parser {
     // check whether current token is certain separator. if so, remove it
     private boolean detectSeparator(SeparatorType type) {
         if(!isSeparator(type))
+            return false;
+        next();
+        return true;
+    }
+
+    // check whether current token is a keyword
+    private boolean isKeyword(){
+        Token token = getToken();
+        if(token == null)
+            return false;
+        return token.getTokenType() == TokenType.KEYWORD;
+    }
+
+    // check whether current token is a given type keyword
+    private boolean isKeyword(KeywordType type){
+        if(!isKeyword())
+            return false;
+        return ((Keyword)getToken()).getKeywordType() == type;
+    }
+
+    // check whether current token is a given type keyword. if so, remove it
+    private boolean detectKeyword(KeywordType type){
+        if(!isKeyword(type))
             return false;
         next();
         return true;
@@ -323,11 +348,6 @@ public class Parser {
         }
     }
 
-    private Statement detectStatement() {
-        // TODO:
-        return null;
-    }
-
     private Initialization detectInitialization() throws SyntaxException {
         Initialization initialization = new Initialization();
         initialization.setArray(false);
@@ -400,6 +420,92 @@ public class Parser {
         return initialization;
     }
 
+    private IfElse detectIfElse() throws SyntaxException{
+        IfElse ifElse = new IfElse();
+        if(!detectKeyword(KeywordType.IF))
+            return null;
+        if(!detectSeparator(SeparatorType.LEFTPARENTHESES))
+            throwException("missing left parentheses");
+        ExpressionToken condition = detectExpression();
+        if(condition == null)
+            throwException("missing condition");
+        if(!detectSeparator(SeparatorType.RIGHTPARENTHESES))
+            throwException("missing right parentheses");
+
+        LinkedList<Statement> ifbranch = detectStatements();
+        ifElse.setCondition(condition);
+        ifElse.setIfBranch(ifbranch);
+
+        // exist else branch
+        if(detectKeyword(KeywordType.ELSE)){
+            LinkedList<Statement> elsebranch = detectStatements();
+            ifElse.setElseBranch(elsebranch);
+        }
+
+        return ifElse;
+    }
+
+    private While detectWhile() throws SyntaxException{
+        While wStatemengt = new While();
+        if(!detectKeyword(KeywordType.WHILE))
+            return null;
+        if(!detectSeparator(SeparatorType.LEFTPARENTHESES))
+            throwException("missing left parentheses");
+        ExpressionToken condition = detectExpression();
+        if(condition == null)
+            throwException("missing condition");
+        if(!detectSeparator(SeparatorType.RIGHTPARENTHESES))
+            throwException("missing right parentheses");
+
+        LinkedList<Statement> loopStatement = detectStatements();
+        wStatemengt.setCondition(condition);
+        wStatemengt.setLoopStatements(loopStatement);
+
+        return wStatemengt;
+    }
+
+    private Statement detectStatement() throws SyntaxException{
+        // ignore all empty statements
+        while(detectSeparator(SeparatorType.SEMICOLON))
+            ;
+
+        Initialization initialization = detectInitialization();
+        if(initialization != null)
+            return initialization;
+
+        IfElse ifElse = detectIfElse();
+        if(ifElse != null)
+            return ifElse;
+
+        While wStatement = detectWhile();
+        if(wStatement != null)
+            return wStatement;
+
+
+        // TODO: detect other statements
+
+        return null;
+    }
+
+    private LinkedList<Statement> detectStatements() throws SyntaxException{
+        // check left-brace
+        if (!detectSeparator(SeparatorType.LEFTBRACE))
+            throwException("missing left brace");
+
+
+        // check statements
+        LinkedList<Statement> statements = new LinkedList<>();
+        Statement statement;
+        while((statement = detectStatement()) != null){
+            statements.add(statement);
+        }
+
+        if (!detectSeparator(SeparatorType.RIGHTBRACE))
+            throwException("missing right brace");
+
+        return statements;
+    }
+
     private Function detectFunction() throws SyntaxException {
         Function function;
 
@@ -438,18 +544,7 @@ public class Parser {
 
         }
 
-        // check left-brace
-        if (!detectSeparator(SeparatorType.LEFTBRACE))
-            throwException("missing left-brace");
-
-
-        // check statements
-        while (!detectSeparator(SeparatorType.RIGHTBRACE)) {
-            // TODO:
-        }
-
-        if (scanner.iseof())
-            throwException("missing right-brace");
+        function.setStatements(detectStatements());
 
 
         return function;
