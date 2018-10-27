@@ -16,8 +16,11 @@ public class Preprocessor {
     private int line;
     private int pos;
 
+    private void throwException(String msg) throws SyntaxException{
+        throw new SyntaxException(line, pos, msg);
+    }
 
-    public Preprocessor(String inputFile) {
+    public Preprocessor(String inputFile) throws SyntaxException{
         try {
             Reader reader = new InputStreamReader(new FileInputStream(inputFile));
             buffer = new LinkedList<Integer>();
@@ -43,11 +46,12 @@ public class Preprocessor {
                     if (ch_cur == -1)
                         return;
                 }
+
                 buffer.addLast(ch_cur);
                 ch_cur = ch_next;
                 ch_next = reader.read();
             }
-            reader.close();
+
 
         } catch (FileNotFoundException e) {
             System.err.println(e.getMessage());
@@ -300,27 +304,34 @@ public class Preprocessor {
         if (getCh() != '"')
             return null;
 
-        Iterator<Integer> it = buffer.iterator();
-        it.next();
-        while(true){
-            int ch = it.next();
-            if (ch == '"')
-                break;
-            if (ch == '\n' && !it.hasNext())
-                throw new SyntaxException(line, pos, "missing right quote");
-        }
-
+        next();
         Value value = new Value(ValueType.STRING);
         StringBuffer sb = new StringBuffer();
-        next();
-        int ch;
-        while((ch = getCh()) != '"'){
+        while(true){
+            int ch = getCh();
+            if (ch == '"')
+                break;
+            if (ch == '\n' || ch == -1)
+                throwException("missing right quote");
+            if (ch == '\\'){
+                next();
+                ch = getCh();
+                if (ch == -1)
+                    throwException("missing escape character");
+                if (ch == 'n')
+                    ch = '\n';
+                else if (ch == 't')
+                    ch = '\t';
+                else if (ch != '"' && ch != '\'' && ch != '\\')
+                    throwException("undefined escape character");
+            }
             sb.append((char)ch);
             next();
         }
-        next();
         value.setStringValue(sb.toString());
+        next();
         return value;
+
     }
 
     public boolean isLetter(int ch) {
