@@ -68,6 +68,14 @@ public class Value extends ExpressionToken {
         return valueType == ValueType.STRING;
     }
 
+    public void setIntValue(Integer value){
+        intValue = new BigInteger(value.toString());
+    }
+
+    public void setDoubleValue(Double value){
+        doubleValue = new BigDecimal(value.toString());
+    }
+
     @Override
     public String toString() {
         if (isInt())

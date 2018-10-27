@@ -5,13 +5,20 @@ import type.StatementType;
 import type.ValueType;
 import token.Value;
 
-public class Initialization extends Statement {
+import java.util.ArrayList;
+import java.util.Iterator;
+
+public class Initialization extends Statement implements Iterable<ExpressionToken> {
 
     private String id;
     private ExpressionToken value;
+    private boolean isArray;
+    private ArrayList<ExpressionToken> elements;
+    private ExpressionToken arrayLength;
 
     public Initialization(){
         statementType = StatementType.INITIALIZATION;
+        elements = new ArrayList<>();
     }
 
     public String getId() {
@@ -29,4 +36,31 @@ public class Initialization extends Statement {
     public void setValue(ExpressionToken value) {
         this.value = value;
     }
+
+    public boolean isArray() {
+        return isArray;
+    }
+
+    public void setArray(boolean array) {
+        isArray = array;
+    }
+
+    public void addElement(ExpressionToken expressionToken){
+        elements.add(expressionToken);
+    }
+
+    public ExpressionToken getArrayLength() {
+        return arrayLength;
+    }
+
+    public void setArrayLength(ExpressionToken arrayLength) {
+        this.arrayLength = arrayLength;
+    }
+
+    @Override
+    public Iterator<ExpressionToken> iterator() {
+        return elements.iterator();
+    }
+
+
 }

@@ -25,7 +25,10 @@ public class Parser {
         Initialization test = detectInitialization();
         System.out.println();
         System.out.println("Tree:");
-        printExpressionTree(test.getValue());
+        printExpressionTree(test.getArrayLength());
+        for(ExpressionToken ext : test){
+            printExpressionTree(ext);
+        }
     }
 
     private void parse() throws SyntaxException {
@@ -326,19 +329,73 @@ public class Parser {
     }
 
     private Initialization detectInitialization() throws SyntaxException {
+        Initialization initialization = new Initialization();
+        initialization.setArray(false);
         ValueType dataType = detectDataType();
         if (dataType == null)
             return null;
         String id = detectIdentifier();
         if (id == null)
             throwException("missing identifier");
-        Initialization initialization = new Initialization();
         initialization.setId(id);
         if (detectSeparator(SeparatorType.SEMICOLON))
             initialization.setValue(new Value(dataType));
         else if (detectOperator(OperatorType.ASSIGN))
             initialization.setValue(detectExpression());
-        else
+        else if (detectSeparator(SeparatorType.LEFTBRACKET)){
+            // array initialization statement
+            initialization.setArray(true);
+            ExpressionToken arrayLength = detectExpression();
+            if(arrayLength == null){
+                // deduce array length from initialization list
+                if(!detectSeparator(SeparatorType.RIGHTBRACKET))
+                    throwException("missing right bracket");
+                if (!detectOperator(OperatorType.ASSIGN))
+                    throwException("missing assign operator");
+                if (!detectSeparator(SeparatorType.LEFTBRACE))
+                    throwException("missing left brace");
+                ExpressionToken element = detectExpression();
+                if(element == null)
+                    throwException("can not declare an array of length 0");
+                initialization.addElement(element);
+                int cnt = 1;
+                while(detectSeparator(SeparatorType.COMMA)){
+                    element = detectExpression();
+                    if(element == null)
+                        throwException("missing array element");
+                    initialization.addElement(element);
+                    cnt++;
+                }
+                if (!detectSeparator(SeparatorType.RIGHTBRACE))
+                    throwException("missing right brace");
+                Value len = new Value(ValueType.INTEGER);
+                len.setIntValue(cnt);
+                initialization.setArrayLength(len);
+            }else{
+                // array length is given
+                initialization.setArrayLength(arrayLength);
+                if(!detectSeparator(SeparatorType.RIGHTBRACKET))
+                    throwException("missing right bracket");
+                if(detectSeparator(SeparatorType.SEMICOLON))
+                    return initialization;
+                if (!detectOperator(OperatorType.ASSIGN))
+                    throwException("missing assign operator");
+                if (!detectSeparator(SeparatorType.LEFTBRACE))
+                    throwException("missing left brace");
+                ExpressionToken element = detectExpression();
+                if(element == null)
+                    throwException("can not declare an array of length 0");
+                initialization.addElement(element);
+                while(detectSeparator(SeparatorType.COMMA)){
+                    element = detectExpression();
+                    if(element == null)
+                        throwException("missing array element");
+                    initialization.addElement(element);
+                }
+                if (!detectSeparator(SeparatorType.RIGHTBRACE))
+                    throwException("missing right brace");
+            }
+        }else
             throwException("missing semicolon");
         return initialization;
     }
