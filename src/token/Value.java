@@ -69,7 +69,7 @@ public class Value extends ExpressionToken {
         if (isInt())
             return String.format("<IntValue,%d>", intValue);
         if (isDouble())
-            return String.format("<DoubleValue,%f>", doubleValue);
+            return String.format("<DoubleValue,%.15f>", doubleValue);
         if (isBool())
             return String.format("<BoolValue,%b>", boolValue);
         if (isString())

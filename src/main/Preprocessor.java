@@ -8,6 +8,7 @@ import type.ValueType;
 import java.io.*;
 import java.util.Iterator;
 import java.util.LinkedList;
+import java.util.ListIterator;
 
 public class Preprocessor {
 
@@ -168,13 +169,11 @@ public class Preprocessor {
     public Value isHexInteger() {
         if (buffer.size() < 3)
             return null;
-        Iterator<Integer> it = buffer.iterator();
-        if (it.next() != '0')
+        if (buffer.get(0) != '0')
             return null;
-        int tmp = it.next();
-        if (tmp != 'x' && tmp != 'X')
+        if (buffer.get(1) != 'x' && buffer.get(1) != 'X')
             return null;
-        if (!isHexDigit(it.next()))
+        if (!isHexDigit(buffer.get(2)))
             return null;
 
         next();
@@ -218,7 +217,6 @@ public class Preprocessor {
             next();
         }
 
-
         if (!isPositive)
             intValue *= -1;
         value.setIntValue(intValue);
@@ -232,80 +230,63 @@ public class Preprocessor {
         if (value != null)
             return value;
 
-
         value = isDecInteger();
         if (value != null)
             return value;
-
 
         return null;
     }
 
 
-    public Value isDouble() throws SyntaxException {
-        Value value = isNormalDouble();
-        if (value == null)
+
+    public Value isNumber() throws SyntaxException{
+        Value intPart = isInteger();
+        if(intPart == null)
             return null;
 
-        // check scientific representation
-        int ch = getCh();
-        if (ch == 'e' || ch == 'E') {
+        // integer number
+        if(getCh() != '.' && getCh() != 'e' && getCh() != 'E'){
+            if(isIdAlphabet())
+                throw new SyntaxException(line, pos, "identifier can not starts with number");
+            return intPart;
+        }
+
+        double result = intPart.getIntValue();
+
+        // decimal number
+        if(getCh() == '.'){
             next();
-            Value exp = isDecInteger();
-            if (exp == null)
+            Value fractionPart = isDecInteger();
+            if(fractionPart == null)
+                throw new SyntaxException(line, pos, "missing fraction part number");
+            if(getCh() != 'e' && getCh() != 'E' && isIdAlphabet())
+                throw new SyntaxException(line, pos, "invalid float point number");
+            double fractionValue = fractionPart.getIntValue();
+            while(fractionValue >= 1)
+                fractionValue /= 10;
+            if(intPart.getIntValue() >= 0)
+                result += fractionValue;
+            else
+                result -= fractionValue;
+        }
+
+        // scientific number
+        if(getCh() == 'e' || getCh() == 'E'){
+            next();
+            Value expPart = isDecInteger();
+            if(expPart == null)
+                throw new SyntaxException(line, pos, "missing exponent part number");
+            if(isIdAlphabet())
                 throw new SyntaxException(line, pos, "invalid scientific representation");
-            value.setDoubleValue(value.getDoubleValue() * Math.pow(10, exp.getIntValue()));
+            result = result * Math.pow(10, expPart.getIntValue());
         }
-
-        return value;
-    }
-
-    public Value isNormalDouble() {
-        boolean isPositive;
-        int i = 0;
-        if (getCh() == '+' && isDigit(buffer.get(1))) {
-            isPositive = true;
-            i++;
-        } else if (getCh() == '-' && isDigit(buffer.get(1))) {
-            isPositive = false;
-            i++;
-        } else if (isDigit())
-            isPositive = true;
-        else
-            return null;
-
-        int len = buffer.size();
-        for (; i < len; i++) {
-            int ch = buffer.get(i);
-
-            if (ch == '.' && i < len - 1 && isDigit(buffer.get(i + 1)))
-                break;
-
-            if (!isDigit(ch))
-                return null;
-        }
-
-        if (i == len)
-            return null;
-
-        int intPart = isDecInteger().getIntValue();
-        if (intPart < 0)
-            intPart = -intPart;
-        next();
-        int fractionPart = isDecInteger().getIntValue();
-
-        double doubleValue = fractionPart;
-        while (doubleValue >= 1)
-            doubleValue /= 10;
-        doubleValue += intPart;
-
-        if (!isPositive)
-            doubleValue *= -1;
 
         Value value = new Value(ValueType.DOUBLE);
-        value.setDoubleValue(doubleValue);
+        value.setDoubleValue(result);
         return value;
     }
+
+
 
     public Value isBool() {
         Value value = new Value(ValueType.BOOLEAN);
@@ -364,7 +345,6 @@ public class Preprocessor {
         return isIdAlphabet(getCh());
     }
 
-
     public Identifier isIdentifier() {
         if (getCh() != '_' && !isLetter())
             return null;
@@ -378,7 +358,6 @@ public class Preprocessor {
         Identifier identifier = new Identifier();
         identifier.setId(bString.toString());
         return identifier;
-
     }
 
 
