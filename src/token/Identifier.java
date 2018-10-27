@@ -4,7 +4,7 @@ import type.TokenType;
 
 public class Identifier extends ExpressionToken {
 
-    private String id;
+    protected String id;
 
     public Identifier() {
         tokenType = TokenType.IDENTIFIER;

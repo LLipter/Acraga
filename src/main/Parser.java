@@ -336,7 +336,7 @@ public class Parser {
                 }
                 do {
                     next();
-                    fid.addExpression(detectExpression());
+                    fid.addParameter(detectExpression());
                 } while (detectComma());
                 if (!detectRightParentheses())
                     throw new SyntaxException(tk.getLines(), tk.getPos(), "Syntax Error");

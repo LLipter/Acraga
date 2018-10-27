@@ -1,12 +1,7 @@
 package token;
 
 public class ArrayId extends Identifier {
-    private String aid;
     private ExpressionToken index;
-
-    public ArrayId(String arrayId){
-        aid=arrayId;
-    }
 
     public void setIndex(ExpressionToken ex){
         index=ex;
@@ -18,6 +13,6 @@ public class ArrayId extends Identifier {
 
     @Override
     public String toString() {
-        return String.format("<ArrayId,%s>", aid);
+        return String.format("<ArrayId,%s,%s>", id, index);
     }
 }

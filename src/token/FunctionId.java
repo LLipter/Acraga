@@ -4,26 +4,26 @@ import java.util.LinkedList;
 
 //used when calling an existing function
 public class FunctionId extends Identifier {
-    private String fid;
-    private LinkedList<ExpressionToken> expressions;
+    private LinkedList<ExpressionToken> parameters;
 
     public FunctionId(String functionid){
-        fid=functionid;
-        expressions=new LinkedList<>();
+        super();
+        id = functionid;
+        parameters =new LinkedList<>();
     }
 
-    public void addExpression(ExpressionToken e){
-        expressions.addLast(e);
+    public void addParameter(ExpressionToken e){
+        parameters.addLast(e);
     }
 
     public ExpressionToken getParameter(int i){
-        if(expressions.size()<i+1)
+        if(parameters.size() < i+1)
             return null;
-        return expressions.get(i);
+        return parameters.get(i);
     }
 
     @Override
     public String toString() {
-        return String.format("<FunctionId,%s>", fid);
+        return String.format("<FunctionId,%s>", id);
     }
 }
