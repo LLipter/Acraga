@@ -2,9 +2,11 @@ package main;
 
 import exception.SyntaxException;
 import token.*;
-import token.operator.binary.BinaryOperator;
+import token.operator.binary.*;
 import token.operator.Operator;
-import token.operator.UnaryOperator;
+import token.operator.unary.NegativeSign;
+import token.operator.unary.PositiveSign;
+import token.operator.unary.UnaryOperator;
 import type.KeywordType;
 import type.OperatorType;
 import type.SeparatorType;
@@ -109,11 +111,11 @@ public class Scanner {
         else if (preprocessor.isOperator("^="))
             op = new BinaryOperator(OperatorType.BITWISEXORASSIGN);
         else if (preprocessor.isOperator("*"))
-            op = new BinaryOperator(OperatorType.MUL);
+            op = new Multiply();
         else if (preprocessor.isOperator("/"))
-            op = new BinaryOperator(OperatorType.DIV);
+            op = new Divide();
         else if (preprocessor.isOperator("%"))
-            op = new BinaryOperator(OperatorType.MOD);
+            op = new Reminder();
         else if (preprocessor.isOperator(">"))
             op = new BinaryOperator(OperatorType.GREATERTHAN);
         else if (preprocessor.isOperator("<"))
@@ -132,25 +134,25 @@ public class Scanner {
             op = new UnaryOperator(OperatorType.NOT);
         else if (preprocessor.isOperator("+")){
             if(tokens.isEmpty() || (tokens.getLast() instanceof Operator))
-                op = new UnaryOperator(OperatorType.POSITIVESIGN);
+                op = new PositiveSign();
             else if((tokens.getLast() instanceof Separator)
                     &&((Separator) tokens.getLast()).getSeparatorType()!= SeparatorType.RIGHTPARENTHESES
                     &&((Separator) tokens.getLast()).getSeparatorType()!= SeparatorType.RIGHTBRACKET
                     &&((Separator) tokens.getLast()).getSeparatorType()!= SeparatorType.RIGHTBRACE)
-                op = new UnaryOperator(OperatorType.POSITIVESIGN);
+                op = new PositiveSign();
             else
-                op = new BinaryOperator(OperatorType.ADD);
+                op = new Add();
         }
         else if (preprocessor.isOperator("-")) {
             if(tokens.isEmpty() || (tokens.getLast() instanceof Operator))
-                op = new UnaryOperator(OperatorType.NEGATIVESIGN);
+                op = new NegativeSign();
             else if((tokens.getLast() instanceof Separator)
                     &&((Separator) tokens.getLast()).getSeparatorType() != SeparatorType.RIGHTPARENTHESES
                     &&((Separator) tokens.getLast()).getSeparatorType() != SeparatorType.RIGHTBRACKET
                     &&((Separator) tokens.getLast()).getSeparatorType() != SeparatorType.RIGHTBRACE)
-                op = new UnaryOperator(OperatorType.NEGATIVESIGN);
+                op = new NegativeSign();
             else
-                op = new BinaryOperator(OperatorType.SUB);
+                op = new Subtract();
         }
         else
             return null;

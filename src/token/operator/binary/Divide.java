@@ -46,6 +46,8 @@ public class Divide extends BinaryOperator {
             BigInteger div = number1.divide(number2);
             res.setIntValue(div);
         }
+        else if(lvalue.isVoid() || rvalue.isVoid())
+            throw new RTException(getLines(), getPos(), "void variable is not allowed to do operation");
         else
             throw new RTException(getLines(), getPos(), "boolean variable cannot be divided by another boolean variable");
         return res;

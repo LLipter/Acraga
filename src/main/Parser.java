@@ -7,7 +7,7 @@ import component.function.FunctionSignature;
 import token.*;
 import token.operator.binary.BinaryOperator;
 import token.operator.Operator;
-import token.operator.UnaryOperator;
+import token.operator.unary.UnaryOperator;
 import type.*;
 
 import java.util.LinkedList;

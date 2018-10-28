@@ -46,6 +46,8 @@ public class Add extends BinaryOperator {
             BigInteger sum = number1.add(number2);
             res.setIntValue(sum);
         }
+        else if(lvalue.isVoid() || rvalue.isVoid())
+            throw new RTException(getLines(), getPos(), "void variable is not allowed to do operation");
         else
             throw new RTException(getLines(), getPos(), "boolean variable cannot be added to another boolean variable");
         return res;

@@ -1,16 +1,12 @@
-package token.operator;
+package token.operator.unary;
 
 import token.ExpressionToken;
+import token.operator.Operator;
 import type.OperatorType;
 
 public abstract class UnaryOperator extends Operator {
 
-    private ExpressionToken child;
-
-    public UnaryOperator(OperatorType type) {
-        super();
-        operatorType = type;
-    }
+    protected ExpressionToken child;
 
     @Override
     public String toString() {
