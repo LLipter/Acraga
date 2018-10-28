@@ -8,5 +8,6 @@ public enum KeywordType {
     DOUBLE,
     INT,
     BOOL,
-    STRING
+    STRING,
+    VOID
 }

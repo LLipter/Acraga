@@ -301,7 +301,6 @@ public class Preprocessor {
         if(getCh() == 'e' || getCh() == 'E'){
             next();
             Value expPart = isDecInteger();
-            System.out.println(expPart.getIntValue());
             if(expPart == null)
                 throw new SyntaxException(line, pos, "missing exponent part number");
             if(isIdAlphabet())

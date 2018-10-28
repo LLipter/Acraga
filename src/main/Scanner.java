@@ -27,7 +27,6 @@ public class Scanner {
             // detect separators
             Separator separator = detectSeparator();
             if (separator != null) {
-                System.out.println(separator);
                 tokens.addLast(separator);
                 continue;
             }
@@ -208,6 +207,8 @@ public class Scanner {
             keyword = new Keyword(KeywordType.STRING);
         else if (preprocessor.isKeyword("bool"))
             keyword = new Keyword(KeywordType.BOOL);
+        else if (preprocessor.isKeyword("void"))
+            keyword = new Keyword(KeywordType.VOID);
         else
             return null;
         keyword.setLines(lines);

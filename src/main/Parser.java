@@ -25,13 +25,13 @@ public class Parser {
         //parse();
 
         //printExpressionTree function detectExpression()
-        Initialization test = detectInitialization();
-        System.out.println();
-        System.out.println("Tree:");
-        printExpressionTree(test.getArrayLength());
-        for(ExpressionToken ext : test){
-            printExpressionTree(ext);
-        }
+//        Initialization test = detectInitialization();
+//        System.out.println();
+//        System.out.println("Tree:");
+//        printExpressionTree(test.getArrayLength());
+//        for(ExpressionToken ext : test){
+//            printExpressionTree(ext);
+//        }
     }
 
     private void parse() throws SyntaxException {
