@@ -95,7 +95,7 @@ public class Scanner {
         else if (preprocessor.isOperator(">>"))
             op = new BinaryOperator(OperatorType.RIGHTSHIFTING);
         else if (preprocessor.isOperator("+="))
-            op = new BinaryOperator(OperatorType.ADDASSIGN);
+            op = new AddAssign();
         else if (preprocessor.isOperator("-="))
             op = new BinaryOperator(OperatorType.SUBASSIGN);
         else if (preprocessor.isOperator("*="))
