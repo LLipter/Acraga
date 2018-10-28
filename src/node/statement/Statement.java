@@ -1,15 +1,10 @@
 package node.statement;
 
-import node.Node;
 import type.StatementType;
-import type.NodeType;
 
 
-public abstract class Statement extends Node {
+public abstract class Statement {
 
     protected StatementType statementType;
 
-    public Statement() {
-        nodeType = NodeType.STATEMENT;
-    }
 }

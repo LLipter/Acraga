@@ -1,20 +1,18 @@
 package node;
 
 import node.statement.Statement;
-import type.NodeType;
 import type.ValueType;
 
 import java.util.Iterator;
 import java.util.LinkedList;
 
-public class Function extends Node implements Iterable<Statement> {
+public class Function implements Iterable<Statement> {
 
     private FunctionSignature functionSignature;
     private ValueType returnType;
     private LinkedList<Statement> statements;
 
     public Function(String functionName, ValueType type) {
-        nodeType = NodeType.FUNCTION;
         functionSignature = new FunctionSignature(functionName);
         returnType = type;
     }
