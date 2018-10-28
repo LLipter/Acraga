@@ -24,6 +24,8 @@ public class Casting {
 
     // cast value to a given data type
     public static Value casting(Value value, ValueType type) {
+        if(type == ValueType.VOID || value.isVoid())
+            return null;
         Value ret = null;
         switch (type){
             case INTEGER:

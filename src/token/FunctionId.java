@@ -1,9 +1,11 @@
 package token;
 
+import component.ReturnValue;
 import component.context.DataStack;
 import component.function.Function;
 import component.function.FunctionSignature;
 import exception.RTException;
+import component.ReturnValue;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -44,7 +46,7 @@ public class FunctionId extends Identifier {
     }
 
     @Override
-    public Value execute(DataStack context) throws RTException {
+    public Value execute(DataStack context) throws RTException, ReturnValue {
         ArrayList<Value> arguments = new ArrayList<>();
         for(ExpressionToken para : parameters)
             arguments.add(para.execute(context));
@@ -56,6 +58,6 @@ public class FunctionId extends Identifier {
             throw new RTException(getLines(), getPos(), "undefined function");
         Function func = functionMap.get(functionSignature);
         func.setArguments(arguments);
-        return f
+        return func.execute(context);
     }
 }

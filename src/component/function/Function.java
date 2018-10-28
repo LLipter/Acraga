@@ -1,11 +1,13 @@
 package component.function;
 
+import component.ReturnValue;
 import component.context.DataStack;
 import component.statement.Statement;
-import component.Executable
+import component.Executable;
 import exception.RTException;
 import token.Identifier;
 import token.Value;
+import type.Casting;
 import type.ValueType;
 
 import java.util.ArrayList;
@@ -60,16 +62,34 @@ public class Function implements Iterable<Statement>, Executable{
 
     @Override
     public Value execute(DataStack context) throws RTException {
-        
-        context.createFrame();
-        // create argument in dataStack
-        ArrayList<Parameter> parameters = functionSignature.getParameters();
-        for(int i=0;i<parameters.size();i++){
-            context.declareValue(parameters.get(i).getParameterID(), arguments.get(i));
+        try{
+            context.createFrame();
+            // create argument in dataStack
+            ArrayList<Parameter> parameters = functionSignature.getParameters();
+            for(int i=0;i<parameters.size();i++){
+                context.declareValue(parameters.get(i).getParameterID(), arguments.get(i));
+            }
+            // execute all statements
+            for(Statement s : statements){
+                s.execute(context);
+            }
+
+            // no return statement meet
+            if(returnType != ValueType.VOID)
+                throw new RTException(id.getLines(), id.getPos(),String.format("function %s missing return statement", id.getId()));
+            else
+                return new Value(ValueType.VOID);
+
+        }catch (ReturnValue retValue){
+            Value castedValue = Casting.casting(retValue.getReturnValue(), returnType);
+            if(castedValue != null)
+                return castedValue;
+        }finally {
+            context.releaseFrame();
         }
 
+        return null; // never used
 
-        context.releaseFrame();
     }
 
     @Override
