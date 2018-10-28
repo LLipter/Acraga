@@ -1,7 +1,7 @@
 package main;
 
 import component.statement.*;
-import exception.Syntax;
+import exception.SyntaxException;
 import component.function.Function;
 import component.function.FunctionSignature;
 import token.*;
@@ -21,7 +21,7 @@ public class Parser {
     private int line;
     private int pos;
 
-    public Parser(Scanner scanner) throws Syntax {
+    public Parser(Scanner scanner) throws SyntaxException {
         this.scanner = scanner;
         functionMap = new HashMap<FunctionSignature, Function>();
         updateLinePos();
@@ -38,15 +38,15 @@ public class Parser {
 //        }
     }
 
-    private void parse() throws Syntax {
+    private void parse() throws SyntaxException {
         while (!scanner.iseof()) {
             Function function = detectFunction();
             functionMap.put(function.getFunctionSignature(), function);
         }
     }
 
-    private void throwException(String msg) throws Syntax {
-        throw new Syntax(line, pos, msg);
+    private void throwException(String msg) throws SyntaxException {
+        throw new SyntaxException(line, pos, msg);
     }
 
     private Token getToken() {
@@ -179,15 +179,14 @@ public class Parser {
     }
 
     // check whether current token is a identifier
-    private String detectIdentifier() {
+    private Identifier detectIdentifier() {
         Token token = getToken();
         if (token == null)
             return null;
         if (token.getTokenType() != TokenType.IDENTIFIER)
             return null;
-        String id = ((Identifier) token).getId();
         next();
-        return id;
+        return (Identifier) token;
     }
 
     // check whether current token belongs to expression
@@ -226,7 +225,7 @@ public class Parser {
     }
 
     // stack operation (condition is checked in detectExpression)
-    private void StackOperation(Stack<ExpressionToken> operandSt, Operator op) throws Syntax {
+    private void StackOperation(Stack<ExpressionToken> operandSt, Operator op) throws SyntaxException {
         if (op instanceof BinaryOperator) {
             BinaryOperator BinaryOp = (BinaryOperator) op;
             if (operandSt.size() >= 2) {
@@ -236,7 +235,7 @@ public class Parser {
                 BinaryOp.setrChild(ExToken2);
                 operandSt.push(BinaryOp);
             } else
-                throw new Syntax(op.getLines(), op.getPos(), "missing operand");
+                throw new SyntaxException(op.getLines(), op.getPos(), "missing operand");
         } else {
             if (!operandSt.isEmpty()) {
                 UnaryOperator UnaryOp = (UnaryOperator) op;
@@ -244,11 +243,11 @@ public class Parser {
                 UnaryOp.setChild(ExToken);
                 operandSt.push(UnaryOp);
             } else
-                throw new Syntax(op.getLines(), op.getPos(), "missing operand");
+                throw new SyntaxException(op.getLines(), op.getPos(), "missing operand");
         }
     }
 
-    private ExpressionToken detectExpression() throws Syntax {
+    private ExpressionToken detectExpression() throws SyntaxException {
         Token token = getToken();
         if (token == null)
             return null;
@@ -262,7 +261,7 @@ public class Parser {
             if (detectSeparator(SeparatorType.LEFTPARENTHESES)) {
                 operandSt.push(detectExpression());
                 if (!detectSeparator(SeparatorType.RIGHTPARENTHESES))
-                    throw new Syntax(tk.getLines(), tk.getPos(), "unmatched left parentheses");
+                    throw new SyntaxException(tk.getLines(), tk.getPos(), "unmatched left parentheses");
             }
             // Whenever meets ")" or "]" break recursion
             else if (isSeparator(SeparatorType.RIGHTPARENTHESES) || isSeparator(SeparatorType.RIGHTBRACKET))
@@ -290,23 +289,27 @@ public class Parser {
             }
             // detect array
             else if (isIdSeparator(SeparatorType.LEFTBRACKET)){
-                String id= detectIdentifier();
+                Identifier id= detectIdentifier();
                 ArrayId aid = new ArrayId();
-                aid.setId(id);
+                aid.setId(id.getId());
+                aid.setLines(id.getLines());
+                aid.setPos(id.getPos());
                 operandSt.push(aid);
                 next();
                 ExpressionToken index = detectExpression();
                 if(index == null)
-                    throw new Syntax(tk.getLines(),tk.getPos(),"missing array index");
+                    throw new SyntaxException(tk.getLines(),tk.getPos(),"missing array index");
                 aid.setIndex(index);
                 if(!detectSeparator(SeparatorType.RIGHTBRACKET))
-                    throw new Syntax(tk.getLines(),tk.getPos(),"unmatched left bracket");
+                    throw new SyntaxException(tk.getLines(),tk.getPos(),"unmatched left bracket");
             }
             // detect function
             else if (isIdSeparator(SeparatorType.LEFTPARENTHESES)) {
-                String id = detectIdentifier();
+                Identifier id = detectIdentifier();
                 FunctionId fid = new FunctionId();
-                fid.setId(id);
+                fid.setId(id.getId());
+                fid.setLines(id.getLines());
+                fid.setPos(id.getPos());
                 operandSt.push(fid);
                 next();
                 ExpressionToken para = detectExpression();
@@ -315,12 +318,12 @@ public class Parser {
                     while(detectSeparator(SeparatorType.COMMA)){
                         para = detectExpression();
                         if(para == null)
-                            throw new Syntax(tk.getLines(), tk.getPos(), "missing parameter");
+                            throw new SyntaxException(tk.getLines(), tk.getPos(), "missing parameter");
                         fid.addParameter(para);
                     }
                 }
                 if (!detectSeparator(SeparatorType.RIGHTPARENTHESES))
-                    throw new Syntax(tk.getLines(), tk.getPos(), "unmatched left parentheses");
+                    throw new SyntaxException(tk.getLines(), tk.getPos(), "unmatched left parentheses");
 
             }
             // Operand(value or identifier)
@@ -335,7 +338,7 @@ public class Parser {
             StackOperation(operandSt, op);
         }
         if (operandSt.size() > 1)
-            throw new Syntax(token.getLines(), token.getPos(), "redundant operand");
+            throw new SyntaxException(token.getLines(), token.getPos(), "redundant operand");
         if (operandSt.empty())
             return null;
         return operandSt.pop();
@@ -353,13 +356,13 @@ public class Parser {
         }
     }
 
-    private Initialization detectInitialization() throws Syntax {
+    private Initialization detectInitialization() throws SyntaxException {
         Initialization initialization = new Initialization();
         initialization.setArray(false);
         ValueType dataType = detectDataType();
         if (dataType == null)
             return null;
-        String id = detectIdentifier();
+        Identifier id = detectIdentifier();
         if (id == null)
             throwException("missing identifier");
         initialization.setId(id);
@@ -425,7 +428,7 @@ public class Parser {
         return initialization;
     }
 
-    private IfElse detectIfElse() throws Syntax {
+    private IfElse detectIfElse() throws SyntaxException {
         IfElse ifElse = new IfElse();
         if(!detectKeyword(KeywordType.IF))
             return null;
@@ -450,7 +453,7 @@ public class Parser {
         return ifElse;
     }
 
-    private While detectWhile() throws Syntax {
+    private While detectWhile() throws SyntaxException {
         While wStatemengt = new While();
         if(!detectKeyword(KeywordType.WHILE))
             return null;
@@ -469,7 +472,7 @@ public class Parser {
         return wStatemengt;
     }
 
-    private For detectFor() throws Syntax {
+    private For detectFor() throws SyntaxException {
         For fStatement = new For();
         if(!detectKeyword(KeywordType.FOR))
             return null;
@@ -494,7 +497,7 @@ public class Parser {
         return fStatement;
     }
 
-    private Return detectReturn() throws Syntax {
+    private Return detectReturn() throws SyntaxException {
         Return rStatement = new Return();
         if(!detectKeyword(KeywordType.RETURN))
             return null;
@@ -510,7 +513,7 @@ public class Parser {
         return rStatement;
     }
 
-    private Statement detectStatement() throws Syntax {
+    private Statement detectStatement() throws SyntaxException {
         // ignore all empty statements
         while(detectSeparator(SeparatorType.SEMICOLON))
             ;
@@ -546,7 +549,7 @@ public class Parser {
         return null;
     }
 
-    private LinkedList<Statement> detectStatements() throws Syntax {
+    private LinkedList<Statement> detectStatements() throws SyntaxException {
         // check statements
         LinkedList<Statement> statements = new LinkedList<>();
         Statement statement;
@@ -556,7 +559,7 @@ public class Parser {
         return statements;
     }
 
-    private LinkedList<Statement> detectCodeBlock() throws Syntax {
+    private LinkedList<Statement> detectCodeBlock() throws SyntaxException {
         // check left-brace
         if (!detectSeparator(SeparatorType.LEFTBRACE))
             throwException("missing left brace");
@@ -571,7 +574,7 @@ public class Parser {
 
 
 
-    private Function detectFunction() throws Syntax {
+    private Function detectFunction() throws SyntaxException {
         Function function;
 
         // check return type
@@ -580,10 +583,10 @@ public class Parser {
             throwException("missing return type");
 
         // check function name
-        String functionName = detectIdentifier();
-        if (functionName == null)
+        Identifier fid = detectIdentifier();
+        if (fid == null)
             throwException("missing function identifier");
-        function = new Function(functionName, returnType);
+        function = new Function(fid, returnType);
 
 
         // check left-parentheses
@@ -598,10 +601,10 @@ public class Parser {
                 throwException("missing parameter data type");
 
             // check parameter name
-            String parameterName = detectIdentifier();
-            if (parameterName == null)
+            Identifier parameterID = detectIdentifier();
+            if (parameterID == null)
                 throwException("missing parameter identifier");
-            function.addParameter(dataType, parameterName);
+            function.addParameter(dataType, parameterID);
 
             // check comma
             if (detectSeparator(SeparatorType.COMMA) && detectSeparator(SeparatorType.RIGHTPARENTHESES))

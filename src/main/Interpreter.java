@@ -1,6 +1,6 @@
 package main;
 
-import exception.Runtime;
+import exception.RTException;
 import component.function.Function;
 import component.function.FunctionSignature;
 import component.statement.Statement;
@@ -12,12 +12,12 @@ public class Interpreter {
 
     private Parser parser;
 
-    public Interpreter(Parser parser) throws Runtime {
+    public Interpreter(Parser parser) throws RTException {
         this.parser = parser;
         interpret();
     }
 
-    private void interpret() throws Runtime {
+    private void interpret() throws RTException {
         Value exitCode = runFunction(FunctionSignature.mainFunctionSignature);
         String format = "Program ends with '%";
         if (exitCode.isInt())
@@ -33,10 +33,10 @@ public class Interpreter {
     }
 
 
-    private Value runFunction(FunctionSignature signature) throws Runtime {
+    private Value runFunction(FunctionSignature signature) throws RTException {
         HashMap<FunctionSignature, Function> functionMap = parser.getFunctionMap();
         if (!functionMap.containsKey(signature))
-            throw new Runtime(String.format("function '%s' not found", signature));
+            throw new RTException(String.format("function '%s' not found", signature));
         Function function = functionMap.get(FunctionSignature.mainFunctionSignature);
         Value retValue = null;
         for (Statement statement : function)

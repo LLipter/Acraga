@@ -1,16 +1,22 @@
 package component.function;
 
+import token.Identifier;
 import type.ValueType;
 
 public class Parameter {
 
     private ValueType dataType;
-    private String parameterName;
+    private Identifier parameterID;
 
-    public Parameter(ValueType dataType, String parameterName) {
+    public Parameter(ValueType dataType, Identifier parameterID) {
         super();
         this.dataType = dataType;
-        this.parameterName = parameterName;
+        this.parameterID = parameterID;
+    }
+
+    public Parameter(ValueType dataType){
+        super();
+        this.dataType = dataType;
     }
 
     public ValueType getDataType() {
@@ -21,17 +27,17 @@ public class Parameter {
         this.dataType = dataType;
     }
 
-    public String getParameterName() {
-        return parameterName;
+    public Identifier getParameterID() {
+        return parameterID;
     }
 
-    public void setParameterName(String parameterName) {
-        this.parameterName = parameterName;
+    public void setParameterID(Identifier parameterID) {
+        this.parameterID = parameterID;
     }
 
 
     @Override
     public String toString() {
-        return String.format("%s %s", dataType, parameterName);
+        return String.format("%s %s", dataType, parameterID.getId());
     }
 }

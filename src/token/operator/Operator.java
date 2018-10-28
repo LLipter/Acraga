@@ -1,6 +1,5 @@
 package token.operator;
 
-import component.statement.Executable;
 import token.ExpressionToken;
 import type.OperatorType;
 import type.TokenType;

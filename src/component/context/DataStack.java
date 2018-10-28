@@ -2,9 +2,9 @@ package component.context;
 
 import component.function.Function;
 import component.function.FunctionSignature;
+import exception.RTException;
 import token.Identifier;
 import token.Value;
-import exception.Runtime;
 import type.Casting;
 import type.ValueType;
 
@@ -41,12 +41,12 @@ public class DataStack {
         dataStack.removeFirst();
     }
 
-    private void throwException(Identifier identifier, String msg) throws Runtime {
-        throw new Runtime(identifier.getLines(), identifier.getPos(), msg);
+    private void throwException(Identifier identifier, String msg) throws RTException {
+        throw new RTException(identifier.getLines(), identifier.getPos(), msg);
     }
 
     // get simple variable
-    public Value getValue(Identifier identifier) throws Runtime {
+    public Value getValue(Identifier identifier) throws RTException {
         Iterator<HashMap<String, Object>> it = dataStack.iterator();
         while(it.hasNext()){
             HashMap<String, Object> frame = it.next();
@@ -63,7 +63,7 @@ public class DataStack {
     }
 
     // get array variable
-    public Value getValue(Identifier identifier, int index) throws Runtime {
+    public Value getValue(Identifier identifier, int index) throws RTException {
         Iterator<HashMap<String, Object>> it = dataStack.iterator();
         while(it.hasNext()){
             HashMap<String, Object> frame = it.next();
@@ -82,7 +82,7 @@ public class DataStack {
     }
 
     // declare simple variable
-    public void declareValue(Identifier identifier, Value value) throws Runtime {
+    public void declareValue(Identifier identifier, Value value) throws RTException {
         HashMap<String, Object> frame = dataStack.getFirst();
         if(frame.containsKey(identifier.getId()))
             throwException(identifier, String.format("%s defined multiple times", identifier.getId()));
@@ -90,7 +90,7 @@ public class DataStack {
     }
 
     // declare array variable
-    public void declareValue(Identifier identifier, int length, ValueType type) throws Runtime {
+    public void declareValue(Identifier identifier, int length, ValueType type) throws RTException {
         HashMap<String, Object> frame = dataStack.getFirst();
         if(frame.containsKey(identifier.getId()))
             throwException(identifier, String.format("%s defined multiple times", identifier.getId()));
@@ -101,7 +101,7 @@ public class DataStack {
     }
 
     // set simple variable
-    public void setValue(Identifier identifier, Value value) throws Runtime {
+    public void setValue(Identifier identifier, Value value) throws RTException {
         HashMap<String, Object> frame = dataStack.getFirst();
         if(!frame.containsKey(identifier.getId()))
             throwException(identifier, String.format("%s not defined", identifier.getId()));
@@ -116,7 +116,7 @@ public class DataStack {
     }
 
     // set one element in an array variable
-    public void setValue(Identifier identifier, int index, Value value) throws Runtime {
+    public void setValue(Identifier identifier, int index, Value value) throws RTException {
         HashMap<String, Object> frame = dataStack.getFirst();
         if(!frame.containsKey(identifier.getId()))
             throwException(identifier, String.format("%s not defined", identifier.getId()));

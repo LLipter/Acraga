@@ -1,10 +1,10 @@
 package main;
 
-import exception.Syntax;
+import exception.SyntaxException;
 
 public class Main {
 
-    public static void main(String[] args) throws Syntax {
+    public static void main(String[] args) throws SyntaxException {
         // TODO Auto-generated method stub
 
         Preprocessor input = new Preprocessor("input1.acg");

@@ -1,6 +1,6 @@
 package main;
 
-import exception.Syntax;
+import exception.SyntaxException;
 import token.Identifier;
 import token.Value;
 import type.ValueType;
@@ -37,11 +37,11 @@ public class Preprocessor {
         }
     }
 
-    private void throwException(String msg) throws Syntax {
-        throw new Syntax(line, pos, msg);
+    private void throwException(String msg) throws SyntaxException {
+        throw new SyntaxException(line, pos, msg);
     }
 
-    public Preprocessor(String inputFile) throws Syntax {
+    public Preprocessor(String inputFile) throws SyntaxException {
         try {
             Reader reader = new InputStreamReader(new FileInputStream(inputFile));
             buffer = new LinkedList<Integer>();
@@ -215,7 +215,7 @@ public class Preprocessor {
         return value;
     }
 
-    private Value isCharInteger() throws Syntax {
+    private Value isCharInteger() throws SyntaxException {
         int ch = getCh();
         if(ch != '\'')
             return null;
@@ -248,7 +248,7 @@ public class Preprocessor {
         return value;
     }
 
-    private Value isInteger() throws Syntax {
+    private Value isInteger() throws SyntaxException {
         Value value;
 
         value = isHexInteger();
@@ -266,7 +266,7 @@ public class Preprocessor {
         return null;
     }
 
-    public Value isNumber() throws Syntax {
+    public Value isNumber() throws SyntaxException {
         Value intPart = isInteger();
         if(intPart == null)
             return null;
@@ -274,7 +274,7 @@ public class Preprocessor {
         // integer number
         if(getCh() != '.' && getCh() != 'e' && getCh() != 'E'){
             if(isIdAlphabet())
-                throw new Syntax(line, pos, "identifier can not starts with number");
+                throw new SyntaxException(line, pos, "identifier can not starts with number");
             return intPart;
         }
 
@@ -285,9 +285,9 @@ public class Preprocessor {
             next();
             Value fractionPart = isDecInteger();
             if(fractionPart == null)
-                throw new Syntax(line, pos, "missing fraction part number");
+                throw new SyntaxException(line, pos, "missing fraction part number");
             if(getCh() != 'e' && getCh() != 'E' && isIdAlphabet())
-                throw new Syntax(line, pos, "invalid float point number");
+                throw new SyntaxException(line, pos, "invalid float point number");
             BigDecimal fractionValue = new BigDecimal(fractionPart.getIntValue());
             while(fractionValue.compareTo(BigDecimal.ONE) == 1)
                 fractionValue = fractionValue.divide(BigDecimal.TEN);
@@ -302,9 +302,9 @@ public class Preprocessor {
             next();
             Value expPart = isDecInteger();
             if(expPart == null)
-                throw new Syntax(line, pos, "missing exponent part number");
+                throw new SyntaxException(line, pos, "missing exponent part number");
             if(isIdAlphabet())
-                throw new Syntax(line, pos, "invalid scientific representation");
+                throw new SyntaxException(line, pos, "invalid scientific representation");
             BigDecimal divisor = BigDecimal.ONE;
             if(expPart.getIntValue().compareTo(BigInteger.ZERO) == 1){
                 while(expPart.getIntValue().compareTo(BigInteger.ZERO) == 1){
@@ -337,7 +337,7 @@ public class Preprocessor {
         return value;
     }
 
-    public Value isString() throws Syntax {
+    public Value isString() throws SyntaxException {
         if (getCh() != '"')
             return null;
 

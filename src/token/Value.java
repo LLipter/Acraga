@@ -1,7 +1,7 @@
 package token;
 
 import component.context.DataStack;
-import exception.Runtime;
+import exception.RTException;
 import type.TokenType;
 import type.ValueType;
 
@@ -70,6 +70,10 @@ public class Value extends ExpressionToken {
         return valueType == ValueType.STRING;
     }
 
+    public boolean isVoid(){
+        return valueType == ValueType.VOID;
+    }
+
     public void setIntValue(Integer value){
         intValue = new BigInteger(value.toString());
     }
@@ -110,7 +114,7 @@ public class Value extends ExpressionToken {
     }
 
     @Override
-    public Value execute(DataStack context) throws Runtime {
+    public Value execute(DataStack context) throws RTException {
         return this;
     }
 }

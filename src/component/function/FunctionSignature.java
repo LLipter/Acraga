@@ -1,7 +1,10 @@
 package component.function;
 
+import component.statement.Return;
+import token.Identifier;
 import type.ValueType;
 
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.LinkedList;
 
@@ -9,19 +12,27 @@ public class FunctionSignature {
 
     public static FunctionSignature mainFunctionSignature = new FunctionSignature("main");
     private String functionName;
-    private LinkedList<Parameter> parameters;
+    private ArrayList<Parameter> parameters;
 
     public FunctionSignature(String fName) {
         functionName = fName;
-        parameters = new LinkedList<Parameter>();
+        parameters = new ArrayList<Parameter>();
     }
 
     public String getFunctionName() {
         return functionName;
     }
 
-    public void addParameters(ValueType type, String name) {
-        parameters.addLast(new Parameter(type, name));
+    public void addParameters(ValueType type, Identifier pid) {
+        parameters.add(new Parameter(type, pid));
+    }
+
+    public void addParameters(ValueType type){
+        parameters.add(new Parameter(type));
+    }
+
+    public ArrayList<Parameter> getParameters(){
+        return parameters;
     }
 
     @Override
@@ -48,16 +59,14 @@ public class FunctionSignature {
         FunctionSignature fs = (FunctionSignature) obj;
         if (!fs.functionName.equals(functionName))
             return false;
-        LinkedList<Parameter> fsParameters = fs.parameters;
+        ArrayList<Parameter> fsParameters = fs.parameters;
         if (fsParameters.size() != parameters.size())
             return false;
 
-        Iterator<Parameter> it1 = fsParameters.iterator();
-        Iterator<Parameter> it2 = parameters.iterator();
-        while (it1.hasNext()) {
-            Parameter type1 = it1.next();
-            Parameter type2 = it2.next();
-            if (type1.getDataType() != type2.getDataType())
+        for(int i=0;i<parameters.size();i++){
+            Parameter pa1 = parameters.get(i);
+            Parameter pa2 = fsParameters.get(i);
+            if (pa1.getDataType() != pa2.getDataType())
                 return false;
         }
 

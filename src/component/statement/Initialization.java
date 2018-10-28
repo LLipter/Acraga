@@ -1,6 +1,7 @@
 package component.statement;
 
 import token.ExpressionToken;
+import token.Identifier;
 import type.StatementType;
 
 import java.util.Iterator;
@@ -8,7 +9,7 @@ import java.util.LinkedList;
 
 public class Initialization extends Statement implements Iterable<ExpressionToken> {
 
-    private String id;
+    private Identifier id;
     private ExpressionToken value;
     private boolean isArray;
     private LinkedList<ExpressionToken> elements;
@@ -19,7 +20,7 @@ public class Initialization extends Statement implements Iterable<ExpressionToke
         elements = new LinkedList<>();
     }
 
-    public String getId() {
+    public Identifier getId() {
         return id;
     }
 
@@ -27,7 +28,7 @@ public class Initialization extends Statement implements Iterable<ExpressionToke
         return value;
     }
 
-    public void setId(String id) {
+    public void setId(Identifier id) {
         this.id = id;
     }
 

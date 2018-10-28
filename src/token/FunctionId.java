@@ -1,5 +1,12 @@
 package token;
 
+import component.context.DataStack;
+import component.function.Function;
+import component.function.FunctionSignature;
+import exception.RTException;
+
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.LinkedList;
 
 //used when calling an existing function
@@ -34,5 +41,21 @@ public class FunctionId extends Identifier {
             sb.deleteCharAt(sb.length()-1);
         sb.append(")");
         return String.format("<FunctionId,%s>", sb.toString());
+    }
+
+    @Override
+    public Value execute(DataStack context) throws RTException {
+        ArrayList<Value> arguments = new ArrayList<>();
+        for(ExpressionToken para : parameters)
+            arguments.add(para.execute(context));
+        FunctionSignature functionSignature = new FunctionSignature(id);
+        for(Value argu : arguments)
+            functionSignature.addParameters(argu.getValueType());
+        HashMap<FunctionSignature,Function> functionMap = context.getFunctionMap();
+        if(!functionMap.containsKey(functionSignature))
+            throw new RTException(getLines(), getPos(), "undefined function");
+        Function func = functionMap.get(functionSignature);
+        func.setArguments(arguments);
+        return f
     }
 }
