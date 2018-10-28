@@ -1,13 +1,9 @@
 package main;
 
+import component.statement.*;
 import exception.SyntaxException;
 import component.function.Function;
 import component.function.FunctionSignature;
-import component.statement.IfElse;
-import component.statement.Initialization;
-import component.statement.Statement;
-import component.statement.While;
-import component.statement.For;
 import token.*;
 import type.*;
 
@@ -437,13 +433,13 @@ public class Parser {
         if(!detectSeparator(SeparatorType.RIGHTPARENTHESES))
             throwException("missing right parentheses");
 
-        LinkedList<Statement> ifbranch = detectStatements();
+        LinkedList<Statement> ifbranch = detectCodeBlock();
         ifElse.setCondition(condition);
         ifElse.setIfBranch(ifbranch);
 
         // exist else branch
         if(detectKeyword(KeywordType.ELSE)){
-            LinkedList<Statement> elsebranch = detectStatements();
+            LinkedList<Statement> elsebranch = detectCodeBlock();
             ifElse.setElseBranch(elsebranch);
         }
 
@@ -462,7 +458,7 @@ public class Parser {
         if(!detectSeparator(SeparatorType.RIGHTPARENTHESES))
             throwException("missing right parentheses");
 
-        LinkedList<Statement> loopStatement = detectStatements();
+        LinkedList<Statement> loopStatement = detectCodeBlock();
         wStatemengt.setCondition(condition);
         wStatemengt.setLoopStatements(loopStatement);
 
@@ -485,7 +481,7 @@ public class Parser {
         if(!detectSeparator(SeparatorType.RIGHTPARENTHESES))
             throwException("missing right parentheses");
 
-        LinkedList<Statement> loopStatement = detectStatements();
+        LinkedList<Statement> loopStatement = detectCodeBlock();
         fStatement.setInit(init);
         fStatement.setCondition(condition);
         fStatement.setIncr(incr);
@@ -515,24 +511,31 @@ public class Parser {
         if(fStatement != null)
             return fStatement;
 
-
-        // TODO: detect other statements
-
+        Expression expression = new Expression();
+        ExpressionToken root = detectExpression();
+        if(root != null){
+            expression.setRoot(root);
+            return expression;
+        }
         return null;
     }
 
     private LinkedList<Statement> detectStatements() throws SyntaxException{
-        // check left-brace
-        if (!detectSeparator(SeparatorType.LEFTBRACE))
-            throwException("missing left brace");
-
-
         // check statements
         LinkedList<Statement> statements = new LinkedList<>();
         Statement statement;
         while((statement = detectStatement()) != null){
             statements.add(statement);
         }
+        return statements;
+    }
+
+    private LinkedList<Statement> detectCodeBlock() throws SyntaxException{
+        // check left-brace
+        if (!detectSeparator(SeparatorType.LEFTBRACE))
+            throwException("missing left brace");
+
+        LinkedList<Statement> statements = detectStatements();
 
         if (!detectSeparator(SeparatorType.RIGHTBRACE))
             throwException("missing right brace");
@@ -578,7 +581,7 @@ public class Parser {
 
         }
 
-        function.setStatements(detectStatements());
+        function.setStatements(detectCodeBlock());
 
 
         return function;

@@ -4,5 +4,6 @@ public enum StatementType {
     INITIALIZATION,
     IFELSE,
     WHILE,
-    FOR
+    FOR,
+    EXPRESSION
 }
