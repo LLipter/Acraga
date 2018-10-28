@@ -11,9 +11,9 @@ import type.ValueType;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 
-public class Sub extends BinaryOperator {
+public class Subtract extends BinaryOperator {
 
-    public Sub(){
+    public Subtract(){
         operatorType = OperatorType.SUB;
     }
 
