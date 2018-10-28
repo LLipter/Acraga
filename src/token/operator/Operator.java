@@ -1,11 +1,13 @@
-package token;
+package token.operator;
 
+import component.statement.Executable;
+import token.ExpressionToken;
 import type.OperatorType;
 import type.TokenType;
 
 import java.util.HashMap;
 
-public abstract class Operator extends ExpressionToken {
+public abstract class Operator extends ExpressionToken implements Executable {
 
     protected OperatorType operatorType;
 

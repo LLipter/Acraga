@@ -2,11 +2,13 @@ package main;
 
 import exception.SyntaxException;
 import token.*;
+import token.operator.binary.BinaryOperator;
+import token.operator.Operator;
+import token.operator.UnaryOperator;
 import type.KeywordType;
 import type.OperatorType;
 import type.SeparatorType;
 
-import javax.naming.NamingEnumeration;
 import java.util.LinkedList;
 
 public class Scanner {

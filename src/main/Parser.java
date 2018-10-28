@@ -5,6 +5,9 @@ import exception.SyntaxException;
 import component.function.Function;
 import component.function.FunctionSignature;
 import token.*;
+import token.operator.binary.BinaryOperator;
+import token.operator.Operator;
+import token.operator.UnaryOperator;
 import type.*;
 
 import java.util.LinkedList;
@@ -264,7 +267,7 @@ public class Parser {
             // Whenever meets ")" or "]" break recursion
             else if (isSeparator(SeparatorType.RIGHTPARENTHESES) || isSeparator(SeparatorType.RIGHTBRACKET))
                 break;
-            // Operator
+            // operator
             else if (isOperator()) {
                 Operator op = (Operator) getToken();
                 if (operatorSt.isEmpty()) {
@@ -501,6 +504,9 @@ public class Parser {
 
         rStatement.setReturnValue(returnValue);
 
+        if (!detectSeparator(SeparatorType.SEMICOLON))
+            throwException("missing semicolon");
+
         return rStatement;
     }
 
@@ -533,6 +539,8 @@ public class Parser {
         ExpressionToken root = detectExpression();
         if(root != null){
             expression.setRoot(root);
+            if (!detectSeparator(SeparatorType.SEMICOLON))
+                throwException("missing semicolon");
             return expression;
         }
         return null;

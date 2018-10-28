@@ -1,16 +1,13 @@
-package token;
+package token.operator.binary;
 
+import token.ExpressionToken;
+import token.operator.Operator;
 import type.OperatorType;
 
-public class BinaryOperator extends Operator {
+public abstract class BinaryOperator extends Operator {
 
     private ExpressionToken lChild;
     private ExpressionToken rChild;
-
-    public BinaryOperator(OperatorType type) {
-        super();
-        operatorType = type;
-    }
 
     @Override
     public String toString() {

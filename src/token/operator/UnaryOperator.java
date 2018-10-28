@@ -1,5 +1,6 @@
-package token;
+package token.operator;
 
+import token.ExpressionToken;
 import type.OperatorType;
 
 public class UnaryOperator extends Operator {
