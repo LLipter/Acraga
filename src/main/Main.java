@@ -1,13 +1,10 @@
 package main;
 
-import exception.SyntaxException;
-import token.ExpressionToken;
-import token.Value;
-import type.ValueType;
+import exception.Syntax;
 
 public class Main {
 
-    public static void main(String[] args) throws SyntaxException {
+    public static void main(String[] args) throws Syntax {
         // TODO Auto-generated method stub
 
         Preprocessor input = new Preprocessor("input1.acg");

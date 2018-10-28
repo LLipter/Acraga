@@ -1,6 +1,6 @@
 package main;
 
-import exception.SyntaxException;
+import exception.Syntax;
 import token.*;
 import token.operator.binary.BinaryOperator;
 import token.operator.Operator;
@@ -16,7 +16,7 @@ public class Scanner {
     private Preprocessor preprocessor;
     private LinkedList<Token> tokens;
 
-    public Scanner(Preprocessor preprocessor) throws SyntaxException {
+    public Scanner(Preprocessor preprocessor) throws Syntax {
         this.preprocessor = preprocessor;
         tokens = new LinkedList<Token>();
 
@@ -61,7 +61,7 @@ public class Scanner {
                 continue;
             }
 
-            throw new SyntaxException(this.preprocessor.getLine(), this.preprocessor.getPos(), "invalid token");
+            throw new Syntax(this.preprocessor.getLine(), this.preprocessor.getPos(), "invalid token");
 
 
 
@@ -222,7 +222,7 @@ public class Scanner {
     }
 
     // detect value
-    public Value detectValue() throws SyntaxException {
+    public Value detectValue() throws Syntax {
         Value value;
         int lines = preprocessor.getLine();
         int pos = preprocessor.getPos();

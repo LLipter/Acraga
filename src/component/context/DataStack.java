@@ -1,8 +1,10 @@
 package component.context;
 
+import component.function.Function;
+import component.function.FunctionSignature;
 import token.Identifier;
 import token.Value;
-import exception.RuntimeException;
+import exception.Runtime;
 import type.Casting;
 import type.ValueType;
 
@@ -16,6 +18,16 @@ public class DataStack {
 
     // Object maybe Value for simple variables or ArrayList<Value> for array variables
     private LinkedList<HashMap<String, Object>> dataStack;
+    // all available function
+    private HashMap<FunctionSignature, Function> functionMap;
+
+    public HashMap<FunctionSignature, Function> getFunctionMap() {
+        return functionMap;
+    }
+
+    public void setFunctionMap(HashMap<FunctionSignature, Function> functionMap) {
+        this.functionMap = functionMap;
+    }
 
     public DataStack(){
         dataStack = new LinkedList<>();
@@ -29,12 +41,12 @@ public class DataStack {
         dataStack.removeFirst();
     }
 
-    private void throwException(Identifier identifier, String msg) throws RuntimeException{
-        throw new RuntimeException(identifier.getLines(), identifier.getPos(), msg);
+    private void throwException(Identifier identifier, String msg) throws Runtime {
+        throw new Runtime(identifier.getLines(), identifier.getPos(), msg);
     }
 
     // get simple variable
-    public Value getValue(Identifier identifier) throws RuntimeException{
+    public Value getValue(Identifier identifier) throws Runtime {
         Iterator<HashMap<String, Object>> it = dataStack.iterator();
         while(it.hasNext()){
             HashMap<String, Object> frame = it.next();
@@ -51,7 +63,7 @@ public class DataStack {
     }
 
     // get array variable
-    public Value getValue(Identifier identifier, int index) throws RuntimeException{
+    public Value getValue(Identifier identifier, int index) throws Runtime {
         Iterator<HashMap<String, Object>> it = dataStack.iterator();
         while(it.hasNext()){
             HashMap<String, Object> frame = it.next();
@@ -66,11 +78,11 @@ public class DataStack {
             }
         }
         throwException(identifier, String.format("%s not defined", identifier.getId()));
-        return null; // never used 
+        return null; // never used
     }
 
     // declare simple variable
-    public void declareValue(Identifier identifier, Value value) throws RuntimeException{
+    public void declareValue(Identifier identifier, Value value) throws Runtime {
         HashMap<String, Object> frame = dataStack.getFirst();
         if(frame.containsKey(identifier.getId()))
             throwException(identifier, String.format("%s defined multiple times", identifier.getId()));
@@ -78,7 +90,7 @@ public class DataStack {
     }
 
     // declare array variable
-    public void declareValue(Identifier identifier, int length, ValueType type) throws RuntimeException{
+    public void declareValue(Identifier identifier, int length, ValueType type) throws Runtime {
         HashMap<String, Object> frame = dataStack.getFirst();
         if(frame.containsKey(identifier.getId()))
             throwException(identifier, String.format("%s defined multiple times", identifier.getId()));
@@ -89,7 +101,7 @@ public class DataStack {
     }
 
     // set simple variable
-    public void setValue(Identifier identifier, Value value) throws RuntimeException{
+    public void setValue(Identifier identifier, Value value) throws Runtime {
         HashMap<String, Object> frame = dataStack.getFirst();
         if(!frame.containsKey(identifier.getId()))
             throwException(identifier, String.format("%s not defined", identifier.getId()));
@@ -104,7 +116,7 @@ public class DataStack {
     }
 
     // set one element in an array variable
-    public void setValue(Identifier identifier, int index, Value value) throws RuntimeException{
+    public void setValue(Identifier identifier, int index, Value value) throws Runtime {
         HashMap<String, Object> frame = dataStack.getFirst();
         if(!frame.containsKey(identifier.getId()))
             throwException(identifier, String.format("%s not defined", identifier.getId()));

@@ -1,5 +1,7 @@
 package token;
 
+import component.context.DataStack;
+import exception.Runtime;
 import type.TokenType;
 import type.ValueType;
 
@@ -107,4 +109,8 @@ public class Value extends ExpressionToken {
         return valueType;
     }
 
+    @Override
+    public Value execute(DataStack context) throws Runtime {
+        return this;
+    }
 }
