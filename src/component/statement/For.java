@@ -3,8 +3,6 @@ package component.statement;
 import token.ExpressionToken;
 import type.StatementType;
 
-import java.util.LinkedList;
-
 public class For extends Loop {
 
     private ExpressionToken init;

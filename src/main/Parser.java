@@ -7,6 +7,7 @@ import component.statement.IfElse;
 import component.statement.Initialization;
 import component.statement.Statement;
 import component.statement.While;
+import component.statement.For;
 import token.*;
 import type.*;
 
@@ -468,6 +469,31 @@ public class Parser {
         return wStatemengt;
     }
 
+    private For detectFor() throws SyntaxException{
+        For fStatement = new For();
+        if(!detectKeyword(KeywordType.FOR))
+            return null;
+        if(!detectSeparator(SeparatorType.LEFTPARENTHESES))
+            throwException("missing left parentheses");
+        ExpressionToken init = detectExpression();
+        if(!detectSeparator(SeparatorType.SEMICOLON))
+            throwException("missing semicolon");
+        ExpressionToken condition = detectExpression();
+        if(!detectSeparator(SeparatorType.SEMICOLON))
+            throwException("missing semicolon");
+        ExpressionToken incr = detectExpression();
+        if(!detectSeparator(SeparatorType.RIGHTPARENTHESES))
+            throwException("missing right parentheses");
+
+        LinkedList<Statement> loopStatement = detectStatements();
+        fStatement.setInit(init);
+        fStatement.setCondition(condition);
+        fStatement.setIncr(incr);
+        fStatement.setLoopStatements(loopStatement);
+
+        return fStatement;
+    }
+
     private Statement detectStatement() throws SyntaxException{
         // ignore all empty statements
         while(detectSeparator(SeparatorType.SEMICOLON))
@@ -484,6 +510,10 @@ public class Parser {
         While wStatement = detectWhile();
         if(wStatement != null)
             return wStatement;
+
+        For fStatement = detectFor();
+        if(fStatement != null)
+            return fStatement;
 
 
         // TODO: detect other statements
