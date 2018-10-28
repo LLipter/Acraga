@@ -27,6 +27,8 @@ public class AddAssign extends BinaryOperator {
         Value rvalue = rChild.execute(context);
 
         Value res;
+        if(lvalue.isVoid() || rvalue.isVoid())
+            throw new RTException(getLines(), getPos(), "void variable is not allowed to do operation");
         // String concatenation
         if (lvalue.isString() || rvalue.isString()){
             res = new Value(ValueType.STRING);
@@ -50,8 +52,6 @@ public class AddAssign extends BinaryOperator {
             BigInteger sum = number1.add(number2);
             res.setIntValue(sum);
         }
-        else if(lvalue.isVoid() || rvalue.isVoid())
-            throw new RTException(getLines(), getPos(), "void variable is not allowed to do operation");
         else
             throw new RTException(getLines(), getPos(), "boolean variable cannot be added to another boolean variable");
 

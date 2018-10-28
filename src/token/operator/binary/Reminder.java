@@ -23,6 +23,8 @@ public class Reminder extends BinaryOperator {
         Value rvalue = rChild.execute(context);
 
         Value res;
+        if(lvalue.isVoid() || rvalue.isVoid())
+            throw new RTException(getLines(), getPos(), "void variable is not allowed to do operation");
         if (lvalue.isString() || rvalue.isString())
             throw new RTException(getLines(), getPos(), "string variable cannot do mod operation");
         else if(lvalue.isDouble() || rvalue.isDouble())
@@ -37,8 +39,6 @@ public class Reminder extends BinaryOperator {
             BigInteger mod = number1.remainder(number2);
             res.setIntValue(mod);
         }
-        else if(lvalue.isVoid() || rvalue.isVoid())
-            throw new RTException(getLines(), getPos(), "void variable is not allowed to do operation");
         else
             throw new RTException(getLines(), getPos(), "boolean variable cannot do mod operation");
         return res;
