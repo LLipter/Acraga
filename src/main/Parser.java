@@ -1,11 +1,12 @@
 package main;
 
 import exception.SyntaxException;
-import node.*;
-import node.statement.IfElse;
-import node.statement.Initialization;
-import node.statement.Statement;
-import node.statement.While;
+import component.function.Function;
+import component.function.FunctionSignature;
+import component.statement.IfElse;
+import component.statement.Initialization;
+import component.statement.Statement;
+import component.statement.While;
 import token.*;
 import type.*;
 

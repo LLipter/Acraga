@@ -1,11 +1,8 @@
-package node.statement;
+package component.statement;
 
 import token.ExpressionToken;
 import type.StatementType;
-import type.ValueType;
-import token.Value;
 
-import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.LinkedList;
 

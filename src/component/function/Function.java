@@ -1,6 +1,6 @@
-package node;
+package component.function;
 
-import node.statement.Statement;
+import component.statement.Statement;
 import type.ValueType;
 
 import java.util.Iterator;

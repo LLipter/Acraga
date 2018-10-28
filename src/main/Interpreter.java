@@ -1,9 +1,9 @@
 package main;
 
 import exception.RuntimeException;
-import node.Function;
-import node.FunctionSignature;
-import node.statement.Statement;
+import component.function.Function;
+import component.function.FunctionSignature;
+import component.statement.Statement;
 import token.Value;
 
 import java.util.HashMap;

@@ -1,6 +1,6 @@
 package token;
 
-import node.Expression;
+import component.Expression;
 import type.OperatorType;
 
 public class BinaryOperator extends Operator {

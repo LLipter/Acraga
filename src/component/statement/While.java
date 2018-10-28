@@ -1,4 +1,4 @@
-package node.statement;
+package component.statement;
 
 import token.ExpressionToken;
 import type.StatementType;

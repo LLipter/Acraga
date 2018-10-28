@@ -1,4 +1,4 @@
-package node.statement;
+package component.statement;
 
 import type.StatementType;
 
