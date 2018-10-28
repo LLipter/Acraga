@@ -7,7 +7,7 @@ import type.TokenType;
 
 import java.util.HashMap;
 
-public abstract class Operator extends ExpressionToken implements Executable {
+public abstract class Operator extends ExpressionToken {
 
     protected OperatorType operatorType;
 

@@ -1,5 +1,7 @@
 package type;
 
+import token.Value;
+
 public class Casting {
 
     public static ValueType keywordType2ValueType(KeywordType type) {
@@ -15,6 +17,11 @@ public class Casting {
             return ValueType.VOID;
         else
             return null;
+    }
+
+    // cast value to a given data type
+    public static Value casting(Value value, ValueType type) {
+        if (from.asSameTypeas(to))
     }
 
 }

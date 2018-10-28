@@ -1,5 +1,6 @@
 package token;
 
+import component.context.DataStack;
 import type.TokenType;
 
 public class Identifier extends ExpressionToken {
@@ -21,5 +22,8 @@ public class Identifier extends ExpressionToken {
         return String.format("<Identifier,%s>", id);
     }
 
-
+    @Override
+    public Value execute(DataStack context) {
+        return null;
+    }
 }

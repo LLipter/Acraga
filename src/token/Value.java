@@ -102,5 +102,19 @@ public class Value extends ExpressionToken {
             System.err.println("Unknown data type");
     }
 
+    public boolean asSameTypeAs(Value rhs){
+        return this.valueType == rhs.valueType;
+    }
+
+    public boolean isNumeric(){
+        return isDouble() || isInt();
+    }
+
+    public boolean CompatibleWith(Value rhs){
+        if (asSameTypeAs(rhs))
+            return true;
+
+    }
+
 
 }

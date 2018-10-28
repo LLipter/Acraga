@@ -1,5 +1,7 @@
 package token;
 
-public abstract class ExpressionToken extends Token{
+import component.statement.Executable;
+
+public abstract class ExpressionToken extends Token implements Executable {
 
 }

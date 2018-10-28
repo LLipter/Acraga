@@ -6,8 +6,8 @@ import type.OperatorType;
 
 public abstract class BinaryOperator extends Operator {
 
-    private ExpressionToken lChild;
-    private ExpressionToken rChild;
+    protected ExpressionToken lChild;
+    protected ExpressionToken rChild;
 
     @Override
     public String toString() {
