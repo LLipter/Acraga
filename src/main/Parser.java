@@ -2,10 +2,13 @@ package main;
 
 import exception.SyntaxException;
 import node.*;
+import node.statement.IfElse;
+import node.statement.Initialization;
+import node.statement.Statement;
+import node.statement.While;
 import token.*;
 import type.*;
 
-import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.Stack;
 import java.util.HashMap;

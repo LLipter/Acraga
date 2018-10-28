@@ -1,5 +1,6 @@
-package node;
+package node.statement;
 
+import node.Node;
 import type.StatementType;
 import type.NodeType;
 

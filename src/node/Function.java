@@ -1,5 +1,6 @@
 package node;
 
+import node.statement.Statement;
 import type.NodeType;
 import type.ValueType;
 

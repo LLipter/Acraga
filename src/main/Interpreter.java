@@ -3,7 +3,7 @@ package main;
 import exception.RuntimeException;
 import node.Function;
 import node.FunctionSignature;
-import node.Statement;
+import node.statement.Statement;
 import token.Value;
 
 import java.util.HashMap;
