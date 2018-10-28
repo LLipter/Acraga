@@ -41,4 +41,9 @@ public class Function implements Iterable<Statement> {
     public Iterator<Statement> iterator() {
         return statements.iterator();
     }
+
+    @Override
+    public String toString() {
+        return String.format("<Function,%s,%s>",returnType, functionSignature);
+    }
 }

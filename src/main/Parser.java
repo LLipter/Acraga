@@ -24,7 +24,8 @@ public class Parser {
         updateLinePos();
         //parse();
 
-        //printExpressionTree function detectExpression()
+        Function function = detectFunction();
+        System.out.println(function);
 //        Initialization test = detectInitialization();
 //        System.out.println();
 //        System.out.println("Tree:");

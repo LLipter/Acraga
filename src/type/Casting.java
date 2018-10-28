@@ -11,6 +11,8 @@ public class Casting {
             return ValueType.STRING;
         else if (type == KeywordType.BOOL)
             return ValueType.BOOLEAN;
+        else if (type == KeywordType.VOID)
+            return ValueType.VOID;
         else
             return null;
     }
