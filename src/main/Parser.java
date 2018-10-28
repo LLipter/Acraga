@@ -490,6 +490,19 @@ public class Parser {
         return fStatement;
     }
 
+    private Return detectReturn() throws SyntaxException{
+        Return rStatement = new Return();
+        if(!detectKeyword(KeywordType.RETURN))
+            return null;
+        ExpressionToken returnValue = detectExpression();
+        if(returnValue == null)
+            throwException("missing returned value");
+
+        rStatement.setReturnValue(returnValue);
+
+        return rStatement;
+    }
+
     private Statement detectStatement() throws SyntaxException{
         // ignore all empty statements
         while(detectSeparator(SeparatorType.SEMICOLON))
@@ -510,6 +523,10 @@ public class Parser {
         For fStatement = detectFor();
         if(fStatement != null)
             return fStatement;
+
+        Return rStatement = detectReturn();
+        if (rStatement != null)
+            return rStatement;
 
         Expression expression = new Expression();
         ExpressionToken root = detectExpression();
@@ -542,6 +559,8 @@ public class Parser {
 
         return statements;
     }
+
+
 
     private Function detectFunction() throws SyntaxException {
         Function function;

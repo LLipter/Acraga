@@ -5,5 +5,6 @@ public enum StatementType {
     IFELSE,
     WHILE,
     FOR,
-    EXPRESSION
+    EXPRESSION,
+    RETURN
 }

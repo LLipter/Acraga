@@ -9,5 +9,6 @@ public enum KeywordType {
     INT,
     BOOL,
     STRING,
-    VOID
+    VOID,
+    RETURN
 }

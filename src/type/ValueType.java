@@ -5,5 +5,4 @@ public enum ValueType {
     INTEGER,
     BOOLEAN,
     STRING,
-    VOID
 }

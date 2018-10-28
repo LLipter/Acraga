@@ -209,6 +209,8 @@ public class Scanner {
             keyword = new Keyword(KeywordType.BOOL);
         else if (preprocessor.isKeyword("void"))
             keyword = new Keyword(KeywordType.VOID);
+        else if (preprocessor.isKeyword("return"))
+            keyword = new Keyword(KeywordType.RETURN);
         else
             return null;
         keyword.setLines(lines);
