@@ -24,7 +24,7 @@ public class Multiply extends BinaryOperator{
 
         Value res;
         if (lvalue.isString() || rvalue.isString())
-            throw new RTException(getLines(), getPos(), "string variable cannot be multiplied by another string variable");
+            throw new RTException(getLines(), getPos(), "string variable cannot do multiplication operation");
         // automatically promote to double
         else if(lvalue.isDouble() || rvalue.isDouble()){
             res = new Value(ValueType.DOUBLE);
