@@ -3,6 +3,7 @@ package component.context;
 import token.Identifier;
 import token.Value;
 import exception.RuntimeException;
+import type.Casting;
 import type.ValueType;
 
 import java.util.ArrayList;
@@ -28,6 +29,10 @@ public class DataStack {
         dataStack.removeFirst();
     }
 
+    private void throwException(Identifier identifier, String msg) throws RuntimeException{
+        throw new RuntimeException(identifier.getLines(), identifier.getPos(), msg);
+    }
+
     // get simple variable
     public Value getValue(Identifier identifier) throws RuntimeException{
         Iterator<HashMap<String, Object>> it = dataStack.iterator();
@@ -37,10 +42,12 @@ public class DataStack {
                 Object obj = frame.get(identifier.getId());
                 if(obj instanceof Value)
                     return (Value)obj;
-                throw new RuntimeException(identifier.getLines(), identifier.getPos(), String.format("%s is an array", identifier.getId()));
+                throwException(identifier, String.format("%s is an array", identifier.getId()));
+
             }
         }
-        throw new RuntimeException(identifier.getLines(), identifier.getPos(), String.format("%s not defined", identifier.getId()));
+        throwException(identifier, String.format("%s not defined", identifier.getId()));
+        return null; // never used
     }
 
     // get array variable
@@ -51,21 +58,22 @@ public class DataStack {
             if (frame.containsKey(identifier.getId())){
                 Object obj = frame.get(identifier.getId());
                 if(!(obj instanceof ArrayList))
-                    throw new RuntimeException(identifier.getLines(), identifier.getPos(), String.format("%s is not an array, thus, not indexable", identifier.getId()));
+                    throwException(identifier, String.format("%s is not an array, thus, not indexable", identifier.getId()));
                 ArrayList<Value> array = (ArrayList<Value>)obj;
                 if(array.size() < index + 1)
-                    throw new RuntimeException(identifier.getLines(), identifier.getPos(), String.format("%s index out of range", identifier.getId()));
+                    throwException(identifier, String.format("%s index out of range", identifier.getId()));
                 return array.get(index);
             }
         }
-        throw new RuntimeException(identifier.getLines(), identifier.getPos(), String.format("%s not defined", identifier.getId()));
+        throwException(identifier, String.format("%s not defined", identifier.getId()));
+        return null; // never used 
     }
 
     // declare simple variable
     public void declareValue(Identifier identifier, Value value) throws RuntimeException{
         HashMap<String, Object> frame = dataStack.getFirst();
         if(frame.containsKey(identifier.getId()))
-            throw new RuntimeException(identifier.getLines(), identifier.getPos(), String.format("%s defined multiple times", identifier.getId()));
+            throwException(identifier, String.format("%s defined multiple times", identifier.getId()));
         frame.put(identifier.getId(), value);
     }
 
@@ -73,7 +81,7 @@ public class DataStack {
     public void declareValue(Identifier identifier, int length, ValueType type) throws RuntimeException{
         HashMap<String, Object> frame = dataStack.getFirst();
         if(frame.containsKey(identifier.getId()))
-            throw new RuntimeException(identifier.getLines(), identifier.getPos(), String.format("%s defined multiple times", identifier.getId()));
+            throwException(identifier, String.format("%s defined multiple times", identifier.getId()));
         ArrayList<Value> array = new ArrayList<>();
         for(int i=0;i<length;i++)
             array.add(new Value(type));
@@ -84,28 +92,32 @@ public class DataStack {
     public void setValue(Identifier identifier, Value value) throws RuntimeException{
         HashMap<String, Object> frame = dataStack.getFirst();
         if(!frame.containsKey(identifier.getId()))
-            throw new RuntimeException(identifier.getLines(), identifier.getPos(), String.format("%s not defined", identifier.getId()));
+            throwException(identifier, String.format("%s not defined", identifier.getId()));
         Object obj = frame.get(identifier.getId());
         if(!(obj instanceof Value))
-            throw new RuntimeException(identifier.getLines(), identifier.getPos(), String.format("%s is an array", identifier.getId()));
-        frame.put(identifier.getId(), value);
+            throwException(identifier, String.format("%s is an array", identifier.getId()));
+        Value oldValue = (Value)obj;
+        Value castedValue = Casting.casting(value, oldValue.getValueType());
+        if (castedValue == null)
+            throwException(identifier, String.format("%s is not compatible with type %s", identifier.getId(), value.getValueType()));
+        frame.put(identifier.getId(), castedValue);
     }
 
     // set one element in an array variable
     public void setValue(Identifier identifier, int index, Value value) throws RuntimeException{
         HashMap<String, Object> frame = dataStack.getFirst();
         if(!frame.containsKey(identifier.getId()))
-            throw new RuntimeException(identifier.getLines(), identifier.getPos(), String.format("%s not defined", identifier.getId()));
+            throwException(identifier, String.format("%s not defined", identifier.getId()));
         Object obj = frame.get(identifier.getId());
         if(!(obj instanceof ArrayList))
-            throw new RuntimeException(identifier.getLines(), identifier.getPos(), String.format("%s is not an array, thus, not indexable", identifier.getId()));
+            throwException(identifier, String.format("%s is not an array, thus, not indexable", identifier.getId()));
         ArrayList<Value> array = (ArrayList<Value>)obj;
         if(array.size() < index + 1)
-            throw new RuntimeException(identifier.getLines(), identifier.getPos(), String.format("%s index out of range", identifier.getId()));
+            throwException(identifier, String.format("%s index out of range", identifier.getId()));
         Value value_in_array = array.get(0);
-        if(!value_in_array.asSameTypeAs(value))
-            throw new RuntimeException(identifier.getLines(), identifier.getPos(), String.format("%s index out of range", identifier.getId()));
-
-        array.set(index, value);
+        Value castedValue = Casting.casting(value, value_in_array.getValueType());
+        if (castedValue == null)
+            throwException(identifier, String.format("%s is not compatible with type %s", identifier.getId(), value.getValueType()));
+        array.set(index, castedValue);
     }
 }
