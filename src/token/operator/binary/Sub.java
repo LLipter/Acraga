@@ -11,10 +11,10 @@ import type.ValueType;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 
-public class Add extends BinaryOperator {
+public class Sub extends BinaryOperator {
 
-    public Add(){
-        operatorType = OperatorType.ADD;
+    public Sub(){
+        operatorType = OperatorType.SUB;
     }
 
     @Override
@@ -23,31 +23,26 @@ public class Add extends BinaryOperator {
         Value rvalue = rChild.execute(context);
 
         Value res;
-        // String concatenation
-        if (lvalue.isString() || rvalue.isString()){
-            res = new Value(ValueType.STRING);
-            String str = Casting.casting(lvalue,ValueType.STRING).getStringValue()
-                    + Casting.casting(rvalue,ValueType.STRING).getStringValue();
-            res.setStringValue(str);
-        }
+        if (lvalue.isString() || rvalue.isString())
+            throw new RTException(getLines(), getPos(), "string variable cannot be subtracted to another string variable");
         // automatically promote to double
         else if(lvalue.isDouble() || rvalue.isDouble()){
             res = new Value(ValueType.DOUBLE);
             BigDecimal number1 = Casting.casting(lvalue,ValueType.DOUBLE).getDoubleValue();
             BigDecimal number2 = Casting.casting(rvalue,ValueType.DOUBLE).getDoubleValue();
-            BigDecimal sum = number1.add(number2);
-            res.setDoubleValue(sum);
+            BigDecimal sub = number1.subtract(number2);
+            res.setDoubleValue(sub);
         }
         // automatically promote to integer
         else if(lvalue.isInt() || rvalue.isInt()){
             res = new Value(ValueType.INTEGER);
             BigInteger number1 = Casting.casting(lvalue,ValueType.INTEGER).getIntValue();
             BigInteger number2 = Casting.casting(rvalue,ValueType.INTEGER).getIntValue();
-            BigInteger sum = number1.add(number2);
-            res.setIntValue(sum);
+            BigInteger sub = number1.subtract(number2);
+            res.setIntValue(sub);
         }
         else
-            throw new RTException(getLines(), getPos(), "boolean variable cannot be added to another boolean variable");
+            throw new RTException(getLines(), getPos(), "boolean variable cannot be subtracted to another boolean variable");
         return res;
     }
 }

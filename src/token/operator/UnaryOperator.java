@@ -3,7 +3,7 @@ package token.operator;
 import token.ExpressionToken;
 import type.OperatorType;
 
-public class UnaryOperator extends Operator {
+public abstract class UnaryOperator extends Operator {
 
     private ExpressionToken child;
 

@@ -1,5 +1,6 @@
 package token;
 
+import component.ReturnValue;
 import component.context.DataStack;
 import exception.RTException;
 
@@ -20,7 +21,7 @@ public class ArrayId extends Identifier {
     }
 
     @Override
-    public Value execute(DataStack context) throws RTException {
+    public Value execute(DataStack context) throws RTException, ReturnValue {
         Value idx = index.execute(context);
         if (!idx.isInt())
             throw new RTException(getLines(),getPos(),"only integer can be used as index");
