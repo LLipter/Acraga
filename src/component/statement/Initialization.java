@@ -1,23 +1,24 @@
 package component.statement;
 
-import token.ExpressionToken;
-import token.Identifier;
+import component.ReturnValue;
+import component.context.DataStack;
+import exception.RTException;
+import token.*;
 import type.StatementType;
+import type.ValueType;
 
+import java.util.ArrayList;
 import java.util.Iterator;
-import java.util.LinkedList;
 
 public class Initialization extends Statement implements Iterable<ExpressionToken> {
 
     private Identifier id;
     private ExpressionToken value;
-    private boolean isArray;
-    private LinkedList<ExpressionToken> elements;
-    private ExpressionToken arrayLength;
+    private ArrayList<ExpressionToken> elements;
 
     public Initialization(){
         statementType = StatementType.INITIALIZATION;
-        elements = new LinkedList<>();
+        elements = new ArrayList<>();
     }
 
     public Identifier getId() {
@@ -36,24 +37,8 @@ public class Initialization extends Statement implements Iterable<ExpressionToke
         this.value = value;
     }
 
-    public boolean isArray() {
-        return isArray;
-    }
-
-    public void setArray(boolean array) {
-        isArray = array;
-    }
-
     public void addElement(ExpressionToken expressionToken){
         elements.add(expressionToken);
-    }
-
-    public ExpressionToken getArrayLength() {
-        return arrayLength;
-    }
-
-    public void setArrayLength(ExpressionToken arrayLength) {
-        this.arrayLength = arrayLength;
     }
 
     @Override
@@ -61,5 +46,30 @@ public class Initialization extends Statement implements Iterable<ExpressionToke
         return elements.iterator();
     }
 
+    @Override
+    public Value execute(DataStack context) throws RTException, ReturnValue {
+        if(id instanceof FunctionId)
+            throw new RTException(id.getLines(), id.getPos(), "function identifier cannot be used to declare an array");
+        // declare an array
+        if(id instanceof ArrayId){
+            ArrayId aid = (ArrayId) id;
+            Value len_value = aid.getLength().execute(context);
+            if(!len_value.isInt())
+                throw new RTException(id.getLines(), id.getPos(), "array length must be integer");
+            int len = len_value.getIntValue().intValue();
+            if(elements.size() > len)
+                throw new RTException(id.getLines(), id.getPos(), "array length must be larger than the number of elements in initialization list");
+            context.declareValue(aid, len, aid.getDataType());
+            for(int i=0;i<elements.size();i++){
+                Value elementValue = elements.get(i).execute(context);
+                context.setValue(aid, elementValue);
+            }
+        }
+        // declare a simple variable
+        else
+            context.declareValue(id, value.execute(context), id.getDataType());
 
+        // the result of initialization is always void
+        return new Value(ValueType.VOID);
+    }
 }

@@ -48,47 +48,56 @@ public class DataStack {
         throw new RTException(identifier.getLines(), identifier.getPos(), msg);
     }
 
-    // get simple variable
+
     public Value getValue(Identifier identifier) throws RTException {
-        Iterator<HashMap<String, Object>> it = dataStack.iterator();
-        while(it.hasNext()){
-            HashMap<String, Object> frame = it.next();
-            if (frame.containsKey(identifier.getId())){
-                Object obj = frame.get(identifier.getId());
-                if(obj instanceof Value)
-                    return (Value)obj;
-                throwException(identifier, String.format("%s is an array", identifier.getId()));
-
+        if (identifier instanceof FunctionId)
+            throwException(identifier, "left value required");
+        // get array variable
+        if (identifier instanceof ArrayId){
+            Iterator<HashMap<String, Object>> it = dataStack.iterator();
+            while(it.hasNext()){
+                HashMap<String, Object> frame = it.next();
+                int index = ((ArrayId)identifier).getIntIndex();
+                if (frame.containsKey(identifier.getId())){
+                    Object obj = frame.get(identifier.getId());
+                    if(!(obj instanceof ArrayList))
+                        throwException(identifier, String.format("%s is not an array, thus, not indexable", identifier.getId()));
+                    ArrayList<Value> array = (ArrayList<Value>)obj;
+                    if(array.size() < index + 1)
+                        throwException(identifier, String.format("%s index out of range", identifier.getId()));
+                    return array.get(index);
+                }
             }
+            throwException(identifier, String.format("%s not defined", identifier.getId()));
         }
-        throwException(identifier, String.format("%s not defined", identifier.getId()));
+        // get simple variable
+        else{
+            Iterator<HashMap<String, Object>> it = dataStack.iterator();
+            while(it.hasNext()){
+                HashMap<String, Object> frame = it.next();
+                if (frame.containsKey(identifier.getId())){
+                    Object obj = frame.get(identifier.getId());
+                    if(obj instanceof Value)
+                        return (Value)obj;
+                    throwException(identifier, String.format("%s is an array", identifier.getId()));
+
+                }
+            }
+            throwException(identifier, String.format("%s not defined", identifier.getId()));
+        }
+
         return null; // never used
     }
 
-    // get array variable
-    public Value getValue(Identifier identifier, int index) throws RTException {
-        Iterator<HashMap<String, Object>> it = dataStack.iterator();
-        while(it.hasNext()){
-            HashMap<String, Object> frame = it.next();
-            if (frame.containsKey(identifier.getId())){
-                Object obj = frame.get(identifier.getId());
-                if(!(obj instanceof ArrayList))
-                    throwException(identifier, String.format("%s is not an array, thus, not indexable", identifier.getId()));
-                ArrayList<Value> array = (ArrayList<Value>)obj;
-                if(array.size() < index + 1)
-                    throwException(identifier, String.format("%s index out of range", identifier.getId()));
-                return array.get(index);
-            }
-        }
-        throwException(identifier, String.format("%s not defined", identifier.getId()));
-        return null; // never used
-    }
 
     // declare simple variable
-    public void declareValue(Identifier identifier, Value value) throws RTException {
+    public void declareValue(Identifier identifier, Value value, ValueType type) throws RTException {
         HashMap<String, Object> frame = dataStack.getFirst();
         if(frame.containsKey(identifier.getId()))
             throwException(identifier, String.format("%s defined multiple times", identifier.getId()));
+        Value castedValue = Casting.casting(value, type);
+        if(castedValue == null)
+            throwException(identifier, String.format("%s is not compatible with type %s", identifier.getId(), value.getValueType()));
         frame.put(identifier.getId(), value);
     }
 
@@ -104,6 +113,8 @@ public class DataStack {
     }
 
     public void setValue(Identifier identifier, Value value) throws RTException, ReturnValue {
+        if(identifier instanceof FunctionId)
+            throwException(identifier, "left value required");
         // set one element in an array variable
         if(identifier instanceof ArrayId){
             HashMap<String, Object> frame = dataStack.getFirst();
@@ -113,10 +124,7 @@ public class DataStack {
             if(!(obj instanceof ArrayList))
                 throwException(identifier, String.format("%s is not an array, thus, not indexable", identifier.getId()));
             ArrayList<Value> array = (ArrayList<Value>)obj;
-            Value index_value = ((ArrayId)identifier).getIndex().execute(this);
-            if(!index_value.isInt())
-                throwException(identifier, "only integer can be used as index");
-            int index = index_value.getIntValue().intValue();
+            int index = ((ArrayId)identifier).getIntIndex();
             if(array.size() < index + 1)
                 throwException(identifier, String.format("%s index out of range", identifier.getId()));
             Value value_in_array = array.get(0);
@@ -125,8 +133,6 @@ public class DataStack {
                 throwException(identifier, String.format("%s is not compatible with type %s", identifier.getId(), value.getValueType()));
             array.set(index, castedValue);
         }
-        else if(identifier instanceof FunctionId)
-            throwException(identifier, "left value required");
         // set simple variable
         else{
             HashMap<String, Object> frame = dataStack.getFirst();

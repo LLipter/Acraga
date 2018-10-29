@@ -6,6 +6,24 @@ import exception.RTException;
 
 public class ArrayId extends Identifier {
     private ExpressionToken index;
+    private ExpressionToken length;
+    private int intIndex;
+
+    public int getIntIndex() {
+        return intIndex;
+    }
+
+    public void setIntIndex(int intIndex) {
+        this.intIndex = intIndex;
+    }
+
+    public ExpressionToken getLength() {
+        return length;
+    }
+
+    public void setLength(ExpressionToken length) {
+        this.length = length;
+    }
 
     public void setIndex(ExpressionToken ex){
         index=ex;
@@ -25,6 +43,7 @@ public class ArrayId extends Identifier {
         Value idx = index.execute(context);
         if (!idx.isInt())
             throw new RTException(getLines(),getPos(),"only integer can be used as index");
-        return context.getValue(this, idx.getIntValue().intValue());
+        intIndex = idx.getIntValue().intValue();
+        return context.getValue(this);
     }
 }

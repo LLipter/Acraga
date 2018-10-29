@@ -358,13 +358,13 @@ public class Parser {
 
     private Initialization detectInitialization() throws SyntaxException {
         Initialization initialization = new Initialization();
-        initialization.setArray(false);
         ValueType dataType = detectDataType();
         if (dataType == null)
             return null;
         Identifier id = detectIdentifier();
         if (id == null)
             throwException("missing identifier");
+        id.setDataType(dataType);
         initialization.setId(id);
         if (detectSeparator(SeparatorType.SEMICOLON))
             initialization.setValue(new Value(dataType));
@@ -372,7 +372,9 @@ public class Parser {
             initialization.setValue(detectExpression());
         else if (detectSeparator(SeparatorType.LEFTBRACKET)){
             // array initialization statement
-            initialization.setArray(true);
+            ArrayId aid = new ArrayId();
+            aid.setDataType(dataType);
+            initialization.setId(aid);
             ExpressionToken arrayLength = detectExpression();
             if(arrayLength == null){
                 // deduce array length from initialization list
@@ -398,10 +400,10 @@ public class Parser {
                     throwException("missing right brace");
                 Value len = new Value(ValueType.INTEGER);
                 len.setIntValue(cnt);
-                initialization.setArrayLength(len);
+                aid.setLength(len);
             }else{
                 // array length is given
-                initialization.setArrayLength(arrayLength);
+                aid.setLength(arrayLength);
                 if(!detectSeparator(SeparatorType.RIGHTBRACKET))
                     throwException("missing right bracket");
                 if(detectSeparator(SeparatorType.SEMICOLON))
