@@ -10,7 +10,7 @@ public class Main {
 
         Preprocessor input = new Preprocessor("input1.acg");
         Scanner scanner = new Scanner(input);
-        scanner.print();
+//        scanner.print();
         Parser parser = new Parser(scanner);
         parser.print();
         Interpreter interpreter = new Interpreter(parser);

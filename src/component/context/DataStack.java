@@ -95,7 +95,7 @@ public class DataStack {
         Value castedValue = Casting.casting(value, type);
         if (castedValue == null)
             throwException(identifier, String.format("%s is not compatible with type %s", identifier.getId(), value.getValueType()));
-        frame.put(identifier.getId(), value);
+        frame.put(identifier.getId(), castedValue);
     }
 
     // declare array variable
