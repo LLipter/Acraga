@@ -11,7 +11,7 @@ import type.ValueType;
 
 public class LogicalAnd extends BinaryOperator {
 
-    public LogicalAnd(){
+    public LogicalAnd() {
         operatorType = OperatorType.LOGICALAND;
     }
 
@@ -21,7 +21,7 @@ public class LogicalAnd extends BinaryOperator {
         Value rvalue = rChild.execute(context);
 
         Value res = new Value(ValueType.BOOLEAN);
-        if(lvalue.isVoid() || rvalue.isVoid())
+        if (lvalue.isVoid() || rvalue.isVoid())
             throw new RTException(getLines(), getPos(), "void variable is not allowed to do operation");
         boolean bool1 = Casting.casting(lvalue, ValueType.BOOLEAN).getBoolValue();
         boolean bool2 = Casting.casting(rvalue, ValueType.BOOLEAN).getBoolValue();

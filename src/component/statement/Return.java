@@ -13,7 +13,7 @@ public class Return extends Statement {
     private int line;
     private int pos;
 
-    public Return(){
+    public Return() {
         statementType = StatementType.RETURN;
     }
 
@@ -42,7 +42,7 @@ public class Return extends Statement {
     }
 
     @Override
-    public Value execute(DataStack context) throws RTException,ReturnValue {
+    public Value execute(DataStack context) throws RTException, ReturnValue {
         Value retValue = returnValue.execute(context);
         ReturnValue v = new ReturnValue(retValue);
         v.setLine(line);

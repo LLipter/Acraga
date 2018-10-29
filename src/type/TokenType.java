@@ -1,6 +1,6 @@
 package type;
 
-public enum TokenType{
+public enum TokenType {
     OPERATOR,
     KEYWORD,
     VALUE,

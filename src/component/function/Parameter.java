@@ -14,7 +14,7 @@ public class Parameter {
         this.parameterID = parameterID;
     }
 
-    public Parameter(ValueType dataType){
+    public Parameter(ValueType dataType) {
         super();
         this.dataType = dataType;
     }

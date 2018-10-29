@@ -11,16 +11,16 @@ import java.math.BigInteger;
 
 public class BitwiseNegate extends UnaryOperator {
 
-    public BitwiseNegate(){
+    public BitwiseNegate() {
         operatorType = OperatorType.BITWISENEGATE;
     }
 
     @Override
     public Value execute(DataStack context) throws RTException, ReturnValue {
         Value value = child.execute(context);
-        if(value.isVoid())
+        if (value.isVoid())
             throw new RTException(getLines(), getPos(), "void variable is not allowed to do operation");
-        if(!value.isInt())
+        if (!value.isInt())
             throw new RTException(getLines(), getPos(), "only integer numbers are allowed to do bitwise operation");
         BigInteger number = value.getIntValue();
         Value res = new Value(ValueType.INTEGER);

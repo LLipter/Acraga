@@ -17,7 +17,7 @@ public class IfElse extends Statement {
     LinkedList<Statement> ifBranch;
     LinkedList<Statement> elseBranch;
 
-    public IfElse(){
+    public IfElse() {
         statementType = StatementType.IFELSE;
     }
 
@@ -50,13 +50,13 @@ public class IfElse extends Statement {
 
         Value cond = condition.execute(context);
         Value castedValue = Casting.casting(cond, ValueType.BOOLEAN);
-        if(castedValue == null)
+        if (castedValue == null)
             throw new RTException(condition.getLines(), condition.getPos(), "condition not compatible with boolean type");
         context.createFrame();
-        if(castedValue.getBoolValue()){
+        if (castedValue.getBoolValue()) {
             for (Statement s : ifBranch)
                 s.execute(context);
-        }else{
+        } else {
             for (Statement s : elseBranch)
                 s.execute(context);
         }

@@ -8,7 +8,7 @@ public class ReturnValue extends Throwable {
     private int line;
     private int pos;
 
-    public ReturnValue(Value value){
+    public ReturnValue(Value value) {
         returnValue = value;
     }
 

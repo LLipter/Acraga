@@ -1,7 +1,7 @@
 package token;
 
-import type.TokenType;
 import type.SeparatorType;
+import type.TokenType;
 
 public class Separator extends Token {
 

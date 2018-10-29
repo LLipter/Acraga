@@ -1,28 +1,25 @@
 package main;
 
 import exception.SyntaxException;
-import token.exprtoken.identifier.Identifier;
 import token.exprtoken.Value;
+import token.exprtoken.identifier.Identifier;
 import type.ValueType;
 
 import java.io.*;
 import java.math.BigDecimal;
 import java.math.BigInteger;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedList;
-import java.util.HashMap;
 
 public class Preprocessor {
 
-    private LinkedList<Integer> buffer;
-    private int line;
-    private int pos;
     private static HashMap<Integer, BigInteger> bigIntegerDict;
     private static BigInteger SIXTEEN = new BigInteger("16");
 
-    static{
+    static {
         bigIntegerDict = new HashMap<>();
-        for(int i='A';i<='F';i++){
+        for (int i = 'A'; i <= 'F'; i++) {
             Integer number = i - 'A' + 10;
             BigInteger value = new BigInteger(number.toString());
             bigIntegerDict.put(i, value);
@@ -30,16 +27,16 @@ public class Preprocessor {
             bigIntegerDict.put(i + diff, value);
         }
 
-        for(int i='0';i<='9';i++){
+        for (int i = '0'; i <= '9'; i++) {
             Integer number = i - '0';
             BigInteger value = new BigInteger(number.toString());
             bigIntegerDict.put(i, value);
         }
     }
 
-    private void throwException(String msg) throws SyntaxException {
-        throw new SyntaxException(line, pos, msg);
-    }
+    private LinkedList<Integer> buffer;
+    private int line;
+    private int pos;
 
     public Preprocessor(String inputFile) throws SyntaxException {
         try {
@@ -80,6 +77,10 @@ public class Preprocessor {
             System.err.println(e.getMessage());
         }
 
+    }
+
+    private void throwException(String msg) throws SyntaxException {
+        throw new SyntaxException(line, pos, msg);
     }
 
     public int getLine() {
@@ -217,13 +218,13 @@ public class Preprocessor {
 
     private Value isCharInteger() throws SyntaxException {
         int ch = getCh();
-        if(ch != '\'')
+        if (ch != '\'')
             return null;
         next();
         ch = getCh();
         if (ch == -1 || ch == '\n')
             throwException("missing character");
-        if (ch == '\\'){
+        if (ch == '\\') {
             next();
             ch = getCh();
             if (ch == -1 || ch == '\n')
@@ -241,7 +242,7 @@ public class Preprocessor {
 
         next();
         ch = getCh();
-        if(ch == '\n' || ch == -1 || ch != '\'')
+        if (ch == '\n' || ch == -1 || ch != '\'')
             throwException("missing right quote");
         next();
 
@@ -268,12 +269,12 @@ public class Preprocessor {
 
     public Value isNumber() throws SyntaxException {
         Value intPart = isInteger();
-        if(intPart == null)
+        if (intPart == null)
             return null;
 
         // integer number
-        if(getCh() != '.' && getCh() != 'e' && getCh() != 'E'){
-            if(isIdAlphabet())
+        if (getCh() != '.' && getCh() != 'e' && getCh() != 'E') {
+            if (isIdAlphabet())
                 throw new SyntaxException(line, pos, "identifier can not starts with number");
             return intPart;
         }
@@ -281,38 +282,38 @@ public class Preprocessor {
         BigDecimal result = new BigDecimal(intPart.getIntValue());
 
         // decimal number
-        if(getCh() == '.'){
+        if (getCh() == '.') {
             next();
             Value fractionPart = isDecInteger();
-            if(fractionPart == null)
+            if (fractionPart == null)
                 throw new SyntaxException(line, pos, "missing fraction part number");
-            if(getCh() != 'e' && getCh() != 'E' && isIdAlphabet())
+            if (getCh() != 'e' && getCh() != 'E' && isIdAlphabet())
                 throw new SyntaxException(line, pos, "invalid float point number");
             BigDecimal fractionValue = new BigDecimal(fractionPart.getIntValue());
-            while(fractionValue.compareTo(BigDecimal.ONE) == 1)
+            while (fractionValue.compareTo(BigDecimal.ONE) == 1)
                 fractionValue = fractionValue.divide(BigDecimal.TEN);
-            if(intPart.getIntValue().compareTo(BigInteger.ZERO) == 1)
+            if (intPart.getIntValue().compareTo(BigInteger.ZERO) == 1)
                 result = result.add(fractionValue);
             else
                 result = result.subtract(fractionValue);
         }
 
         // scientific number
-        if(getCh() == 'e' || getCh() == 'E'){
+        if (getCh() == 'e' || getCh() == 'E') {
             next();
             Value expPart = isDecInteger();
-            if(expPart == null)
+            if (expPart == null)
                 throw new SyntaxException(line, pos, "missing exponent part number");
-            if(isIdAlphabet())
+            if (isIdAlphabet())
                 throw new SyntaxException(line, pos, "invalid scientific representation");
             BigDecimal divisor = BigDecimal.ONE;
-            if(expPart.getIntValue().compareTo(BigInteger.ZERO) == 1){
-                while(expPart.getIntValue().compareTo(BigInteger.ZERO) == 1){
+            if (expPart.getIntValue().compareTo(BigInteger.ZERO) == 1) {
+                while (expPart.getIntValue().compareTo(BigInteger.ZERO) == 1) {
                     divisor = divisor.multiply(BigDecimal.TEN);
                     expPart.setIntValue(expPart.getIntValue().subtract(BigInteger.ONE));
                 }
-            }else{
-                while(expPart.getIntValue().compareTo(BigInteger.ZERO) == -1){
+            } else {
+                while (expPart.getIntValue().compareTo(BigInteger.ZERO) == -1) {
                     divisor = divisor.divide(BigDecimal.TEN);
                     expPart.setIntValue(expPart.getIntValue().add(BigInteger.ONE));
                 }
@@ -344,13 +345,13 @@ public class Preprocessor {
         next();
         Value value = new Value(ValueType.STRING);
         StringBuffer sb = new StringBuffer();
-        while(true){
+        while (true) {
             int ch = getCh();
             if (ch == '"')
                 break;
             if (ch == '\n' || ch == -1)
                 throwException("missing right quote");
-            if (ch == '\\'){
+            if (ch == '\\') {
                 next();
                 ch = getCh();
                 if (ch == -1 || ch == '\n')
@@ -362,7 +363,7 @@ public class Preprocessor {
                 else if (ch != '"' && ch != '\'' && ch != '\\')
                     throwException("undefined escape character");
             }
-            sb.append((char)ch);
+            sb.append((char) ch);
             next();
         }
         value.setStringValue(sb.toString());
@@ -414,7 +415,7 @@ public class Preprocessor {
         return true;
     }
 
-    public boolean isOperator(String operator){
+    public boolean isOperator(String operator) {
         int len = operator.length();
         if (buffer.size() < len)
             return false;

@@ -12,7 +12,7 @@ import java.math.BigInteger;
 
 public class BitwiseAnd extends BinaryOperator {
 
-    public BitwiseAnd(){
+    public BitwiseAnd() {
         operatorType = OperatorType.BITWISEAND;
     }
 
@@ -21,9 +21,9 @@ public class BitwiseAnd extends BinaryOperator {
         Value lvalue = lChild.execute(context);
         Value rvalue = rChild.execute(context);
 
-        if(lvalue.isVoid() || rvalue.isVoid())
+        if (lvalue.isVoid() || rvalue.isVoid())
             throw new RTException(getLines(), getPos(), "void variable is not allowed to do operation");
-        if(!rvalue.isInt() || !lvalue.isInt())
+        if (!rvalue.isInt() || !lvalue.isInt())
             throw new RTException(getLines(), getPos(), "only integer numbers are allowed to do bitwise operation");
         BigInteger number1 = lvalue.getIntValue();
         BigInteger number2 = rvalue.getIntValue();

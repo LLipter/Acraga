@@ -1,23 +1,25 @@
 package main;
 
-import component.statement.*;
-import exception.SyntaxException;
 import component.function.Function;
 import component.function.FunctionSignature;
-import token.*;
+import component.statement.*;
+import exception.SyntaxException;
+import token.Keyword;
+import token.Separator;
+import token.Token;
 import token.exprtoken.ExpressionToken;
 import token.exprtoken.Value;
 import token.exprtoken.identifier.ArrayId;
 import token.exprtoken.identifier.FunctionId;
 import token.exprtoken.identifier.Identifier;
-import token.exprtoken.operator.binary.BinaryOperator;
 import token.exprtoken.operator.Operator;
+import token.exprtoken.operator.binary.BinaryOperator;
 import token.exprtoken.operator.unary.UnaryOperator;
 import type.*;
 
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Stack;
-import java.util.HashMap;
 
 public class Parser {
 
@@ -79,15 +81,15 @@ public class Parser {
     }
 
     // check whether current token is operator
-    private boolean isOperator(){
+    private boolean isOperator() {
         return isOperator(getToken());
     }
 
     // check whether a given token is certain operator
-    private boolean isOperator(Token token, OperatorType type){
-        if(!isOperator(token))
+    private boolean isOperator(Token token, OperatorType type) {
+        if (!isOperator(token))
             return false;
-        return ((Operator)token).getOperatorType() == type;
+        return ((Operator) token).getOperatorType() == type;
     }
 
     // check whether current token is certain operator
@@ -97,7 +99,7 @@ public class Parser {
 
     // check whether current token is certain operator. if so, remove it
     private boolean detectOperator(OperatorType type) {
-        if(!isOperator(type))
+        if (!isOperator(type))
             return false;
         next();
         return true;
@@ -111,15 +113,15 @@ public class Parser {
     }
 
     // check whether current token is separator
-    private boolean isSeparator(){
+    private boolean isSeparator() {
         return isSeparator(getToken());
     }
 
     // check whether a given token is certain separator
-    private boolean isSeparator(Token token, SeparatorType type){
-        if(!isSeparator(token))
+    private boolean isSeparator(Token token, SeparatorType type) {
+        if (!isSeparator(token))
             return false;
-        return ((Separator)token).getSeparatorType() == type;
+        return ((Separator) token).getSeparatorType() == type;
     }
 
     // check whether current token is certain separator
@@ -129,30 +131,30 @@ public class Parser {
 
     // check whether current token is certain separator. if so, remove it
     private boolean detectSeparator(SeparatorType type) {
-        if(!isSeparator(type))
+        if (!isSeparator(type))
             return false;
         next();
         return true;
     }
 
     // check whether current token is a keyword
-    private boolean isKeyword(){
+    private boolean isKeyword() {
         Token token = getToken();
-        if(token == null)
+        if (token == null)
             return false;
         return token.getTokenType() == TokenType.KEYWORD;
     }
 
     // check whether current token is a given type keyword
-    private boolean isKeyword(KeywordType type){
-        if(!isKeyword())
+    private boolean isKeyword(KeywordType type) {
+        if (!isKeyword())
             return false;
-        return ((Keyword)getToken()).getKeywordType() == type;
+        return ((Keyword) getToken()).getKeywordType() == type;
     }
 
     // check whether current token is a given type keyword. if so, remove it
-    private boolean detectKeyword(KeywordType type){
-        if(!isKeyword(type))
+    private boolean detectKeyword(KeywordType type) {
+        if (!isKeyword(type))
             return false;
         next();
         return true;
@@ -191,8 +193,8 @@ public class Parser {
             return false;
         if (token instanceof ExpressionToken)
             return true;
-        if (token instanceof Separator){
-            Separator separator = (Separator)token;
+        if (token instanceof Separator) {
+            Separator separator = (Separator) token;
             return separator.getSeparatorType() == SeparatorType.LEFTPARENTHESES
                     || separator.getSeparatorType() == SeparatorType.RIGHTPARENTHESES
                     || separator.getSeparatorType() == SeparatorType.LEFTBRACKET
@@ -202,7 +204,7 @@ public class Parser {
     }
 
     // check whether current token is a identifier, and next token is a certain separator
-    private boolean isIdSeparator(SeparatorType type){
+    private boolean isIdSeparator(SeparatorType type) {
         Token token = getToken();
         if (token == null)
             return false;
@@ -214,7 +216,7 @@ public class Parser {
         if (token.getTokenType() != TokenType.SEPARATOR)
             return false;
         Separator operator = (Separator) token;
-        if(operator.getSeparatorType() != type)
+        if (operator.getSeparatorType() != type)
             return false;
         return true;
     }
@@ -261,7 +263,7 @@ public class Parser {
             // Whenever meets ")" or "]" break recursion
             else if (isSeparator(SeparatorType.RIGHTPARENTHESES) || isSeparator(SeparatorType.RIGHTBRACKET))
                 break;
-            // operator
+                // operator
             else if (isOperator()) {
                 Operator op = (Operator) getToken();
                 if (operatorSt.isEmpty()) {
@@ -283,8 +285,8 @@ public class Parser {
                 }
             }
             // detect array
-            else if (isIdSeparator(SeparatorType.LEFTBRACKET)){
-                Identifier id= detectIdentifier();
+            else if (isIdSeparator(SeparatorType.LEFTBRACKET)) {
+                Identifier id = detectIdentifier();
                 ArrayId aid = new ArrayId();
                 aid.setId(id.getId());
                 aid.setLines(id.getLines());
@@ -292,11 +294,11 @@ public class Parser {
                 operandSt.push(aid);
                 next();
                 ExpressionToken index = detectExpression();
-                if(index == null)
-                    throw new SyntaxException(tk.getLines(),tk.getPos(),"missing array index");
+                if (index == null)
+                    throw new SyntaxException(tk.getLines(), tk.getPos(), "missing array index");
                 aid.setIndex(index);
-                if(!detectSeparator(SeparatorType.RIGHTBRACKET))
-                    throw new SyntaxException(tk.getLines(),tk.getPos(),"unmatched left bracket");
+                if (!detectSeparator(SeparatorType.RIGHTBRACKET))
+                    throw new SyntaxException(tk.getLines(), tk.getPos(), "unmatched left bracket");
             }
             // detect function
             else if (isIdSeparator(SeparatorType.LEFTPARENTHESES)) {
@@ -308,11 +310,11 @@ public class Parser {
                 operandSt.push(fid);
                 next();
                 ExpressionToken para = detectExpression();
-                if(para != null){
+                if (para != null) {
                     fid.addParameter(para);
-                    while(detectSeparator(SeparatorType.COMMA)){
+                    while (detectSeparator(SeparatorType.COMMA)) {
                         para = detectExpression();
-                        if(para == null)
+                        if (para == null)
                             throw new SyntaxException(tk.getLines(), tk.getPos(), "missing parameter");
                         fid.addParameter(para);
                     }
@@ -323,7 +325,7 @@ public class Parser {
             }
             // Operand(value or identifier)
             else {
-                operandSt.push((ExpressionToken)getToken());
+                operandSt.push((ExpressionToken) getToken());
                 next();
             }
         }
@@ -365,28 +367,28 @@ public class Parser {
             initialization.setValue(new Value(dataType));
         else if (detectOperator(OperatorType.ASSIGN))
             initialization.setValue(detectExpression());
-        else if (detectSeparator(SeparatorType.LEFTBRACKET)){
+        else if (detectSeparator(SeparatorType.LEFTBRACKET)) {
             // array initialization statement
             ArrayId aid = new ArrayId();
             aid.setDataType(dataType);
             initialization.setId(aid);
             ExpressionToken arrayLength = detectExpression();
-            if(arrayLength == null){
+            if (arrayLength == null) {
                 // deduce array length from initialization list
-                if(!detectSeparator(SeparatorType.RIGHTBRACKET))
+                if (!detectSeparator(SeparatorType.RIGHTBRACKET))
                     throwException("missing right bracket");
                 if (!detectOperator(OperatorType.ASSIGN))
                     throwException("missing assign operator");
                 if (!detectSeparator(SeparatorType.LEFTBRACE))
                     throwException("missing left brace");
                 ExpressionToken element = detectExpression();
-                if(element == null)
+                if (element == null)
                     throwException("can not declare an array of length 0");
                 initialization.addElement(element);
                 int cnt = 1;
-                while(detectSeparator(SeparatorType.COMMA)){
+                while (detectSeparator(SeparatorType.COMMA)) {
                     element = detectExpression();
-                    if(element == null)
+                    if (element == null)
                         throwException("missing array element");
                     initialization.addElement(element);
                     cnt++;
@@ -396,44 +398,44 @@ public class Parser {
                 Value len = new Value(ValueType.INTEGER);
                 len.setIntValue(cnt);
                 aid.setLength(len);
-            }else{
+            } else {
                 // array length is given
                 aid.setLength(arrayLength);
-                if(!detectSeparator(SeparatorType.RIGHTBRACKET))
+                if (!detectSeparator(SeparatorType.RIGHTBRACKET))
                     throwException("missing right bracket");
-                if(detectSeparator(SeparatorType.SEMICOLON))
+                if (detectSeparator(SeparatorType.SEMICOLON))
                     return initialization;
                 if (!detectOperator(OperatorType.ASSIGN))
                     throwException("missing assign operator");
                 if (!detectSeparator(SeparatorType.LEFTBRACE))
                     throwException("missing left brace");
                 ExpressionToken element = detectExpression();
-                if(element != null)
+                if (element != null)
                     initialization.addElement(element);
-                while(detectSeparator(SeparatorType.COMMA)){
+                while (detectSeparator(SeparatorType.COMMA)) {
                     element = detectExpression();
-                    if(element == null)
+                    if (element == null)
                         throwException("missing array element");
                     initialization.addElement(element);
                 }
                 if (!detectSeparator(SeparatorType.RIGHTBRACE))
                     throwException("missing right brace");
             }
-        }else
+        } else
             throwException("missing semicolon");
         return initialization;
     }
 
     private IfElse detectIfElse() throws SyntaxException {
         IfElse ifElse = new IfElse();
-        if(!detectKeyword(KeywordType.IF))
+        if (!detectKeyword(KeywordType.IF))
             return null;
-        if(!detectSeparator(SeparatorType.LEFTPARENTHESES))
+        if (!detectSeparator(SeparatorType.LEFTPARENTHESES))
             throwException("missing left parentheses");
         ExpressionToken condition = detectExpression();
-        if(condition == null)
+        if (condition == null)
             throwException("missing condition");
-        if(!detectSeparator(SeparatorType.RIGHTPARENTHESES))
+        if (!detectSeparator(SeparatorType.RIGHTPARENTHESES))
             throwException("missing right parentheses");
 
         LinkedList<Statement> ifbranch = detectCodeBlock();
@@ -441,7 +443,7 @@ public class Parser {
         ifElse.setIfBranch(ifbranch);
 
         // exist else branch
-        if(detectKeyword(KeywordType.ELSE)){
+        if (detectKeyword(KeywordType.ELSE)) {
             LinkedList<Statement> elsebranch = detectCodeBlock();
             ifElse.setElseBranch(elsebranch);
         }
@@ -451,14 +453,14 @@ public class Parser {
 
     private While detectWhile() throws SyntaxException {
         While wStatemengt = new While();
-        if(!detectKeyword(KeywordType.WHILE))
+        if (!detectKeyword(KeywordType.WHILE))
             return null;
-        if(!detectSeparator(SeparatorType.LEFTPARENTHESES))
+        if (!detectSeparator(SeparatorType.LEFTPARENTHESES))
             throwException("missing left parentheses");
         ExpressionToken condition = detectExpression();
-        if(condition == null)
+        if (condition == null)
             throwException("missing condition");
-        if(!detectSeparator(SeparatorType.RIGHTPARENTHESES))
+        if (!detectSeparator(SeparatorType.RIGHTPARENTHESES))
             throwException("missing right parentheses");
 
         LinkedList<Statement> loopStatement = detectCodeBlock();
@@ -470,18 +472,18 @@ public class Parser {
 
     private For detectFor() throws SyntaxException {
         For fStatement = new For();
-        if(!detectKeyword(KeywordType.FOR))
+        if (!detectKeyword(KeywordType.FOR))
             return null;
-        if(!detectSeparator(SeparatorType.LEFTPARENTHESES))
+        if (!detectSeparator(SeparatorType.LEFTPARENTHESES))
             throwException("missing left parentheses");
         ExpressionToken init = detectExpression();
-        if(!detectSeparator(SeparatorType.SEMICOLON))
+        if (!detectSeparator(SeparatorType.SEMICOLON))
             throwException("missing semicolon");
         ExpressionToken condition = detectExpression();
-        if(!detectSeparator(SeparatorType.SEMICOLON))
+        if (!detectSeparator(SeparatorType.SEMICOLON))
             throwException("missing semicolon");
         ExpressionToken incr = detectExpression();
-        if(!detectSeparator(SeparatorType.RIGHTPARENTHESES))
+        if (!detectSeparator(SeparatorType.RIGHTPARENTHESES))
             throwException("missing right parentheses");
 
         LinkedList<Statement> loopStatement = detectCodeBlock();
@@ -497,10 +499,10 @@ public class Parser {
         Return rStatement = new Return();
         rStatement.setLine(line);
         rStatement.setPos(pos);
-        if(!detectKeyword(KeywordType.RETURN))
+        if (!detectKeyword(KeywordType.RETURN))
             return null;
         ExpressionToken returnValue = detectExpression();
-        if(returnValue == null)
+        if (returnValue == null)
             throwException("missing returned value");
 
         rStatement.setReturnValue(returnValue);
@@ -513,23 +515,23 @@ public class Parser {
 
     private Statement detectStatement() throws SyntaxException {
         // ignore all empty statements
-        while(detectSeparator(SeparatorType.SEMICOLON))
+        while (detectSeparator(SeparatorType.SEMICOLON))
             ;
 
         Initialization initialization = detectInitialization();
-        if(initialization != null)
+        if (initialization != null)
             return initialization;
 
         IfElse ifElse = detectIfElse();
-        if(ifElse != null)
+        if (ifElse != null)
             return ifElse;
 
         While wStatement = detectWhile();
-        if(wStatement != null)
+        if (wStatement != null)
             return wStatement;
 
         For fStatement = detectFor();
-        if(fStatement != null)
+        if (fStatement != null)
             return fStatement;
 
         Return rStatement = detectReturn();
@@ -538,7 +540,7 @@ public class Parser {
 
         Expression expression = new Expression();
         ExpressionToken root = detectExpression();
-        if(root != null){
+        if (root != null) {
             expression.setRoot(root);
             if (!detectSeparator(SeparatorType.SEMICOLON))
                 throwException("missing semicolon");
@@ -551,7 +553,7 @@ public class Parser {
         // check statements
         LinkedList<Statement> statements = new LinkedList<>();
         Statement statement;
-        while((statement = detectStatement()) != null){
+        while ((statement = detectStatement()) != null) {
             statements.add(statement);
         }
         return statements;
@@ -569,7 +571,6 @@ public class Parser {
 
         return statements;
     }
-
 
 
     private Function detectFunction() throws SyntaxException {

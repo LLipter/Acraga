@@ -11,7 +11,7 @@ public class Main {
         Preprocessor input = new Preprocessor("input1.acg");
         Scanner scanner = new Scanner(input);
         scanner.print();
-        Parser parser=new Parser(scanner);
+        Parser parser = new Parser(scanner);
 //        Interpreter interpreter = new Interpreter(parser);
 
     }

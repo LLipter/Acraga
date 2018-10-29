@@ -7,12 +7,12 @@ public abstract class UnaryOperator extends Operator {
 
     protected ExpressionToken child;
 
-    public void setChild(ExpressionToken ExToken){
-        child = ExToken;
-    }
-
     public ExpressionToken getChild() {
         return child;
+    }
+
+    public void setChild(ExpressionToken ExToken) {
+        child = ExToken;
     }
 
     @Override

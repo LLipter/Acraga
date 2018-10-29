@@ -29,7 +29,9 @@ public class Identifier extends ExpressionToken {
         return id;
     }
 
-    public void setId(String id) { this.id = id; }
+    public void setId(String id) {
+        this.id = id;
+    }
 
     @Override
     public String toString() {

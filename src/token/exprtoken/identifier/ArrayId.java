@@ -28,12 +28,12 @@ public class ArrayId extends Identifier {
         this.length = length;
     }
 
-    public void setIndex(ExpressionToken ex){
-        index=ex;
-    }
-
     public ExpressionToken getIndex() {
         return index;
+    }
+
+    public void setIndex(ExpressionToken ex) {
+        index = ex;
     }
 
     @Override
@@ -45,7 +45,7 @@ public class ArrayId extends Identifier {
     public Value execute(DataStack context) throws RTException, ReturnValue {
         Value idx = index.execute(context);
         if (!idx.isInt())
-            throw new RTException(getLines(),getPos(),"only integer can be used as index");
+            throw new RTException(getLines(), getPos(), "only integer can be used as index");
         intIndex = idx.getIntValue().intValue();
         return context.getValue(this);
     }

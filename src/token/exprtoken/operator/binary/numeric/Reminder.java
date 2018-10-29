@@ -13,7 +13,7 @@ import java.math.BigInteger;
 
 public class Reminder extends BinaryOperator {
 
-    public Reminder(){
+    public Reminder() {
         operatorType = OperatorType.MOD;
     }
 
@@ -23,23 +23,22 @@ public class Reminder extends BinaryOperator {
         Value rvalue = rChild.execute(context);
 
         Value res;
-        if(lvalue.isVoid() || rvalue.isVoid())
+        if (lvalue.isVoid() || rvalue.isVoid())
             throw new RTException(getLines(), getPos(), "void variable is not allowed to do operation");
         if (lvalue.isString() || rvalue.isString())
             throw new RTException(getLines(), getPos(), "string variable cannot do mod operation");
-        else if(lvalue.isDouble() || rvalue.isDouble())
+        else if (lvalue.isDouble() || rvalue.isDouble())
             throw new RTException(getLines(), getPos(), "double variable cannot do mod operation");
-        // automatically promote to integer
-        else if(lvalue.isInt() || rvalue.isInt()){
+            // automatically promote to integer
+        else if (lvalue.isInt() || rvalue.isInt()) {
             res = new Value(ValueType.INTEGER);
-            BigInteger number1 = Casting.casting(lvalue,ValueType.INTEGER).getIntValue();
-            BigInteger number2 = Casting.casting(rvalue,ValueType.INTEGER).getIntValue();
-            if(number2.compareTo(BigInteger.ZERO) == 0)
+            BigInteger number1 = Casting.casting(lvalue, ValueType.INTEGER).getIntValue();
+            BigInteger number2 = Casting.casting(rvalue, ValueType.INTEGER).getIntValue();
+            if (number2.compareTo(BigInteger.ZERO) == 0)
                 throw new RTException(getLines(), getPos(), "cannot mod by zero");
             BigInteger mod = number1.remainder(number2);
             res.setIntValue(mod);
-        }
-        else
+        } else
             throw new RTException(getLines(), getPos(), "boolean variable cannot do mod operation");
         return res;
     }

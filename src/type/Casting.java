@@ -24,13 +24,13 @@ public class Casting {
 
     // cast value to a given data type
     public static Value casting(Value value, ValueType type) {
-        if(type == ValueType.VOID || value.isVoid())
+        if (type == ValueType.VOID || value.isVoid())
             return null;
         Value ret = null;
-        switch (type){
+        switch (type) {
             case INTEGER:
                 ret = new Value(ValueType.INTEGER);
-                switch (value.getValueType()){
+                switch (value.getValueType()) {
                     case INTEGER:
                         ret.setIntValue(value.getIntValue());
                         break;
@@ -44,10 +44,10 @@ public class Casting {
                             ret.setIntValue(BigInteger.ZERO);
                         break;
                     case STRING:
-                        try{
+                        try {
                             BigInteger bigValue = new BigInteger(value.getStringValue());
                             ret.setIntValue(bigValue);
-                        } catch (NumberFormatException e){
+                        } catch (NumberFormatException e) {
                             return null;
                         }
                         break;
@@ -55,7 +55,7 @@ public class Casting {
                 break;
             case DOUBLE:
                 ret = new Value(ValueType.DOUBLE);
-                switch (value.getValueType()){
+                switch (value.getValueType()) {
                     case INTEGER:
                         ret.setDoubleValue(new BigDecimal(value.getIntValue()));
                         break;
@@ -69,10 +69,10 @@ public class Casting {
                             ret.setDoubleValue(BigDecimal.ZERO);
                         break;
                     case STRING:
-                        try{
+                        try {
                             BigDecimal bigValue = new BigDecimal(value.getStringValue());
                             ret.setDoubleValue(bigValue);
-                        } catch (NumberFormatException e){
+                        } catch (NumberFormatException e) {
                             return null;
                         }
                         break;
@@ -80,15 +80,15 @@ public class Casting {
                 break;
             case BOOLEAN:
                 ret = new Value(ValueType.BOOLEAN);
-                switch (value.getValueType()){
+                switch (value.getValueType()) {
                     case INTEGER:
-                        if(value.getIntValue().compareTo(BigInteger.ZERO) != 0)
+                        if (value.getIntValue().compareTo(BigInteger.ZERO) != 0)
                             ret.setBoolValue(true);
                         else
                             ret.setBoolValue(false);
                         break;
                     case DOUBLE:
-                        if(value.getDoubleValue().compareTo(BigDecimal.ZERO) != 0)
+                        if (value.getDoubleValue().compareTo(BigDecimal.ZERO) != 0)
                             ret.setBoolValue(true);
                         else
                             ret.setBoolValue(false);
@@ -97,7 +97,7 @@ public class Casting {
                         ret.setBoolValue(value.getBoolValue());
                         break;
                     case STRING:
-                        if(value.getStringValue().length() != 0)
+                        if (value.getStringValue().length() != 0)
                             ret.setBoolValue(true);
                         else
                             ret.setBoolValue(false);
@@ -106,7 +106,7 @@ public class Casting {
                 break;
             case STRING:
                 ret = new Value(ValueType.STRING);
-                switch (value.getValueType()){
+                switch (value.getValueType()) {
                     case INTEGER:
                         ret.setStringValue(value.getIntValue().toString());
                         break;

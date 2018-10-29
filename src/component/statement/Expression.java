@@ -11,7 +11,7 @@ public class Expression extends Statement {
 
     private ExpressionToken root;
 
-    public Expression(){
+    public Expression() {
         statementType = StatementType.EXPRESSION;
     }
 

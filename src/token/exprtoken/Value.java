@@ -26,12 +26,20 @@ public class Value extends ExpressionToken {
         return intValue;
     }
 
+    public void setIntValue(Integer value) {
+        intValue = new BigInteger(value.toString());
+    }
+
     public void setIntValue(BigInteger intValue) {
         this.intValue = intValue;
     }
 
     public BigDecimal getDoubleValue() {
         return doubleValue;
+    }
+
+    public void setDoubleValue(Double value) {
+        doubleValue = new BigDecimal(value.toString());
     }
 
     public void setDoubleValue(BigDecimal doubleValue) {
@@ -70,16 +78,8 @@ public class Value extends ExpressionToken {
         return valueType == ValueType.STRING;
     }
 
-    public boolean isVoid(){
+    public boolean isVoid() {
         return valueType == ValueType.VOID;
-    }
-
-    public void setIntValue(Integer value){
-        intValue = new BigInteger(value.toString());
-    }
-
-    public void setDoubleValue(Double value){
-        doubleValue = new BigDecimal(value.toString());
     }
 
     @Override
@@ -97,16 +97,16 @@ public class Value extends ExpressionToken {
         return "<UnknownValue>";
     }
 
-    public void setDefaultValue(){
-        if(isInt())
+    public void setDefaultValue() {
+        if (isInt())
             setIntValue(BigInteger.ZERO);
-        else if(isDouble())
+        else if (isDouble())
             setDoubleValue(BigDecimal.ZERO);
-        else if(isBool())
+        else if (isBool())
             setBoolValue(false);
-        else if(isString())
+        else if (isString())
             setStringValue("");
-        else if(!isVoid())
+        else if (!isVoid())
             System.err.println("Unknown data type");
     }
 

@@ -25,11 +25,11 @@ public class FunctionSignature {
         parameters.add(new Parameter(type, pid));
     }
 
-    public void addParameters(ValueType type){
+    public void addParameters(ValueType type) {
         parameters.add(new Parameter(type));
     }
 
-    public ArrayList<Parameter> getParameters(){
+    public ArrayList<Parameter> getParameters() {
         return parameters;
     }
 
@@ -61,7 +61,7 @@ public class FunctionSignature {
         if (fsParameters.size() != parameters.size())
             return false;
 
-        for(int i=0;i<parameters.size();i++){
+        for (int i = 0; i < parameters.size(); i++) {
             Parameter pa1 = parameters.get(i);
             Parameter pa2 = fsParameters.get(i);
             if (pa1.getDataType() != pa2.getDataType())

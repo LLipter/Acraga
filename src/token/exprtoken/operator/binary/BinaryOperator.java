@@ -8,20 +8,20 @@ public abstract class BinaryOperator extends Operator {
     protected ExpressionToken lChild;
     protected ExpressionToken rChild;
 
-    public void setlChild(ExpressionToken ExToken) {
-        lChild = ExToken;
-    }
-
-    public void setrChild(ExpressionToken ExToken) {
-        rChild = ExToken;
-    }
-
     public ExpressionToken getlChild() {
         return lChild;
     }
 
+    public void setlChild(ExpressionToken ExToken) {
+        lChild = ExToken;
+    }
+
     public ExpressionToken getrChild() {
         return rChild;
+    }
+
+    public void setrChild(ExpressionToken ExToken) {
+        rChild = ExToken;
     }
 
     @Override

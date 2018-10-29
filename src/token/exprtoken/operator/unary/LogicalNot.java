@@ -10,7 +10,7 @@ import type.ValueType;
 
 public class LogicalNot extends UnaryOperator {
 
-    public LogicalNot(){
+    public LogicalNot() {
         operatorType = OperatorType.LOGICALNOT;
     }
 
@@ -18,7 +18,7 @@ public class LogicalNot extends UnaryOperator {
     public Value execute(DataStack context) throws RTException, ReturnValue {
         Value value = child.execute(context);
         Value res = new Value(ValueType.BOOLEAN);
-        if(value.isVoid())
+        if (value.isVoid())
             throw new RTException(getLines(), getPos(), "void variable is not allowed to do operation");
         boolean bool = Casting.casting(value, ValueType.BOOLEAN).getBoolValue();
         res.setBoolValue(!bool);
