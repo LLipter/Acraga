@@ -1,5 +1,6 @@
 package main;
 
+import component.context.DataStack;
 import exception.RTException;
 import component.function.Function;
 import component.function.FunctionSignature;
@@ -11,25 +12,18 @@ import java.util.HashMap;
 public class Interpreter {
 
     private Parser parser;
+    private DataStack context;
 
     public Interpreter(Parser parser) throws RTException {
         this.parser = parser;
+        context = new DataStack();
         interpret();
     }
 
     private void interpret() throws RTException {
         Value exitCode = runFunction(FunctionSignature.mainFunctionSignature);
-        String format = "Program ends with '%";
-        if (exitCode.isInt())
-            System.out.println(String.format(format + "d'", exitCode.getIntValue()));
-        else if (exitCode.isDouble())
-            System.out.println(String.format(format + "f'", exitCode.getDoubleValue()));
-        else if (exitCode.isBool())
-            System.out.println(String.format(format + "b'", exitCode.getBoolValue()));
-        else if (exitCode.isString())
-            System.out.println(String.format(format + "s'", exitCode.getStringValue()));
-        else
-            System.out.println("unknown exit code type");
+        String format = "Program ends with %d";
+        System.out.println(String.format(format, exitCode.getIntValue().intValue()));
     }
 
 
@@ -38,16 +32,8 @@ public class Interpreter {
         if (!functionMap.containsKey(signature))
             throw new RTException(String.format("function '%s' not found", signature));
         Function function = functionMap.get(FunctionSignature.mainFunctionSignature);
-        Value retValue = null;
-        for (Statement statement : function)
-            retValue = runStatement(statement);
-        // TODO: cast retValue to function return type
-        return retValue;
+        return function.execute(context);
     }
 
-    private Value runStatement(Statement statement) {
-        // TODO: interpret statement
 
-        return null;
-    }
 }

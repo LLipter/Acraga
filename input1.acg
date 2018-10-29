@@ -1,4 +1,6 @@
-
+void foo(){
+    int a = 10;
+}
 
 int main(){
     return 0;
@@ -31,7 +33,31 @@ int main(){
 
 // 6g
 
+int main(){
+    int i=0;
+    for(i=0;i<10;i+=1){
+        if(true){
+            ; // do nothing
+        }else{
+            ; 
+        }
+        int j = 20;
+        while(j > 0){
+            j -= 1;
+            // do nothing
+        }
+        foo();
 
+        j + 10 * 7;
+        int x[] = {1,2,3,4}
+
+    }
+    return 0;
+}
+
+double foo(){
+    return 1.234455e-4;
+}
 
 int i[] = {1,2,i + 1,8*4+2}
 

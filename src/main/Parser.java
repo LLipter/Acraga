@@ -25,17 +25,7 @@ public class Parser {
         this.scanner = scanner;
         functionMap = new HashMap<FunctionSignature, Function>();
         updateLinePos();
-        //parse();
-
-        Function function = detectFunction();
-        System.out.println(function);
-//        Initialization test = detectInitialization();
-//        System.out.println();
-//        System.out.println("Tree:");
-//        printExpressionTree(test.getArrayLength());
-//        for(ExpressionToken ext : test){
-//            printExpressionTree(ext);
-//        }
+        parse();
     }
 
     private void parse() throws SyntaxException {

@@ -82,13 +82,13 @@ public class Function implements Iterable<Statement>, Executable{
 
         }catch (ReturnValue retValue){
             Value castedValue = Casting.casting(retValue.getReturnValue(), returnType);
-            if(castedValue != null)
-                return castedValue;
+            if(castedValue == null)
+                throw new RTException(id.getLines(), id.getPos(),String.format("incompatible return type", id.getId()));
+            return castedValue;
         }finally {
             context.releaseFrame();
         }
 
-        return null; // never used
 
     }
 
