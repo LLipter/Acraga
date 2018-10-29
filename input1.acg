@@ -1,10 +1,19 @@
+void foo(){
+    int a = 10;
+}
+
+int main(){
+    return 0;
+}
+
+
 //(1+(-2+3)-5)*2.43E-1
 
 //1*(5+a)*-3/g
 
 //1*(5+(a+add(1,a[1*(2+a)])))
 
-(2+adsf[add(2+(3*1),4)])*aaa;
+// (2+adsf[add(2+(3*1),4)])*aaa >> 9 - sub() ;
 
 //1+add();
 
@@ -21,3 +30,34 @@
 //    i = i + 1;
 //}
 
+
+// 6g
+
+int main(){
+    int i=0;
+    for(i=0;i<10;i+=1){
+        if(true){
+            ; // do nothing
+        }else{
+            ; 
+        }
+        int j = 20;
+        while(j > 0){
+            j -= 1;
+            // do nothing
+        }
+        foo();
+
+        j + 10 * 7;
+        int x[] = {1,2,3,4}
+
+    }
+    return 0;
+}
+
+double foo(){
+    return 1.234455e-4;
+}
+// 0 测试、移除parser和interpreter中的bug
+// 1 能够让在全局区执行一些语句
+// 2 让for语句可以执行初始化

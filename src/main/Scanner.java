@@ -2,27 +2,37 @@ package main;
 
 import exception.SyntaxException;
 import token.*;
+import token.exprtoken.Value;
+import token.exprtoken.identifier.Identifier;
+import token.exprtoken.operator.binary.*;
+import token.exprtoken.operator.Operator;
+import token.exprtoken.operator.binary.bitwise.*;
+import token.exprtoken.operator.binary.comparison.*;
+import token.exprtoken.operator.binary.logical.LogicalAnd;
+import token.exprtoken.operator.binary.numeric.*;
+import token.exprtoken.operator.unary.*;
+import token.exprtoken.operator.binary.logical.LogicalOr;
 import type.KeywordType;
-import type.OperatorType;
 import type.SeparatorType;
 
 import java.util.LinkedList;
 
 public class Scanner {
 
-    private InputReader input;
+    private Preprocessor preprocessor;
     private LinkedList<Token> tokens;
 
-    public Scanner(InputReader inputReader) throws SyntaxException {
-        input = inputReader;
+    public Scanner(Preprocessor preprocessor) throws SyntaxException {
+        this.preprocessor = preprocessor;
         tokens = new LinkedList<Token>();
 
-        while (!input.iseof()) {
-            input.nextNotWhiteSpace();
-            if (input.iseof())
+        while (!this.preprocessor.iseof()) {
+            this.preprocessor.nextNotWhiteSpace();
+            if (this.preprocessor.iseof())
                 break;
 
-            // detect separator
+
+            // detect separators
             Separator separator = detectSeparator();
             if (separator != null) {
                 tokens.addLast(separator);
@@ -50,7 +60,6 @@ public class Scanner {
                 continue;
             }
 
-
             // detect identifier
             Identifier identifier = detectIdentifier();
             if (identifier != null) {
@@ -58,7 +67,9 @@ public class Scanner {
                 continue;
             }
 
-            throw new SyntaxException(input.getLine(), input.getPos(), "invalid token");
+            throw new SyntaxException(this.preprocessor.getLine(), this.preprocessor.getPos(), "invalid token");
+
+
 
         }
     }
@@ -67,79 +78,147 @@ public class Scanner {
     public Operator detectOperator() {
         Operator op;
 
-        if (input.getCh() == '>' && input.getNextCh() == '=') {
-            op = new BinaryOperator(OperatorType.GREATERTHANOREQUAL);
-            input.next();
-        }
-        else if (input.getCh() == '<' && input.getNextCh() == '=') {
-            op = new BinaryOperator(OperatorType.LESSTHANOREQUAL);
-            input.next();
-        }
-        else if (input.getCh() == '=' && input.getNextCh() == '=') {
-            op = new BinaryOperator(OperatorType.EQUAL);
-            input.next();
-        }
-        else if ((input.getCh() == '!' && input.getNextCh() == '=') || (input.getCh() == '<' && input.getNextCh() == '>')){
-            op = new BinaryOperator(OperatorType.NOTEQUAL);
-            input.next();
-        }
-        else if (input.getCh() == '+')
-            op = new BinaryOperator(OperatorType.ADD);
-        else if (input.getCh() == '-') {
-            if(tokens.isEmpty()||(tokens.getLast() instanceof Operator))
-                op=new UnaryOperator(OperatorType.NEGATIVE);
+        if (preprocessor.isOperator("<<="))
+            op = new LeftShiftingAssign();
+        else if (preprocessor.isOperator(">>="))
+            op = new RightShiftingAssign();
+        else if (preprocessor.isOperator(">="))
+            op = new GreaterThanEqual();
+        else if (preprocessor.isOperator("<="))
+            op = new LessThanEqual();
+        else if (preprocessor.isOperator("=="))
+            op = new Equal();
+        else if (preprocessor.isOperator("!=") || preprocessor.isOperator("<>"))
+            op = new NotEqual();
+        else if (preprocessor.isOperator("&&"))
+            op = new LogicalAnd();
+        else if (preprocessor.isOperator("||"))
+            op = new LogicalOr();
+        else if (preprocessor.isOperator("<<"))
+            op = new LeftShifting();
+        else if (preprocessor.isOperator(">>"))
+            op = new RightShifting();
+        else if (preprocessor.isOperator("+="))
+            op = new AddAssign();
+        else if (preprocessor.isOperator("-="))
+            op = new SubtractAssign();
+        else if (preprocessor.isOperator("*="))
+            op = new MultiplyAssign();
+        else if (preprocessor.isOperator("/="))
+            op = new DivideAssign();
+        else if (preprocessor.isOperator("%="))
+            op = new ReminderAssign();
+        else if (preprocessor.isOperator("&="))
+            op = new BitwiseAndAssign();
+        else if (preprocessor.isOperator("|="))
+            op = new BitwiseOrAssign();
+        else if (preprocessor.isOperator("^="))
+            op = new BitwiseXorAssign();
+        else if (preprocessor.isOperator("*"))
+            op = new Multiply();
+        else if (preprocessor.isOperator("/"))
+            op = new Divide();
+        else if (preprocessor.isOperator("%"))
+            op = new Reminder();
+        else if (preprocessor.isOperator(">"))
+            op = new GreaterThan();
+        else if (preprocessor.isOperator("<"))
+            op = new LessThan();
+        else if (preprocessor.isOperator("="))
+            op = new Assign();
+        else if (preprocessor.isOperator("~"))
+            op = new BitwiseNegate();
+        else if (preprocessor.isOperator("&"))
+            op = new BitwiseAnd();
+        else if (preprocessor.isOperator("|"))
+            op = new BitwiseOr();
+        else if (preprocessor.isOperator("^"))
+            op = new BitwiseXor();
+        else if (preprocessor.isOperator("!"))
+            op = new LogicalNot();
+        else if (preprocessor.isOperator("+")){
+            if(tokens.isEmpty() || (tokens.getLast() instanceof Operator))
+                op = new PositiveSign();
             else if((tokens.getLast() instanceof Separator)
-                    &&((Separator) tokens.getLast()).getSeparatorType()!=SeparatorType.RIGHTPARENTHESES
-                    &&((Separator) tokens.getLast()).getSeparatorType()!=SeparatorType.RIGHTBRACKET
-                    &&((Separator) tokens.getLast()).getSeparatorType()!=SeparatorType.RIGHTBRACE)
-                    op=new UnaryOperator(OperatorType.NEGATIVE);
+                    &&((Separator) tokens.getLast()).getSeparatorType()!= SeparatorType.RIGHTPARENTHESES
+                    &&((Separator) tokens.getLast()).getSeparatorType()!= SeparatorType.RIGHTBRACKET
+                    &&((Separator) tokens.getLast()).getSeparatorType()!= SeparatorType.RIGHTBRACE)
+                op = new PositiveSign();
             else
-                op = new BinaryOperator(OperatorType.SUB);
+                op = new Add();
         }
-        else if (input.getCh() == '*')
-            op = new BinaryOperator(OperatorType.MUL);
-        else if (input.getCh() == '/')
-            op = new BinaryOperator(OperatorType.DIV);
-        else if (input.getCh() == '%')
-            op = new BinaryOperator(OperatorType.MOD);
-        else if (input.getCh() == '>')
-            op = new BinaryOperator(OperatorType.GREATERTHAN);
-        else if (input.getCh() == '<')
-            op = new BinaryOperator(OperatorType.LESSTHAN);
-        else if (input.getCh() == '=')
-            op = new BinaryOperator(OperatorType.ASSIGN);
-        else if (input.getCh() == '~')
-            op = new UnaryOperator(OperatorType.BITWISENEGATE);
+        else if (preprocessor.isOperator("-")) {
+            if(tokens.isEmpty() || (tokens.getLast() instanceof Operator))
+                op = new NegativeSign();
+            else if((tokens.getLast() instanceof Separator)
+                    &&((Separator) tokens.getLast()).getSeparatorType() != SeparatorType.RIGHTPARENTHESES
+                    &&((Separator) tokens.getLast()).getSeparatorType() != SeparatorType.RIGHTBRACKET
+                    &&((Separator) tokens.getLast()).getSeparatorType() != SeparatorType.RIGHTBRACE)
+                op = new NegativeSign();
+            else
+                op = new Subtract();
+        }
         else
             return null;
-        op.setLines(input.getLine());
-        op.setPos(input.getPos());
-        input.next();
 
+        op.setLines(preprocessor.getLine());
+        op.setPos(preprocessor.getPos());
         return op;
+    }
+
+    // detect separator
+    public Separator detectSeparator(){
+        Separator separator;
+        if(preprocessor.getCh() == ';')
+            separator = new Separator(SeparatorType.SEMICOLON);
+        else if(preprocessor.getCh() == '{')
+            separator = new Separator(SeparatorType.LEFTBRACE);
+        else if(preprocessor.getCh() == '}')
+            separator = new Separator(SeparatorType.RIGHTBRACE);
+        else if(preprocessor.getCh() == '[')
+            separator = new Separator(SeparatorType.LEFTBRACKET);
+        else if(preprocessor.getCh() == ']')
+            separator = new Separator(SeparatorType.RIGHTBRACKET);
+        else if(preprocessor.getCh() == '(')
+            separator = new Separator(SeparatorType.LEFTPARENTHESES);
+        else if(preprocessor.getCh() == ')')
+            separator = new Separator(SeparatorType.RIGHTPARENTHESES);
+        else if(preprocessor.getCh() == ',')
+            separator = new Separator(SeparatorType.COMMA);
+        else
+            return null;
+
+        separator.setLines(preprocessor.getLine());
+        separator.setPos(preprocessor.getPos());
+        preprocessor.next();
+        return separator;
     }
 
     // detect keyword
     public Keyword detectKeyword() {
         Keyword keyword;
-        int lines = input.getLine();
-        int pos = input.getPos();
-        if (input.isKeyword("if"))
+        int lines = preprocessor.getLine();
+        int pos = preprocessor.getPos();
+        if (preprocessor.isKeyword("if"))
             keyword = new Keyword(KeywordType.IF);
-        else if (input.isKeyword("else"))
+        else if (preprocessor.isKeyword("else"))
             keyword = new Keyword(KeywordType.ELSE);
-        else if (input.isKeyword("while"))
+        else if (preprocessor.isKeyword("while"))
             keyword = new Keyword(KeywordType.WHILE);
-        else if (input.isKeyword("for"))
+        else if (preprocessor.isKeyword("for"))
             keyword = new Keyword(KeywordType.FOR);
-        else if (input.isKeyword("int"))
+        else if (preprocessor.isKeyword("int"))
             keyword = new Keyword(KeywordType.INT);
-        else if (input.isKeyword("double"))
+        else if (preprocessor.isKeyword("double"))
             keyword = new Keyword(KeywordType.DOUBLE);
-        else if (input.isKeyword("string"))
+        else if (preprocessor.isKeyword("string"))
             keyword = new Keyword(KeywordType.STRING);
-        else if (input.isKeyword("bool"))
+        else if (preprocessor.isKeyword("bool"))
             keyword = new Keyword(KeywordType.BOOL);
+        else if (preprocessor.isKeyword("void"))
+            keyword = new Keyword(KeywordType.VOID);
+        else if (preprocessor.isKeyword("return"))
+            keyword = new Keyword(KeywordType.RETURN);
         else
             return null;
         keyword.setLines(lines);
@@ -148,58 +227,28 @@ public class Scanner {
         return keyword;
     }
 
-    // detect separator
-    public Separator detectSeparator() {
-        Separator separater;
-        if (input.getCh() == '(')
-            separater = new Separator(SeparatorType.LEFTPARENTHESES);
-        else if (input.getCh() == ')')
-            separater = new Separator(SeparatorType.RIGHTPARENTHESES);
-        else if (input.getCh() == '[')
-            separater = new Separator(SeparatorType.LEFTBRACKET);
-        else if (input.getCh() == ']')
-            separater = new Separator(SeparatorType.RIGHTBRACKET);
-        else if (input.getCh() == '{')
-            separater = new Separator(SeparatorType.LEFTBRACE);
-        else if (input.getCh() == '}')
-            separater = new Separator(SeparatorType.RIGHTBRACE);
-        else if (input.getCh() == ';')
-            separater = new Separator(SeparatorType.SEMICOLON);
-        else if (input.getCh() == ',')
-            separater = new Separator(SeparatorType.COMMA);
-        else
-            return null;
-        separater.setLines(input.getLine());
-        separater.setPos(input.getPos());
-        input.next();
-
-        return separater;
-    }
-
     // detect value
     public Value detectValue() throws SyntaxException {
         Value value;
-        int lines = input.getLine();
-        int pos = input.getPos();
+        int lines = preprocessor.getLine();
+        int pos = preprocessor.getPos();
 
-        if ((value = input.isDouble()) == null)
-            if ((value = input.isInteger()) == null)
-                if ((value = input.isBool()) == null)
-                    if ((value = input.isString()) == null)
+        if ((value = preprocessor.isNumber()) == null)
+                if ((value = preprocessor.isBool()) == null)
+                    if ((value = preprocessor.isString()) == null)
                         return null;
 
         value.setLines(lines);
         value.setPos(pos);
 
         return value;
-
     }
 
     // detect identifier
     public Identifier detectIdentifier() {
-        int lines = input.getLine();
-        int pos = input.getPos();
-        Identifier identifier = input.isIdentifier();
+        int lines = preprocessor.getLine();
+        int pos = preprocessor.getPos();
+        Identifier identifier = preprocessor.isIdentifier();
         if (identifier == null)
             return null;
         identifier.setLines(lines);
@@ -219,7 +268,7 @@ public class Scanner {
     }
 
     public Token getNextToken(){
-        if(tokens.size()<2)
+        if(tokens.size() < 2)
             return null;
         return tokens.get(1);
     }

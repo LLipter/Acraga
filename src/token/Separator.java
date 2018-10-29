@@ -1,24 +1,25 @@
 package token;
 
-import type.SeparatorType;
+import type.OperatorType;
 import type.TokenType;
+import type.SeparatorType;
 
 public class Separator extends Token {
-    protected SeparatorType seperaterType;
+    protected SeparatorType separatorType;
 
 
     public Separator(SeparatorType sType) {
+        separatorType = sType;
         tokenType = TokenType.SEPARATOR;
-        seperaterType = sType;
     }
 
     @Override
     public String toString() {
-        return String.format("<Separator,%s>", seperaterType);
+        return String.format("<Separator,%s>", separatorType);
     }
 
     public SeparatorType getSeparatorType() {
-        return seperaterType;
+        return separatorType;
     }
 
 
