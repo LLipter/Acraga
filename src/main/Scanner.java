@@ -97,13 +97,13 @@ public class Scanner {
         else if (preprocessor.isOperator("+="))
             op = new AddAssign();
         else if (preprocessor.isOperator("-="))
-            op = new BinaryOperator(OperatorType.SUBASSIGN);
+            op = new SubtractAssign();
         else if (preprocessor.isOperator("*="))
-            op = new BinaryOperator(OperatorType.MULASSIGN);
+            op = new MultiplyAssign();
         else if (preprocessor.isOperator("/="))
-            op = new BinaryOperator(OperatorType.DIVASSIGN);
+            op = new DivideAssign();
         else if (preprocessor.isOperator("%="))
-            op = new BinaryOperator(OperatorType.MODASSIGN);
+            op = new ReminderAssign();
         else if (preprocessor.isOperator("&="))
             op = new BinaryOperator(OperatorType.BITWISEANDASSIGN);
         else if (preprocessor.isOperator("|="))

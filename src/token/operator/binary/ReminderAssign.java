@@ -10,13 +10,12 @@ import type.OperatorType;
 import type.TokenType;
 import type.ValueType;
 
-import java.math.BigDecimal;
 import java.math.BigInteger;
 
-public class AddAssign extends BinaryOperator {
+public class ReminderAssign extends BinaryOperator {
 
-    public AddAssign(){
-        operatorType = OperatorType.ADDASSIGN;
+    public ReminderAssign(){
+        operatorType = OperatorType.MODASSIGN;
     }
 
     @Override
@@ -29,34 +28,23 @@ public class AddAssign extends BinaryOperator {
         Value res;
         if(lvalue.isVoid() || rvalue.isVoid())
             throw new RTException(getLines(), getPos(), "void variable is not allowed to do operation");
-        // String concatenation
-        if (lvalue.isString() || rvalue.isString()){
-            res = new Value(ValueType.STRING);
-            String str = Casting.casting(lvalue,ValueType.STRING).getStringValue()
-                    + Casting.casting(rvalue,ValueType.STRING).getStringValue();
-            res.setStringValue(str);
-        }
-        // automatically promote to double
-        else if(lvalue.isDouble() || rvalue.isDouble()){
-            res = new Value(ValueType.DOUBLE);
-            BigDecimal number1 = Casting.casting(lvalue,ValueType.DOUBLE).getDoubleValue();
-            BigDecimal number2 = Casting.casting(rvalue,ValueType.DOUBLE).getDoubleValue();
-            BigDecimal sum = number1.add(number2);
-            res.setDoubleValue(sum);
-        }
-        // automatically promote to integer
+        if (lvalue.isString() || rvalue.isString())
+            throw new RTException(getLines(), getPos(), "string variable cannot do mod operation");
+        else if(lvalue.isDouble() || rvalue.isDouble())
+            throw new RTException(getLines(), getPos(), "double variable cannot do mod operation");
+            // automatically promote to integer
         else if(lvalue.isInt() || rvalue.isInt()){
             res = new Value(ValueType.INTEGER);
             BigInteger number1 = Casting.casting(lvalue,ValueType.INTEGER).getIntValue();
             BigInteger number2 = Casting.casting(rvalue,ValueType.INTEGER).getIntValue();
-            BigInteger sum = number1.add(number2);
-            res.setIntValue(sum);
+            if(number2.compareTo(BigInteger.ZERO) == 0)
+                throw new RTException(getLines(), getPos(), "cannot mod by zero");
+            BigInteger mod = number1.remainder(number2);
+            res.setIntValue(mod);
         }
         else
-            throw new RTException(getLines(), getPos(), "boolean variable cannot be added to another boolean variable");
-
+            throw new RTException(getLines(), getPos(), "boolean variable cannot do mod operation");
         context.setValue((Identifier)lChild, res);
-
         return res;
     }
 }
