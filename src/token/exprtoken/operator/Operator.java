@@ -45,19 +45,17 @@ public abstract class Operator extends ExpressionToken {
         priorityMap.put(OperatorType.BITWISEXORASSIGN,14);
         priorityMap.put(OperatorType.LEFTSHIFTINGASSIGN,14);
         priorityMap.put(OperatorType.RIGHTSHIFTINGASSIGN,14);
-
-
     }
 
     public Operator() {
         tokenType = TokenType.OPERATOR;
     }
 
-    public static boolean isPrioriThan(Operator op1, Operator op2) {
-        return priorityMap.get(op1.getOperatorType()) < priorityMap.get(op2.getOperatorType());
-    }
-
     public OperatorType getOperatorType() {
         return operatorType;
+    }
+
+    public static boolean isPrioriThan(Operator op1, Operator op2) {
+        return priorityMap.get(op1.getOperatorType()) < priorityMap.get(op2.getOperatorType());
     }
 }

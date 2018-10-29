@@ -10,6 +10,8 @@ import type.StatementType;
 public class Return extends Statement {
 
     private ExpressionToken returnValue;
+    private int line;
+    private int pos;
 
     public Return(){
         statementType = StatementType.RETURN;
@@ -23,9 +25,28 @@ public class Return extends Statement {
         this.returnValue = returnValue;
     }
 
+    public int getLine() {
+        return line;
+    }
+
+    public void setLine(int line) {
+        this.line = line;
+    }
+
+    public int getPos() {
+        return pos;
+    }
+
+    public void setPos(int pos) {
+        this.pos = pos;
+    }
+
     @Override
     public Value execute(DataStack context) throws RTException,ReturnValue {
         Value retValue = returnValue.execute(context);
-        throw new ReturnValue(retValue);
+        ReturnValue v = new ReturnValue(retValue);
+        v.setLine(line);
+        v.setPos(pos);
+        throw v;
     }
 }

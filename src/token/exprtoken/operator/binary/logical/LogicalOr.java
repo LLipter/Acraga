@@ -10,6 +10,7 @@ import type.OperatorType;
 import type.ValueType;
 
 public class LogicalOr extends BinaryOperator {
+
     public LogicalOr(){
         operatorType = OperatorType.LOGICALOR;
     }

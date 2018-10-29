@@ -92,6 +92,8 @@ public class Value extends ExpressionToken {
             return String.format("<BoolValue,%b>", boolValue);
         if (isString())
             return String.format("<StringValue,%s>", stringValue);
+        if (isVoid())
+            return String.format("<VoidValue>");
         return "<UnknownValue>";
     }
 
@@ -104,7 +106,7 @@ public class Value extends ExpressionToken {
             setBoolValue(false);
         else if(isString())
             setStringValue("");
-        else
+        else if(!isVoid())
             System.err.println("Unknown data type");
     }
 

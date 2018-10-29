@@ -18,6 +18,7 @@ public class Assign extends BinaryOperator {
         if (lChild.getTokenType() != TokenType.IDENTIFIER)
             throw new RTException(getLines(), getPos(), "left value required");
         Value value = rChild.execute(context);
+        lChild.execute(context);
         if(value.isVoid())
             throw new RTException(getLines(), getPos(), "cannot be assigned with void");
         context.setValue((Identifier)lChild, value);

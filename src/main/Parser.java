@@ -495,6 +495,8 @@ public class Parser {
 
     private Return detectReturn() throws SyntaxException {
         Return rStatement = new Return();
+        rStatement.setLine(line);
+        rStatement.setPos(pos);
         if(!detectKeyword(KeywordType.RETURN))
             return null;
         ExpressionToken returnValue = detectExpression();

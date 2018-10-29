@@ -7,6 +7,7 @@ import token.exprtoken.ExpressionToken;
 import token.exprtoken.Value;
 
 public class ArrayId extends Identifier {
+
     private ExpressionToken index;
     private ExpressionToken length;
     private int intIndex;

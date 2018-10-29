@@ -50,7 +50,7 @@ public class Divide extends BinaryOperator {
             res.setIntValue(div);
         }
         else
-            throw new RTException(getLines(), getPos(), "boolean variable cannot be divided by another boolean variable");
+            throw new RTException(getLines(), getPos(), "boolean variable cannot do divide operation");
         return res;
     }
 

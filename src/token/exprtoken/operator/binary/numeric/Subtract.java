@@ -45,7 +45,7 @@ public class Subtract extends BinaryOperator {
             res.setIntValue(sub);
         }
         else
-            throw new RTException(getLines(), getPos(), "boolean variable cannot be subtracted to another boolean variable");
+            throw new RTException(getLines(), getPos(), "boolean variable cannot do subtraction operation");
         return res;
     }
 }

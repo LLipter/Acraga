@@ -13,6 +13,7 @@ import java.math.BigDecimal;
 import java.math.BigInteger;
 
 public class GreaterThanEqual extends BinaryOperator {
+
     public GreaterThanEqual(){
         operatorType = OperatorType.GREATERTHANOREQUAL;
     }
@@ -55,7 +56,7 @@ public class GreaterThanEqual extends BinaryOperator {
                 res.setBoolValue(true);
         }
         else
-            throw new RTException(getLines(), getPos(), "boolean variable cannot be compared with another boolean variable");
+            throw new RTException(getLines(), getPos(), "boolean variable cannot do comparison operation");
         return res;
     }
 }

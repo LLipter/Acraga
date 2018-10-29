@@ -5,6 +5,7 @@ import token.exprtoken.ExpressionToken;
 import java.util.LinkedList;
 
 public abstract class Loop extends Statement {
+
     protected ExpressionToken condition;
     protected LinkedList<Statement> loopStatements;
 

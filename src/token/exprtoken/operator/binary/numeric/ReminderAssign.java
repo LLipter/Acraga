@@ -23,8 +23,8 @@ public class ReminderAssign extends BinaryOperator {
     public Value execute(DataStack context) throws RTException, ReturnValue {
         if (lChild.getTokenType() != TokenType.IDENTIFIER)
             throw new RTException(getLines(), getPos(), "left value required");
-        Value lvalue = lChild.execute(context);
         Value rvalue = rChild.execute(context);
+        Value lvalue = lChild.execute(context);
 
         Value res;
         if(lvalue.isVoid() || rvalue.isVoid())

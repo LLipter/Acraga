@@ -8,11 +8,6 @@ public abstract class BinaryOperator extends Operator {
     protected ExpressionToken lChild;
     protected ExpressionToken rChild;
 
-    @Override
-    public String toString() {
-        return String.format("<BinaryOperator,%s>", operatorType);
-    }
-
     public void setlChild(ExpressionToken ExToken) {
         lChild = ExToken;
     }
@@ -27,5 +22,10 @@ public abstract class BinaryOperator extends Operator {
 
     public ExpressionToken getrChild() {
         return rChild;
+    }
+
+    @Override
+    public String toString() {
+        return String.format("<BinaryOperator,%s>", operatorType);
     }
 }

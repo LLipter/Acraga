@@ -13,6 +13,7 @@ import java.math.BigDecimal;
 import java.math.BigInteger;
 
 public class Equal extends BinaryOperator {
+
     public Equal(){
         operatorType = OperatorType.EQUAL;
     }
@@ -36,7 +37,7 @@ public class Equal extends BinaryOperator {
         }
         else if(lvalue.isString() || rvalue.isString())
             throw new RTException(getLines(), getPos(), "string variable cannot be compared with non-string variable");
-            // automatically promote to double
+        // automatically promote to double
         else if(lvalue.isDouble() || rvalue.isDouble()){
             BigDecimal number1 = Casting.casting(lvalue,ValueType.BOOLEAN).getDoubleValue();
             BigDecimal number2 = Casting.casting(rvalue,ValueType.BOOLEAN).getDoubleValue();
@@ -55,7 +56,7 @@ public class Equal extends BinaryOperator {
                 res.setBoolValue(false);
         }
         else
-            throw new RTException(getLines(), getPos(), "boolean variable cannot be compared with another boolean variable");
+            throw new RTException(getLines(), getPos(), "boolean variable cannot do comparison operation");
         return res;
     }
 }

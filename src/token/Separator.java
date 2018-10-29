@@ -1,12 +1,11 @@
 package token;
 
-import type.OperatorType;
 import type.TokenType;
 import type.SeparatorType;
 
 public class Separator extends Token {
-    protected SeparatorType separatorType;
 
+    protected SeparatorType separatorType;
 
     public Separator(SeparatorType sType) {
         separatorType = sType;

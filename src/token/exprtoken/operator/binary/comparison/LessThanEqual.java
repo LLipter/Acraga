@@ -55,7 +55,7 @@ public class LessThanEqual extends BinaryOperator {
                 res.setBoolValue(true);
         }
         else
-            throw new RTException(getLines(), getPos(), "boolean variable cannot be compared with another boolean variable");
+            throw new RTException(getLines(), getPos(), "boolean variable cannot do comparison operation");
         return res;
     }
 }

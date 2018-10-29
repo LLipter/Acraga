@@ -45,7 +45,7 @@ public class Multiply extends BinaryOperator {
             res.setIntValue(mul);
         }
         else
-            throw new RTException(getLines(), getPos(), "boolean variable cannot be multiplied by another boolean variable");
+            throw new RTException(getLines(), getPos(), "boolean variable cannot do multiplication operation");
         return res;
     }
 }

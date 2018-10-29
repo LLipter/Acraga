@@ -24,8 +24,8 @@ public class SubtractAssign extends BinaryOperator {
     public Value execute(DataStack context) throws RTException, ReturnValue {
         if (lChild.getTokenType() != TokenType.IDENTIFIER)
             throw new RTException(getLines(), getPos(), "left value required");
-        Value lvalue = lChild.execute(context);
         Value rvalue = rChild.execute(context);
+        Value lvalue = lChild.execute(context);
 
         Value res;
         if(lvalue.isVoid() || rvalue.isVoid())
@@ -49,7 +49,7 @@ public class SubtractAssign extends BinaryOperator {
             res.setIntValue(sub);
         }
         else
-            throw new RTException(getLines(), getPos(), "boolean variable cannot be subtracted to another boolean variable");
+            throw new RTException(getLines(), getPos(), "boolean variable cannot do subtraction operation\"");
         context.setValue((Identifier)lChild, res);
         return res;
     }

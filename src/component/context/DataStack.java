@@ -24,16 +24,16 @@ public class DataStack {
     // all available function
     private HashMap<FunctionSignature, Function> functionMap;
 
+    public DataStack(){
+        dataStack = new LinkedList<>();
+    }
+
     public HashMap<FunctionSignature, Function> getFunctionMap() {
         return functionMap;
     }
 
     public void setFunctionMap(HashMap<FunctionSignature, Function> functionMap) {
         this.functionMap = functionMap;
-    }
-
-    public DataStack(){
-        dataStack = new LinkedList<>();
     }
 
     public void createFrame(){
@@ -47,7 +47,6 @@ public class DataStack {
     private void throwException(Identifier identifier, String msg) throws RTException {
         throw new RTException(identifier.getLines(), identifier.getPos(), msg);
     }
-
 
     public Value getValue(Identifier identifier) throws RTException {
         if (identifier instanceof FunctionId)
@@ -80,7 +79,6 @@ public class DataStack {
                     if(obj instanceof Value)
                         return (Value)obj;
                     throwException(identifier, String.format("%s is an array", identifier.getId()));
-
                 }
             }
             throwException(identifier, String.format("%s not defined", identifier.getId()));
@@ -88,7 +86,6 @@ public class DataStack {
 
         return null; // never used
     }
-
 
     // declare simple variable
     public void declareValue(Identifier identifier, Value value, ValueType type) throws RTException {
@@ -127,35 +124,43 @@ public class DataStack {
             throwException(identifier, "left value required");
         // set one element in an array variable
         if(identifier instanceof ArrayId){
-            HashMap<String, Object> frame = dataStack.getFirst();
-            if(!frame.containsKey(identifier.getId()))
-                throwException(identifier, String.format("%s not defined", identifier.getId()));
-            Object obj = frame.get(identifier.getId());
-            if(!(obj instanceof ArrayList))
-                throwException(identifier, String.format("%s is not an array, thus, not indexable", identifier.getId()));
-            ArrayList<Value> array = (ArrayList<Value>)obj;
-            int index = ((ArrayId)identifier).getIntIndex();
-            if(array.size() < index + 1)
-                throwException(identifier, String.format("%s index out of range", identifier.getId()));
-            Value value_in_array = array.get(0);
-            Value castedValue = Casting.casting(value, value_in_array.getValueType());
-            if (castedValue == null)
-                throwException(identifier, String.format("%s is not compatible with type %s", identifier.getId(), value.getValueType()));
-            array.set(index, castedValue);
+            Iterator<HashMap<String, Object>> it = dataStack.iterator();
+            while(it.hasNext()){
+                HashMap<String, Object> frame = it.next();
+                if(!frame.containsKey(identifier.getId()))
+                    continue;
+                Object obj = frame.get(identifier.getId());
+                if(!(obj instanceof ArrayList))
+                    throwException(identifier, String.format("%s is not an array, thus, not indexable", identifier.getId()));
+                ArrayList<Value> array = (ArrayList<Value>)obj;
+                int index = ((ArrayId)identifier).getIntIndex();
+                if(array.size() < index + 1)
+                    throwException(identifier, String.format("%s index out of range", identifier.getId()));
+                Value value_in_array = array.get(0);
+                Value castedValue = Casting.casting(value, value_in_array.getValueType());
+                if (castedValue == null)
+                    throwException(identifier, String.format("%s is not compatible with type %s", identifier.getId(), value.getValueType()));
+                array.set(index, castedValue);
+            }
+            throwException(identifier, String.format("%s not defined", identifier.getId()));
         }
         // set simple variable
         else{
-            HashMap<String, Object> frame = dataStack.getFirst();
-            if(!frame.containsKey(identifier.getId()))
-                throwException(identifier, String.format("%s not defined", identifier.getId()));
-            Object obj = frame.get(identifier.getId());
-            if(!(obj instanceof Value))
-                throwException(identifier, String.format("%s is an array", identifier.getId()));
-            Value oldValue = (Value)obj;
-            Value castedValue = Casting.casting(value, oldValue.getValueType());
-            if (castedValue == null)
-                throwException(identifier, String.format("%s is not compatible with type %s", identifier.getId(), value.getValueType()));
-            frame.put(identifier.getId(), castedValue);
+            Iterator<HashMap<String, Object>> it = dataStack.iterator();
+            while(it.hasNext()){
+                HashMap<String, Object> frame = it.next();
+                if(!frame.containsKey(identifier.getId()))
+                    continue;
+                Object obj = frame.get(identifier.getId());
+                if(!(obj instanceof Value))
+                    throwException(identifier, String.format("%s is an array", identifier.getId()));
+                Value oldValue = (Value)obj;
+                Value castedValue = Casting.casting(value, oldValue.getValueType());
+                if (castedValue == null)
+                    throwException(identifier, String.format("%s is not compatible with type %s", identifier.getId(), value.getValueType()));
+                frame.put(identifier.getId(), castedValue);
+            }
+            throwException(identifier, String.format("%s not defined", identifier.getId()));
         }
 
 

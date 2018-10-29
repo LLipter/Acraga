@@ -6,5 +6,5 @@ import token.exprtoken.Value;
 
 public interface Executable {
 
-    Value execute(DataStack context) throws RTException,ReturnValue;
+    Value execute(DataStack context) throws RTException, ReturnValue;
 }

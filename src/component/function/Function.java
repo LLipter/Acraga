@@ -21,18 +21,18 @@ public class Function implements Iterable<Statement>, Executable{
     private ValueType returnType;
     private LinkedList<Statement> statements;
 
+    public Function(Identifier fid, ValueType type) {
+        id = fid;
+        functionSignature = new FunctionSignature(fid.getId());
+        returnType = type;
+    }
+
     public ArrayList<Value> getArguments() {
         return arguments;
     }
 
     public void setArguments(ArrayList<Value> arguments) {
         this.arguments = arguments;
-    }
-
-    public Function(Identifier fid, ValueType type) {
-        id = fid;
-        functionSignature = new FunctionSignature(fid.getId());
-        returnType = type;
     }
 
     public void addParameter(ValueType type, Identifier pid) {
@@ -83,13 +83,11 @@ public class Function implements Iterable<Statement>, Executable{
         }catch (ReturnValue retValue){
             Value castedValue = Casting.casting(retValue.getReturnValue(), returnType);
             if(castedValue == null)
-                throw new RTException(id.getLines(), id.getPos(),String.format("incompatible return type", id.getId()));
+                throw new RTException(retValue.getLine(), retValue.getPos(),String.format("incompatible return type", id.getId()));
             return castedValue;
         }finally {
             context.releaseFrame();
         }
-
-
     }
 
     @Override

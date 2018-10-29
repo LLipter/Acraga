@@ -16,6 +16,7 @@ public class Interpreter {
     public Interpreter(Parser parser) throws RTException {
         this.parser = parser;
         context = new DataStack();
+        context.setFunctionMap(parser.getFunctionMap());
         interpret();
     }
 

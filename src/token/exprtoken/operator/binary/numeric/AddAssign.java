@@ -24,8 +24,8 @@ public class AddAssign extends BinaryOperator {
     public Value execute(DataStack context) throws RTException, ReturnValue {
         if (lChild.getTokenType() != TokenType.IDENTIFIER)
             throw new RTException(getLines(), getPos(), "left value required");
-        Value lvalue = lChild.execute(context);
         Value rvalue = rChild.execute(context);
+        Value lvalue = lChild.execute(context);
 
         Value res;
         if(lvalue.isVoid() || rvalue.isVoid())
@@ -54,7 +54,7 @@ public class AddAssign extends BinaryOperator {
             res.setIntValue(sum);
         }
         else
-            throw new RTException(getLines(), getPos(), "boolean variable cannot be added to another boolean variable");
+            throw new RTException(getLines(), getPos(), "boolean variable cannot do add operation");
 
         context.setValue((Identifier)lChild, res);
 

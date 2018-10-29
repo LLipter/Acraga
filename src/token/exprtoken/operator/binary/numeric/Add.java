@@ -50,7 +50,7 @@ public class Add extends BinaryOperator {
             res.setIntValue(sum);
         }
         else
-            throw new RTException(getLines(), getPos(), "boolean variable cannot be added to another boolean variable");
+            throw new RTException(getLines(), getPos(), "boolean variable cannot do add operation");
         return res;
     }
 }

@@ -8,7 +8,6 @@ import type.OperatorType;
 
 public class NegativeSign extends UnaryOperator {
 
-
     public NegativeSign(){
         operatorType = OperatorType.NEGATIVESIGN;
     }

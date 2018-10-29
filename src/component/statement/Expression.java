@@ -8,6 +8,7 @@ import token.exprtoken.Value;
 import type.StatementType;
 
 public class Expression extends Statement {
+
     private ExpressionToken root;
 
     public Expression(){

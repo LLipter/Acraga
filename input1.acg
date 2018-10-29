@@ -58,6 +58,3 @@ int main(){
 double foo(){
     return 1.234455e-4;
 }
-// 0 测试、移除parser和interpreter中的bug
-// 1 能够让在全局区执行一些语句
-// 2 让for语句可以执行初始化

@@ -14,7 +14,7 @@ public class FunctionSignature {
 
     public FunctionSignature(String fName) {
         functionName = fName;
-        parameters = new ArrayList<Parameter>();
+        parameters = new ArrayList<>();
     }
 
     public String getFunctionName() {
@@ -70,7 +70,6 @@ public class FunctionSignature {
 
         return true;
     }
-
 
     @Override
     public String toString() {

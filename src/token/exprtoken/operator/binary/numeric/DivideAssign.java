@@ -24,8 +24,8 @@ public class DivideAssign extends BinaryOperator {
     public Value execute(DataStack context) throws RTException, ReturnValue {
         if (lChild.getTokenType() != TokenType.IDENTIFIER)
             throw new RTException(getLines(), getPos(), "left value required");
-        Value lvalue = lChild.execute(context);
         Value rvalue = rChild.execute(context);
+        Value lvalue = lChild.execute(context);
 
         Value res;
         if(lvalue.isVoid() || rvalue.isVoid())
@@ -53,7 +53,7 @@ public class DivideAssign extends BinaryOperator {
             res.setIntValue(div);
         }
         else
-            throw new RTException(getLines(), getPos(), "boolean variable cannot be divided by another boolean variable");
+            throw new RTException(getLines(), getPos(), "boolean variable cannot do divide operation");
         context.setValue((Identifier)lChild, res);
         return res;
     }
