@@ -1,8 +1,11 @@
 package component.context;
 
+import component.ReturnValue;
 import component.function.Function;
 import component.function.FunctionSignature;
 import exception.RTException;
+import token.ArrayId;
+import token.FunctionId;
 import token.Identifier;
 import token.Value;
 import type.Casting;
@@ -100,36 +103,45 @@ public class DataStack {
         frame.put(identifier.getId(), array);
     }
 
-    // set simple variable
-    public void setValue(Identifier identifier, Value value) throws RTException {
-        HashMap<String, Object> frame = dataStack.getFirst();
-        if(!frame.containsKey(identifier.getId()))
-            throwException(identifier, String.format("%s not defined", identifier.getId()));
-        Object obj = frame.get(identifier.getId());
-        if(!(obj instanceof Value))
-            throwException(identifier, String.format("%s is an array", identifier.getId()));
-        Value oldValue = (Value)obj;
-        Value castedValue = Casting.casting(value, oldValue.getValueType());
-        if (castedValue == null)
-            throwException(identifier, String.format("%s is not compatible with type %s", identifier.getId(), value.getValueType()));
-        frame.put(identifier.getId(), castedValue);
-    }
+    public void setValue(Identifier identifier, Value value) throws RTException, ReturnValue {
+        // set one element in an array variable
+        if(identifier instanceof ArrayId){
+            HashMap<String, Object> frame = dataStack.getFirst();
+            if(!frame.containsKey(identifier.getId()))
+                throwException(identifier, String.format("%s not defined", identifier.getId()));
+            Object obj = frame.get(identifier.getId());
+            if(!(obj instanceof ArrayList))
+                throwException(identifier, String.format("%s is not an array, thus, not indexable", identifier.getId()));
+            ArrayList<Value> array = (ArrayList<Value>)obj;
+            Value index_value = ((ArrayId)identifier).getIndex().execute(this);
+            if(!index_value.isInt())
+                throwException(identifier, "only integer can be used as index");
+            int index = index_value.getIntValue().intValue();
+            if(array.size() < index + 1)
+                throwException(identifier, String.format("%s index out of range", identifier.getId()));
+            Value value_in_array = array.get(0);
+            Value castedValue = Casting.casting(value, value_in_array.getValueType());
+            if (castedValue == null)
+                throwException(identifier, String.format("%s is not compatible with type %s", identifier.getId(), value.getValueType()));
+            array.set(index, castedValue);
+        }
+        else if(identifier instanceof FunctionId)
+            throwException(identifier, "left value required");
+        // set simple variable
+        else{
+            HashMap<String, Object> frame = dataStack.getFirst();
+            if(!frame.containsKey(identifier.getId()))
+                throwException(identifier, String.format("%s not defined", identifier.getId()));
+            Object obj = frame.get(identifier.getId());
+            if(!(obj instanceof Value))
+                throwException(identifier, String.format("%s is an array", identifier.getId()));
+            Value oldValue = (Value)obj;
+            Value castedValue = Casting.casting(value, oldValue.getValueType());
+            if (castedValue == null)
+                throwException(identifier, String.format("%s is not compatible with type %s", identifier.getId(), value.getValueType()));
+            frame.put(identifier.getId(), castedValue);
+        }
 
-    // set one element in an array variable
-    public void setValue(Identifier identifier, int index, Value value) throws RTException {
-        HashMap<String, Object> frame = dataStack.getFirst();
-        if(!frame.containsKey(identifier.getId()))
-            throwException(identifier, String.format("%s not defined", identifier.getId()));
-        Object obj = frame.get(identifier.getId());
-        if(!(obj instanceof ArrayList))
-            throwException(identifier, String.format("%s is not an array, thus, not indexable", identifier.getId()));
-        ArrayList<Value> array = (ArrayList<Value>)obj;
-        if(array.size() < index + 1)
-            throwException(identifier, String.format("%s index out of range", identifier.getId()));
-        Value value_in_array = array.get(0);
-        Value castedValue = Casting.casting(value, value_in_array.getValueType());
-        if (castedValue == null)
-            throwException(identifier, String.format("%s is not compatible with type %s", identifier.getId(), value.getValueType()));
-        array.set(index, castedValue);
+
     }
 }

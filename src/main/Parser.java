@@ -411,9 +411,8 @@ public class Parser {
                 if (!detectSeparator(SeparatorType.LEFTBRACE))
                     throwException("missing left brace");
                 ExpressionToken element = detectExpression();
-                if(element == null)
-                    throwException("can not declare an array of length 0");
-                initialization.addElement(element);
+                if(element != null)
+                    initialization.addElement(element);
                 while(detectSeparator(SeparatorType.COMMA)){
                     element = detectExpression();
                     if(element == null)

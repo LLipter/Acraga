@@ -77,9 +77,9 @@ public class Scanner {
         Operator op;
 
         if (preprocessor.isOperator("<<="))
-            op = new BinaryOperator(OperatorType.LEFTSHIFTINGASSIGN);
+            op = new LeftShiftingAssign();
         else if (preprocessor.isOperator(">>="))
-            op = new BinaryOperator(OperatorType.RIGHTSHIFTINGASSIGN);
+            op = new RightShiftingAssign();
         else if (preprocessor.isOperator(">="))
             op = new GreaterThanEqual();
         else if (preprocessor.isOperator("<="))
@@ -107,11 +107,11 @@ public class Scanner {
         else if (preprocessor.isOperator("%="))
             op = new ReminderAssign();
         else if (preprocessor.isOperator("&="))
-            op = new BinaryOperator(OperatorType.BITWISEANDASSIGN);
+            op = new BitwiseAndAssign();
         else if (preprocessor.isOperator("|="))
-            op = new BinaryOperator(OperatorType.BITWISEORASSIGN);
+            op = new BitwiseOrAssign();
         else if (preprocessor.isOperator("^="))
-            op = new BinaryOperator(OperatorType.BITWISEXORASSIGN);
+            op = new BitwiseXorAssign();
         else if (preprocessor.isOperator("*"))
             op = new Multiply();
         else if (preprocessor.isOperator("/"))
