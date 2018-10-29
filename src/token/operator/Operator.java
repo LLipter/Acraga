@@ -14,7 +14,7 @@ public abstract class Operator extends ExpressionToken {
 
     static{
         priorityMap.put(OperatorType.NEGATIVESIGN,2);
-        priorityMap.put(OperatorType.NOT,2);
+        priorityMap.put(OperatorType.LOGICALNOT,2);
         priorityMap.put(OperatorType.BITWISENEGATE,2);
         priorityMap.put(OperatorType.MOD,3);
         priorityMap.put(OperatorType.DIV,3);

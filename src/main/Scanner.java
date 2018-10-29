@@ -5,6 +5,9 @@ import token.*;
 import token.operator.binary.*;
 import token.operator.Operator;
 import token.operator.binary.comparison.*;
+import token.operator.binary.logical.LogicalAnd;
+import token.operator.binary.logical.LogicalNot;
+import token.operator.unary.LogicalOr;
 import token.operator.unary.NegativeSign;
 import token.operator.unary.PositiveSign;
 import token.operator.unary.UnaryOperator;
@@ -88,9 +91,9 @@ public class Scanner {
         else if (preprocessor.isOperator("!=") || preprocessor.isOperator("<>"))
             op = new BinaryOperator(OperatorType.NOTEQUAL);
         else if (preprocessor.isOperator("&&"))
-            op = new BinaryOperator(OperatorType.LOGICALAND);
+            op = new LogicalAnd();
         else if (preprocessor.isOperator("||"))
-            op = new BinaryOperator(OperatorType.LOGICALOR);
+            op = new LogicalOr();
         else if (preprocessor.isOperator("<<"))
             op = new BinaryOperator(OperatorType.LEFTSHIFTING);
         else if (preprocessor.isOperator(">>"))
@@ -132,7 +135,7 @@ public class Scanner {
         else if (preprocessor.isOperator("^"))
             op = new BinaryOperator(OperatorType.BITWISEXOR);
         else if (preprocessor.isOperator("!"))
-            op = new UnaryOperator(OperatorType.NOT);
+            op = new LogicalNot();
         else if (preprocessor.isOperator("+")){
             if(tokens.isEmpty() || (tokens.getLast() instanceof Operator))
                 op = new PositiveSign();

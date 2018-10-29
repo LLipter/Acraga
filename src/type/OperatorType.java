@@ -34,7 +34,7 @@ public enum OperatorType {
     RIGHTSHIFTING,
 
     // unary operator
-    NOT,
+    LOGICALNOT,
     NEGATIVESIGN,
     POSITIVESIGN,
     BITWISENEGATE
