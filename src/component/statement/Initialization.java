@@ -82,6 +82,7 @@ public class Initialization extends Statement implements Iterable<ExpressionToke
             printWithIndent(indent, "{!!!ILLEGAL FUNCTION IDENTIFIER INITIALIZATION!!!}");
         } else if (id instanceof ArrayId) {
             printWithIndent(indent, "[Array Initialization]");
+            printWithIndent(indent, String.format("[ID %s]", id.getId()));
             printWithIndent(indent, "[Array Length]");
             ((ArrayId) id).getLength().print(indent + 4);
             printWithIndent(indent, "[End of Array Length]");
@@ -94,6 +95,7 @@ public class Initialization extends Statement implements Iterable<ExpressionToke
             printWithIndent(indent, "[End of Explicitly Initialized Elements]");
         } else {
             printWithIndent(indent, "[Simple Variable Initialization]");
+            printWithIndent(indent, String.format("[ID %s]", id.getId()));
             printWithIndent(indent, "[Value]");
             value.print(indent + 4);
             printWithIndent(indent, "[End of Value]");

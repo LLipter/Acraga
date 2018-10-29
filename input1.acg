@@ -26,7 +26,7 @@
 
 int main(){
     int i=0;
-    for(i=0;i<10;i+=1){
+    for(i=0;i<3;i+=1){
         if(true){
             ; // do nothing
         }else{
@@ -43,9 +43,12 @@ int main(){
         int x[] = {1,2,3,4}
 
         double a = 1E3;
-        int sum = 1+add(1,a,2+(2+2))-3;
+        int sum = 1+add(1,a,2+(2+2))-3 + x[i];
+        print("hello world, " + "I'm LLipter\n");
+        print("sum is " + sum + "\n");
 
     }
+    print("hello world\n");
     return 0;
 }
 

@@ -381,6 +381,7 @@ public class Parser {
             // array initialization statement
             ArrayId aid = new ArrayId();
             aid.setDataType(dataType);
+            aid.setId(id.getId());
             initialization.setId(aid);
             ExpressionToken arrayLength = detectExpression();
             if (arrayLength == null) {

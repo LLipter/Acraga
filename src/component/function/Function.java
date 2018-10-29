@@ -14,12 +14,12 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.LinkedList;
 
-public class Function implements Iterable<Statement>, Executable {
-    private Identifier id;
-    private FunctionSignature functionSignature;
-    private ArrayList<Value> arguments;
-    private ValueType returnType;
-    private LinkedList<Statement> statements;
+public class Function implements Executable {
+    protected Identifier id;
+    protected FunctionSignature functionSignature;
+    protected ArrayList<Value> arguments;
+    protected ValueType returnType;
+    protected LinkedList<Statement> statements;
 
     public Function(Identifier fid, ValueType type) {
         id = fid;
@@ -53,11 +53,6 @@ public class Function implements Iterable<Statement>, Executable {
 
     public void setStatements(LinkedList<Statement> statements) {
         this.statements = statements;
-    }
-
-    @Override
-    public Iterator<Statement> iterator() {
-        return statements.iterator();
     }
 
     @Override

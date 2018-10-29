@@ -3,6 +3,7 @@ package main;
 import component.context.DataStack;
 import component.function.Function;
 import component.function.FunctionSignature;
+import component.function.predefined.Print;
 import exception.RTException;
 import token.exprtoken.Value;
 
@@ -16,7 +17,9 @@ public class Interpreter {
     public Interpreter(Parser parser) throws RTException {
         this.parser = parser;
         context = new DataStack();
-        context.setFunctionMap(parser.getFunctionMap());
+        HashMap<FunctionSignature, Function> funcMap = parser.getFunctionMap();
+        funcMap.putAll(predefinedFunction());
+        context.setFunctionMap(funcMap);
         interpret();
     }
 
@@ -33,6 +36,13 @@ public class Interpreter {
             throw new RTException(String.format("function '%s' not found", signature));
         Function function = functionMap.get(FunctionSignature.mainFunctionSignature);
         return function.execute(context);
+    }
+
+    private HashMap<FunctionSignature, Function> predefinedFunction(){
+        HashMap<FunctionSignature, Function> funcMap = new HashMap<>();
+        Print print = new Print();
+        funcMap.put(print.getFunctionSignature(),print);
+        return funcMap;
     }
 
 
