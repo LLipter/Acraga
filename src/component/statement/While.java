@@ -3,7 +3,7 @@ package component.statement;
 import component.ReturnValue;
 import component.context.DataStack;
 import exception.RTException;
-import token.Value;
+import token.exprtoken.Value;
 import type.Casting;
 import type.StatementType;
 import type.ValueType;

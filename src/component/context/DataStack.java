@@ -4,10 +4,10 @@ import component.ReturnValue;
 import component.function.Function;
 import component.function.FunctionSignature;
 import exception.RTException;
-import token.ArrayId;
-import token.FunctionId;
-import token.Identifier;
-import token.Value;
+import token.exprtoken.identifier.ArrayId;
+import token.exprtoken.identifier.FunctionId;
+import token.exprtoken.identifier.Identifier;
+import token.exprtoken.Value;
 import type.Casting;
 import type.ValueType;
 

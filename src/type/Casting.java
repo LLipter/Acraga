@@ -1,6 +1,6 @@
 package type;
 
-import token.Value;
+import token.exprtoken.Value;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;

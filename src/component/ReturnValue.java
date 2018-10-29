@@ -1,6 +1,6 @@
 package component;
 
-import token.Value;
+import token.exprtoken.Value;
 
 public class ReturnValue extends Throwable {
     private Value returnValue;

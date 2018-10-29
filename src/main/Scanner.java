@@ -2,14 +2,16 @@ package main;
 
 import exception.SyntaxException;
 import token.*;
-import token.operator.binary.*;
-import token.operator.Operator;
-import token.operator.binary.bitwise.*;
-import token.operator.binary.comparison.*;
-import token.operator.binary.logical.LogicalAnd;
-import token.operator.binary.numeric.*;
-import token.operator.unary.*;
-import token.operator.binary.logical.LogicalOr;
+import token.exprtoken.Value;
+import token.exprtoken.identifier.Identifier;
+import token.exprtoken.operator.binary.*;
+import token.exprtoken.operator.Operator;
+import token.exprtoken.operator.binary.bitwise.*;
+import token.exprtoken.operator.binary.comparison.*;
+import token.exprtoken.operator.binary.logical.LogicalAnd;
+import token.exprtoken.operator.binary.numeric.*;
+import token.exprtoken.operator.unary.*;
+import token.exprtoken.operator.binary.logical.LogicalOr;
 import type.KeywordType;
 import type.SeparatorType;
 

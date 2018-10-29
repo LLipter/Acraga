@@ -1,6 +1,6 @@
 package component.function;
 
-import token.Identifier;
+import token.exprtoken.identifier.Identifier;
 import type.ValueType;
 
 public class Parameter {

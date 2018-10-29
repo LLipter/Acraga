@@ -5,8 +5,8 @@ import component.context.DataStack;
 import component.statement.Statement;
 import component.Executable;
 import exception.RTException;
-import token.Identifier;
-import token.Value;
+import token.exprtoken.identifier.Identifier;
+import token.exprtoken.Value;
 import type.Casting;
 import type.ValueType;
 

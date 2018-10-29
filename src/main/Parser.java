@@ -5,9 +5,14 @@ import exception.SyntaxException;
 import component.function.Function;
 import component.function.FunctionSignature;
 import token.*;
-import token.operator.binary.BinaryOperator;
-import token.operator.Operator;
-import token.operator.unary.UnaryOperator;
+import token.exprtoken.ExpressionToken;
+import token.exprtoken.Value;
+import token.exprtoken.identifier.ArrayId;
+import token.exprtoken.identifier.FunctionId;
+import token.exprtoken.identifier.Identifier;
+import token.exprtoken.operator.binary.BinaryOperator;
+import token.exprtoken.operator.Operator;
+import token.exprtoken.operator.unary.UnaryOperator;
 import type.*;
 
 import java.util.LinkedList;

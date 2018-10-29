@@ -1,12 +1,10 @@
 package component.function;
 
-import component.statement.Return;
-import token.Identifier;
+import token.exprtoken.identifier.Identifier;
 import type.ValueType;
 
 import java.util.ArrayList;
 import java.util.Iterator;
-import java.util.LinkedList;
 
 public class FunctionSignature {
 

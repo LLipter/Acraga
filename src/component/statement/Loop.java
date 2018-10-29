@@ -1,6 +1,6 @@
 package component.statement;
 
-import token.ExpressionToken;
+import token.exprtoken.ExpressionToken;
 
 import java.util.LinkedList;
 
