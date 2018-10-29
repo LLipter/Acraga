@@ -1,4 +1,4 @@
-package token.operator.binary.logical;
+package token.operator.unary;
 
 import component.ReturnValue;
 import component.context.DataStack;

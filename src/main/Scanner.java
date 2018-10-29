@@ -4,13 +4,13 @@ import exception.SyntaxException;
 import token.*;
 import token.operator.binary.*;
 import token.operator.Operator;
+import token.operator.binary.bitwise.BitwiseAnd;
+import token.operator.binary.bitwise.BitwiseOr;
+import token.operator.binary.bitwise.BitwiseXor;
 import token.operator.binary.comparison.*;
 import token.operator.binary.logical.LogicalAnd;
-import token.operator.binary.logical.LogicalNot;
-import token.operator.unary.LogicalOr;
-import token.operator.unary.NegativeSign;
-import token.operator.unary.PositiveSign;
-import token.operator.unary.UnaryOperator;
+import token.operator.unary.*;
+import token.operator.binary.logical.LogicalOr;
 import type.KeywordType;
 import type.OperatorType;
 import type.SeparatorType;
@@ -127,13 +127,13 @@ public class Scanner {
         else if (preprocessor.isOperator("="))
             op = new Assign();
         else if (preprocessor.isOperator("~"))
-            op = new UnaryOperator(OperatorType.BITWISENEGATE);
+            op = new BitwiseNegate();
         else if (preprocessor.isOperator("&"))
-            op = new BinaryOperator(OperatorType.BITWISEAND);
+            op = new BitwiseAnd();
         else if (preprocessor.isOperator("|"))
-            op = new BinaryOperator(OperatorType.BITWISEOR);
+            op = new BitwiseOr();
         else if (preprocessor.isOperator("^"))
-            op = new BinaryOperator(OperatorType.BITWISEXOR);
+            op = new BitwiseXor();
         else if (preprocessor.isOperator("!"))
             op = new LogicalNot();
         else if (preprocessor.isOperator("+")){
