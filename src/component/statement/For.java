@@ -43,6 +43,7 @@ public class For extends Loop {
         if (castedValue == null)
             throw new RTException(condition.getLines(), condition.getPos(), "condition not compatible with boolean type");
         while (castedValue.getBoolValue()) {
+            context.createFrame();
             for (Statement s : loopStatements)
                 s.execute(context);
             incr.execute(context);
@@ -50,6 +51,7 @@ public class For extends Loop {
             castedValue = Casting.casting(cond, ValueType.BOOLEAN);
             if (castedValue == null)
                 throw new RTException(condition.getLines(), condition.getPos(), "condition not compatible with boolean type");
+            context.releaseFrame();
         }
         context.releaseFrame();
         // always return void

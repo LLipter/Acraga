@@ -49,6 +49,10 @@ int main(){
     return 0;
 }
 
+double add(int a, double b, int c){
+    return a;
+}
+
 double foo(){
     return 1.234455e-4;
 }

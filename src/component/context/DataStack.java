@@ -141,6 +141,7 @@ public class DataStack {
                 if (castedValue == null)
                     throwException(identifier, String.format("%s is not compatible with type %s", identifier.getId(), value.getValueType()));
                 array.set(index, castedValue);
+                return;
             }
             throwException(identifier, String.format("%s not defined", identifier.getId()));
         }
@@ -159,6 +160,7 @@ public class DataStack {
                 if (castedValue == null)
                     throwException(identifier, String.format("%s is not compatible with type %s", identifier.getId(), value.getValueType()));
                 frame.put(identifier.getId(), castedValue);
+                return;
             }
             throwException(identifier, String.format("%s not defined", identifier.getId()));
         }
