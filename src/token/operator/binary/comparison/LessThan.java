@@ -1,9 +1,10 @@
-package token.operator.binary;
+package token.operator.binary.comparison;
 
 import component.ReturnValue;
 import component.context.DataStack;
 import exception.RTException;
 import token.Value;
+import token.operator.binary.BinaryOperator;
 import type.Casting;
 import type.OperatorType;
 import type.ValueType;
@@ -11,9 +12,9 @@ import type.ValueType;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 
-public class Equal extends BinaryOperator {
-    public Equal(){
-        operatorType = OperatorType.EQUAL;
+public class LessThan extends BinaryOperator {
+    public LessThan(){
+        operatorType = OperatorType.LESSTHAN;
     }
 
     @Override
@@ -28,7 +29,7 @@ public class Equal extends BinaryOperator {
         if (lvalue.isString() && rvalue.isString()){
             String str1 = lvalue.getStringValue();
             String str2 = rvalue.getStringValue();
-            if (str1.compareTo(str2) == 0)
+            if (str1.compareTo(str2) == -1)
                 res.setBoolValue(true);
             else
                 res.setBoolValue(false);
@@ -39,7 +40,7 @@ public class Equal extends BinaryOperator {
         else if(lvalue.isDouble() || rvalue.isDouble()){
             BigDecimal number1 = Casting.casting(lvalue,ValueType.BOOLEAN).getDoubleValue();
             BigDecimal number2 = Casting.casting(rvalue,ValueType.BOOLEAN).getDoubleValue();
-            if (number1.compareTo(number2) == 0)
+            if (number1.compareTo(number2) == -1)
                 res.setBoolValue(true);
             else
                 res.setBoolValue(false);
@@ -48,7 +49,7 @@ public class Equal extends BinaryOperator {
         else if(lvalue.isInt() || rvalue.isInt()){
             BigInteger number1 = Casting.casting(lvalue,ValueType.INTEGER).getIntValue();
             BigInteger number2 = Casting.casting(rvalue,ValueType.INTEGER).getIntValue();
-            if (number1.compareTo(number2) == 0)
+            if (number1.compareTo(number2) == -1)
                 res.setBoolValue(true);
             else
                 res.setBoolValue(false);

@@ -4,6 +4,7 @@ import exception.SyntaxException;
 import token.*;
 import token.operator.binary.*;
 import token.operator.Operator;
+import token.operator.binary.comparison.*;
 import token.operator.unary.NegativeSign;
 import token.operator.unary.PositiveSign;
 import token.operator.unary.UnaryOperator;

@@ -1,9 +1,10 @@
-package token.operator.binary;
+package token.operator.binary.comparison;
 
 import component.ReturnValue;
 import component.context.DataStack;
 import exception.RTException;
 import token.Value;
+import token.operator.binary.BinaryOperator;
 import type.Casting;
 import type.OperatorType;
 import type.ValueType;
@@ -11,9 +12,9 @@ import type.ValueType;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 
-public class LessThanEqual extends BinaryOperator{
-    public LessThanEqual(){
-        operatorType = OperatorType.LESSTHANOREQUAL;
+public class Equal extends BinaryOperator {
+    public Equal(){
+        operatorType = OperatorType.EQUAL;
     }
 
     @Override
@@ -28,10 +29,10 @@ public class LessThanEqual extends BinaryOperator{
         if (lvalue.isString() && rvalue.isString()){
             String str1 = lvalue.getStringValue();
             String str2 = rvalue.getStringValue();
-            if (str1.compareTo(str2) == 1)
-                res.setBoolValue(false);
-            else
+            if (str1.compareTo(str2) == 0)
                 res.setBoolValue(true);
+            else
+                res.setBoolValue(false);
         }
         else if(lvalue.isString() || rvalue.isString())
             throw new RTException(getLines(), getPos(), "string variable cannot be compared with non-string variable");
@@ -39,19 +40,19 @@ public class LessThanEqual extends BinaryOperator{
         else if(lvalue.isDouble() || rvalue.isDouble()){
             BigDecimal number1 = Casting.casting(lvalue,ValueType.BOOLEAN).getDoubleValue();
             BigDecimal number2 = Casting.casting(rvalue,ValueType.BOOLEAN).getDoubleValue();
-            if (number1.compareTo(number2) == 1)
-                res.setBoolValue(false);
-            else
+            if (number1.compareTo(number2) == 0)
                 res.setBoolValue(true);
+            else
+                res.setBoolValue(false);
         }
         // automatically promote to integer
         else if(lvalue.isInt() || rvalue.isInt()){
             BigInteger number1 = Casting.casting(lvalue,ValueType.INTEGER).getIntValue();
             BigInteger number2 = Casting.casting(rvalue,ValueType.INTEGER).getIntValue();
-            if (number1.compareTo(number2) == 1)
-                res.setBoolValue(false);
-            else
+            if (number1.compareTo(number2) == 0)
                 res.setBoolValue(true);
+            else
+                res.setBoolValue(false);
         }
         else
             throw new RTException(getLines(), getPos(), "boolean variable cannot be compared with another boolean variable");
