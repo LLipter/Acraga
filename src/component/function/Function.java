@@ -67,7 +67,7 @@ public class Function implements Iterable<Statement>, Executable{
             // create argument in dataStack
             ArrayList<Parameter> parameters = functionSignature.getParameters();
             for(int i=0;i<parameters.size();i++){
-                context.declareValue(parameters.get(i).getParameterID(), arguments.get(i));
+                context.declareValue(parameters.get(i).getParameterID(), arguments.get(i), parameters.get(i).getDataType());
             }
             // execute all statements
             for(Statement s : statements){

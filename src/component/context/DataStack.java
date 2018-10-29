@@ -102,12 +102,22 @@ public class DataStack {
     }
 
     // declare array variable
-    public void declareValue(Identifier identifier, int length, ValueType type) throws RTException {
+    public void declareValue(Identifier identifier, int length, ValueType type, ArrayList<Value> elements) throws RTException {
         HashMap<String, Object> frame = dataStack.getFirst();
         if(frame.containsKey(identifier.getId()))
             throwException(identifier, String.format("%s defined multiple times", identifier.getId()));
         ArrayList<Value> array = new ArrayList<>();
-        for(int i=0;i<length;i++)
+        if(length < elements.size())
+            throwException(identifier, "array length must be larger than the number of elements in initialization list");
+        int i;
+        for(i=0;i<elements.size();i++){
+            Value value = elements.get(i);
+            Value castedValue = Casting.casting(value, type);
+            if (castedValue == null)
+                throwException(identifier, String.format("%s is not compatible with type %s", identifier.getId(), value.getValueType()));
+            array.add(castedValue);
+        }
+        for(;i<length;i++)
             array.add(new Value(type));
         frame.put(identifier.getId(), array);
     }

@@ -57,13 +57,10 @@ public class Initialization extends Statement implements Iterable<ExpressionToke
             if(!len_value.isInt())
                 throw new RTException(id.getLines(), id.getPos(), "array length must be integer");
             int len = len_value.getIntValue().intValue();
-            if(elements.size() > len)
-                throw new RTException(id.getLines(), id.getPos(), "array length must be larger than the number of elements in initialization list");
-            context.declareValue(aid, len, aid.getDataType());
-            for(int i=0;i<elements.size();i++){
-                Value elementValue = elements.get(i).execute(context);
-                context.setValue(aid, elementValue);
-            }
+            ArrayList<Value> value_elements = new ArrayList<>();
+            for(int i=0;i<elements.size();i++)
+                value_elements.add(elements.get(i).execute(context));
+            context.declareValue(aid, len, aid.getDataType(), value_elements);
         }
         // declare a simple variable
         else

@@ -1,5 +1,8 @@
 package component.statement;
 
+import component.ReturnValue;
+import component.context.DataStack;
+import exception.RTException;
 import token.ExpressionToken;
 import token.Value;
 import type.StatementType;
@@ -20,7 +23,7 @@ public class Expression extends Statement {
     }
 
     @Override
-    public Value execute() {
-        return null;
+    public Value execute(DataStack context) throws RTException, ReturnValue {
+        return root.execute(context);
     }
 }
