@@ -13,7 +13,7 @@ public class Main {
         scanner.print();
         Parser parser = new Parser(scanner);
         parser.print();
-//        Interpreter interpreter = new Interpreter(parser);
+        Interpreter interpreter = new Interpreter(parser);
 
     }
 

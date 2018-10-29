@@ -33,10 +33,10 @@ public abstract class BinaryOperator extends Operator {
     public void print(int indent) {
         printWithIndent(indent, String.format("[BinaryOperator] %s", operatorType));
         printWithIndent(indent, "[Left Operand]");
-        lChild.print(indent+4);
+        lChild.print(indent + 4);
         printWithIndent(indent, "[End of Left Operand]");
         printWithIndent(indent, "[Right Operand]");
-        rChild.print(indent+4);
+        rChild.print(indent + 4);
         printWithIndent(indent, "[End of Right Operand]");
         printWithIndent(indent, String.format("[End of BinaryOperator] %s", operatorType));
     }

@@ -37,13 +37,13 @@ public class While extends Loop {
     @Override
     public void print(int indent) {
         printWithIndent(indent, "[While Statement]");
-        printWithIndent(indent,"[Condition Statement]");
-        condition.print(indent+4);
-        printWithIndent(indent,"[End of Condition Statement]");
-        printWithIndent(indent,"[Loop Statement]");
+        printWithIndent(indent, "[Condition Statement]");
+        condition.print(indent + 4);
+        printWithIndent(indent, "[End of Condition Statement]");
+        printWithIndent(indent, "[Loop Statement]");
         for (Statement s : loopStatements)
-            s.print(indent+4);
-        printWithIndent(indent,"[End of Loop Statement]");
-        printWithIndent(indent,"[End of While Statement]");
+            s.print(indent + 4);
+        printWithIndent(indent, "[End of Loop Statement]");
+        printWithIndent(indent, "[End of While Statement]");
     }
 }

@@ -30,8 +30,8 @@ public class Expression extends Statement {
 
     @Override
     public void print(int indent) {
-        printWithIndent(indent,"[Expression Statement]");
-        root.print(indent+4);
-        printWithIndent(indent,"[End of Expression Statement]");
+        printWithIndent(indent, "[Expression Statement]");
+        root.print(indent + 4);
+        printWithIndent(indent, "[End of Expression Statement]");
     }
 }

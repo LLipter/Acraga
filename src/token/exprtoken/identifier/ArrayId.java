@@ -40,7 +40,7 @@ public class ArrayId extends Identifier {
     public String toString() {
         if (index != null)
             return String.format("<ArrayId,%s,Index:%s>", id, index);
-        else if(length != null)
+        else if (length != null)
             return String.format("<ArrayId,%s,Length:%s>", id, length);
         else
             return String.format("<ArrayId,%s>", id);
@@ -57,12 +57,12 @@ public class ArrayId extends Identifier {
 
     @Override
     public void print(int indent) {
-        if (index != null){
+        if (index != null) {
             printWithIndent(indent, String.format("<ArrayId,%s>", id));
-            printWithIndent(indent,"[Index]" );
-            index.print(indent+4);
+            printWithIndent(indent, "[Index]");
+            index.print(indent + 4);
             printWithIndent(indent, "[End of Index]");
-        } else{
+        } else {
             printWithIndent(indent, "{!!!MISSING INDEX!!!}");
         }
 

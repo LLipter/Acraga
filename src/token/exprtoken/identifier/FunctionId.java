@@ -45,9 +45,9 @@ public class FunctionId extends Identifier {
     public void print(int indent) {
         printWithIndent(indent, String.format("<FunctionId,%s>", id));
         printWithIndent(indent, "[Arguments]");
-        for (int i=0;i<parameters.size();i++){
+        for (int i = 0; i < parameters.size(); i++) {
             printWithIndent(indent, String.format("[Index %d]", i));
-            parameters.get(i).print(indent+4);
+            parameters.get(i).print(indent + 4);
             printWithIndent(indent, String.format("[End of Index %d]", i));
         }
         printWithIndent(indent, "[End of Arguments]");

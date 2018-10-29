@@ -355,8 +355,8 @@ public class Parser {
 
     // used to debug
     // check whether all structures are detected correctly
-    public void print(){
-        for (Function func : functionMap.values()){
+    public void print() {
+        for (Function func : functionMap.values()) {
             func.print();
             System.out.println();
         }

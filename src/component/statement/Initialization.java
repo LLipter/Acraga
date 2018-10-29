@@ -2,7 +2,6 @@ package component.statement;
 
 import component.ReturnValue;
 import component.context.DataStack;
-import component.function.Function;
 import exception.RTException;
 import token.exprtoken.ExpressionToken;
 import token.exprtoken.Value;
@@ -77,28 +76,28 @@ public class Initialization extends Statement implements Iterable<ExpressionToke
 
     @Override
     public void print(int indent) {
-        printWithIndent(indent,"[Initialization Statement]");
-        printWithIndent(indent,String.format("[Data Type] %s", id.getDataType()));
-        if (id instanceof FunctionId){
-            printWithIndent(indent,"{!!!ILLEGAL FUNCTION IDENTIFIER INITIALIZATION!!!}");
-        } else if (id instanceof ArrayId){
-            printWithIndent(indent,"[Array Initialization]");
-            printWithIndent(indent,"[Array Length]");
-            ((ArrayId)id).getLength().print(indent+4);
-            printWithIndent(indent,"[End of Array Length]");
-            printWithIndent(indent,"[Explicitly Initialized Elements]");
-            for (int i=0;i<elements.size();i++){
-                printWithIndent(indent,String.format("[Index %d]", i));
-                elements.get(i).print(indent+4);
-                printWithIndent(indent,String.format("[End of Index %d]", i));
+        printWithIndent(indent, "[Initialization Statement]");
+        printWithIndent(indent, String.format("[Data Type] %s", id.getDataType()));
+        if (id instanceof FunctionId) {
+            printWithIndent(indent, "{!!!ILLEGAL FUNCTION IDENTIFIER INITIALIZATION!!!}");
+        } else if (id instanceof ArrayId) {
+            printWithIndent(indent, "[Array Initialization]");
+            printWithIndent(indent, "[Array Length]");
+            ((ArrayId) id).getLength().print(indent + 4);
+            printWithIndent(indent, "[End of Array Length]");
+            printWithIndent(indent, "[Explicitly Initialized Elements]");
+            for (int i = 0; i < elements.size(); i++) {
+                printWithIndent(indent, String.format("[Index %d]", i));
+                elements.get(i).print(indent + 4);
+                printWithIndent(indent, String.format("[End of Index %d]", i));
             }
-            printWithIndent(indent,"[End of Explicitly Initialized Elements]");
-        } else{
-            printWithIndent(indent,"[Simple Variable Initialization]");
-            printWithIndent(indent,"[Value]");
-            value.print(indent+4);
-            printWithIndent(indent,"[End of Value]");
+            printWithIndent(indent, "[End of Explicitly Initialized Elements]");
+        } else {
+            printWithIndent(indent, "[Simple Variable Initialization]");
+            printWithIndent(indent, "[Value]");
+            value.print(indent + 4);
+            printWithIndent(indent, "[End of Value]");
         }
-        printWithIndent(indent,"[End of Initialization Statement]");
+        printWithIndent(indent, "[End of Initialization Statement]");
     }
 }
