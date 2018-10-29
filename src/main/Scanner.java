@@ -4,9 +4,7 @@ import exception.SyntaxException;
 import token.*;
 import token.operator.binary.*;
 import token.operator.Operator;
-import token.operator.binary.bitwise.BitwiseAnd;
-import token.operator.binary.bitwise.BitwiseOr;
-import token.operator.binary.bitwise.BitwiseXor;
+import token.operator.binary.bitwise.*;
 import token.operator.binary.comparison.*;
 import token.operator.binary.logical.LogicalAnd;
 import token.operator.unary.*;
@@ -89,15 +87,15 @@ public class Scanner {
         else if (preprocessor.isOperator("=="))
             op = new Equal();
         else if (preprocessor.isOperator("!=") || preprocessor.isOperator("<>"))
-            op = new BinaryOperator(OperatorType.NOTEQUAL);
+            op = new NotEqual();
         else if (preprocessor.isOperator("&&"))
             op = new LogicalAnd();
         else if (preprocessor.isOperator("||"))
             op = new LogicalOr();
         else if (preprocessor.isOperator("<<"))
-            op = new BinaryOperator(OperatorType.LEFTSHIFTING);
+            op = new LeftShifting();
         else if (preprocessor.isOperator(">>"))
-            op = new BinaryOperator(OperatorType.RIGHTSHIFTING);
+            op = new RightShifting();
         else if (preprocessor.isOperator("+="))
             op = new AddAssign();
         else if (preprocessor.isOperator("-="))
