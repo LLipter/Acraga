@@ -1,24 +1,28 @@
-package token.operator.binary;
+package token.operator.binary.numeric;
 
 import component.ReturnValue;
 import component.context.DataStack;
 import exception.RTException;
+import token.Identifier;
 import token.Value;
+import token.operator.binary.BinaryOperator;
 import type.Casting;
 import type.OperatorType;
+import type.TokenType;
 import type.ValueType;
 
-import java.math.BigDecimal;
 import java.math.BigInteger;
 
-public class Reminder extends BinaryOperator {
+public class ReminderAssign extends BinaryOperator {
 
-    public Reminder(){
-        operatorType = OperatorType.MOD;
+    public ReminderAssign(){
+        operatorType = OperatorType.MODASSIGN;
     }
 
     @Override
     public Value execute(DataStack context) throws RTException, ReturnValue {
+        if (lChild.getTokenType() != TokenType.IDENTIFIER)
+            throw new RTException(getLines(), getPos(), "left value required");
         Value lvalue = lChild.execute(context);
         Value rvalue = rChild.execute(context);
 
@@ -29,7 +33,7 @@ public class Reminder extends BinaryOperator {
             throw new RTException(getLines(), getPos(), "string variable cannot do mod operation");
         else if(lvalue.isDouble() || rvalue.isDouble())
             throw new RTException(getLines(), getPos(), "double variable cannot do mod operation");
-        // automatically promote to integer
+            // automatically promote to integer
         else if(lvalue.isInt() || rvalue.isInt()){
             res = new Value(ValueType.INTEGER);
             BigInteger number1 = Casting.casting(lvalue,ValueType.INTEGER).getIntValue();
@@ -41,6 +45,7 @@ public class Reminder extends BinaryOperator {
         }
         else
             throw new RTException(getLines(), getPos(), "boolean variable cannot do mod operation");
+        context.setValue((Identifier)lChild, res);
         return res;
     }
 }

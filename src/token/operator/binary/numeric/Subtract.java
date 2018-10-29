@@ -1,9 +1,10 @@
-package token.operator.binary;
+package token.operator.binary.numeric;
 
 import component.ReturnValue;
 import component.context.DataStack;
 import exception.RTException;
 import token.Value;
+import token.operator.binary.BinaryOperator;
 import type.Casting;
 import type.OperatorType;
 import type.ValueType;

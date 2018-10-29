@@ -7,10 +7,10 @@ import token.operator.Operator;
 import token.operator.binary.bitwise.*;
 import token.operator.binary.comparison.*;
 import token.operator.binary.logical.LogicalAnd;
+import token.operator.binary.numeric.*;
 import token.operator.unary.*;
 import token.operator.binary.logical.LogicalOr;
 import type.KeywordType;
-import type.OperatorType;
 import type.SeparatorType;
 
 import java.util.LinkedList;
