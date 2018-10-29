@@ -119,4 +119,9 @@ public class Value extends ExpressionToken {
     public Value execute(DataStack context) throws RTException {
         return this;
     }
+
+    @Override
+    public void print(int indent) {
+        printWithIndent(indent, this.toString());
+    }
 }

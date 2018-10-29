@@ -12,6 +12,7 @@ public class Main {
         Scanner scanner = new Scanner(input);
         scanner.print();
         Parser parser = new Parser(scanner);
+        parser.print();
 //        Interpreter interpreter = new Interpreter(parser);
 
     }

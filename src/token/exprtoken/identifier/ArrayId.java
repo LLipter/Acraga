@@ -8,8 +8,8 @@ import token.exprtoken.Value;
 
 public class ArrayId extends Identifier {
 
-    private ExpressionToken index;
-    private ExpressionToken length;
+    private ExpressionToken index = null;
+    private ExpressionToken length = null;
     private int intIndex;
 
     public int getIntIndex() {
@@ -38,7 +38,12 @@ public class ArrayId extends Identifier {
 
     @Override
     public String toString() {
-        return String.format("<ArrayId,%s,%s>", id, index);
+        if (index != null)
+            return String.format("<ArrayId,%s,Index:%s>", id, index);
+        else if(length != null)
+            return String.format("<ArrayId,%s,Length:%s>", id, length);
+        else
+            return String.format("<ArrayId,%s>", id);
     }
 
     @Override
@@ -48,5 +53,18 @@ public class ArrayId extends Identifier {
             throw new RTException(getLines(), getPos(), "only integer can be used as index");
         intIndex = idx.getIntValue().intValue();
         return context.getValue(this);
+    }
+
+    @Override
+    public void print(int indent) {
+        if (index != null){
+            printWithIndent(indent, String.format("<ArrayId,%s>", id));
+            printWithIndent(indent,"[Index]" );
+            index.print(indent+4);
+            printWithIndent(indent, "[End of Index]");
+        } else{
+            printWithIndent(indent, "{!!!MISSING INDEX!!!}");
+        }
+
     }
 }

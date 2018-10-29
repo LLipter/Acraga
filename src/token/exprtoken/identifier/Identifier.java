@@ -42,4 +42,9 @@ public class Identifier extends ExpressionToken {
     public Value execute(DataStack context) throws RTException, ReturnValue {
         return context.getValue(this);
     }
+
+    @Override
+    public void print(int indent) {
+        printWithIndent(indent, this.toString());
+    }
 }

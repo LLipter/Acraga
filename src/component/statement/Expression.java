@@ -27,4 +27,11 @@ public class Expression extends Statement {
     public Value execute(DataStack context) throws RTException, ReturnValue {
         return root.execute(context);
     }
+
+    @Override
+    public void print(int indent) {
+        printWithIndent(indent,"[Expression Statement]");
+        root.print(indent+4);
+        printWithIndent(indent,"[End of Expression Statement]");
+    }
 }

@@ -19,4 +19,13 @@ public abstract class UnaryOperator extends Operator {
     public String toString() {
         return String.format("<UnaryOperator,%s>", operatorType);
     }
+
+    @Override
+    public void print(int indent) {
+        printWithIndent(indent, String.format("[UnaryOperator] %s", operatorType));
+        printWithIndent(indent, "[Operand]");
+        child.print(indent+4);
+        printWithIndent(indent, "[Operand]");
+        printWithIndent(indent, String.format("[End of UnaryOperator] %s", operatorType));
+    }
 }

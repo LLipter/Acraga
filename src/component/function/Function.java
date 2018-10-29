@@ -94,4 +94,15 @@ public class Function implements Iterable<Statement>, Executable {
     public String toString() {
         return String.format("<Function,%s,%s>", returnType, functionSignature);
     }
+
+    public void print(){
+        System.out.println("[Function]");
+        System.out.println(String.format("[Function Signature] %s", functionSignature));
+        System.out.println(String.format("[Return Type] %s", returnType));
+        System.out.println("[Statements]");
+        for (Statement s : statements)
+            s.print(4);
+        System.out.println("[End of Statements]");
+        System.out.println("[End of Function]");
+    }
 }

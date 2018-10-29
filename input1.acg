@@ -51,10 +51,17 @@ int main(){
         j + 10 * 7;
         int x[] = {1,2,3,4}
 
+        double a = 1E3;
+        int sum = 1+add(1,a,2+(2+2))-3;
+
     }
     return 0;
 }
 
 double foo(){
     return 1.234455e-4;
+}
+
+void bar(int a, int b){
+    // do Nothing
 }

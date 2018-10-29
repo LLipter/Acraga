@@ -14,8 +14,8 @@ import java.util.LinkedList;
 public class IfElse extends Statement {
 
     ExpressionToken condition;
-    LinkedList<Statement> ifBranch;
-    LinkedList<Statement> elseBranch;
+    LinkedList<Statement> ifBranch = null;
+    LinkedList<Statement> elseBranch = null;
 
     public IfElse() {
         statementType = StatementType.IFELSE;
@@ -63,5 +63,27 @@ public class IfElse extends Statement {
         context.releaseFrame();
         // always return void
         return new Value(ValueType.VOID);
+    }
+
+    @Override
+    public void print(int indent) {
+        printWithIndent(indent, "[If Statement]");
+        printWithIndent(indent,"[Condition Statement]");
+        condition.print(indent+4);
+        printWithIndent(indent,"[End of Condition Statement]");
+
+        if (ifBranch != null){
+            printWithIndent(indent,"[If Branch Statement]");
+            for (Statement s : ifBranch)
+                s.print(indent+4);
+            printWithIndent(indent,"[End of If Branch Statement]");
+        }
+        if (elseBranch != null){
+            printWithIndent(indent,"[Else Branch Statement]");
+            for (Statement s : elseBranch)
+                s.print(indent+4);
+            printWithIndent(indent,"[End of Else Branch Statement]");
+        }
+        printWithIndent(indent,"[End of If Statement]");
     }
 }

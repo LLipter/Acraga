@@ -353,6 +353,16 @@ public class Parser {
         }
     }
 
+    // used to debug
+    // check whether all structures are detected correctly
+    public void print(){
+        for (Function func : functionMap.values()){
+            func.print();
+            System.out.println();
+        }
+
+    }
+
     private Initialization detectInitialization() throws SyntaxException {
         Initialization initialization = new Initialization();
         ValueType dataType = detectDataType();
