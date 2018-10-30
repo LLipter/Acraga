@@ -39,6 +39,8 @@ public class Parser {
         expressionRoot = detectExpression();
         if (!scanner.iseof())
             throwException("redundant token");
+        if (expressionRoot == null)
+            throwException("no expression detected");
     }
 
     public void parseProgram() throws SyntaxException {

@@ -40,11 +40,12 @@ public class Calculator extends JFrame {
         button.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                Value value = Interpreter.interpretExpression(inputBox.getText());
+                String expr = inputBox.getText();
+                Value value = Interpreter.interpretExpression(expr);
                 if (value != null)
                     outputLable.setText("Output: " + value.toString());
                 else
-                    outputLable.setText("Output: " + "Syntax Error");
+                    outputLable.setText("Output: Syntax Error");
             }
         });
         jp_bottom.add(button);
