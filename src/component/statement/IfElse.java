@@ -56,7 +56,7 @@ public class IfElse extends Statement {
         if (castedValue.getBoolValue()) {
             for (Statement s : ifBranch)
                 s.execute(context);
-        } else {
+        } else if (elseBranch != null) {
             for (Statement s : elseBranch)
                 s.execute(context);
         }
