@@ -418,6 +418,8 @@ public class Parser {
                 }
                 if (!detectSeparator(SeparatorType.RIGHTBRACE))
                     throwException("missing right brace");
+                if (!detectSeparator(SeparatorType.SEMICOLON))
+                    throwException("missing semicolon");
                 Value len = new Value(ValueType.INTEGER);
                 len.setIntValue(cnt);
                 aid.setLength(len);
@@ -443,6 +445,8 @@ public class Parser {
                 }
                 if (!detectSeparator(SeparatorType.RIGHTBRACE))
                     throwException("missing right brace");
+                if(!detectSeparator(SeparatorType.SEMICOLON))
+                    throwException("missing semicolon");
             }
         } else
             throwException("missing semicolon");
