@@ -19,30 +19,32 @@ public class Calculator extends JFrame {
         setLayout(new GridLayout(3, 1, 0, 0));
 
         JPanel jp_upper = new JPanel();
-        JPanel jp_middle = new JPanel(new BorderLayout());
+        JPanel jp_middle = new JPanel();
         JPanel jp_bottom = new JPanel();
         getContentPane().add(jp_upper);
-        getContentPane().add(jp_middle, BorderLayout.CENTER);
+        getContentPane().add(jp_middle);
         getContentPane().add(jp_bottom);
 
         JTextField inputBox = new JTextField(20);
         inputBox.setForeground(Color.gray);
-        JLabel inputLable = new JLabel("input: ");
+        JLabel inputLable = new JLabel("Input: ");
         jp_upper.add(inputLable);
         jp_upper.add(inputBox);
 
-        JLabel outputLable = new JLabel("output: ", JLabel.CENTER);
+        JLabel outputLable = new JLabel("Output: Null");
+        outputLable.setHorizontalAlignment(JLabel.CENTER);
+        outputLable.setVerticalAlignment(JLabel.CENTER);
         jp_middle.add(outputLable);
 
-        JButton button = new JButton("execute");
+        JButton button = new JButton("Execute");
         button.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 Value value = Interpreter.interpretExpression(inputBox.getText());
                 if (value != null)
-                    outputLable.setText(value.toString());
+                    outputLable.setText("Output: " + value.toString());
                 else
-                    outputLable.setText("Syntax Error");
+                    outputLable.setText("Output: " + "Syntax Error");
             }
         });
         jp_bottom.add(button);
