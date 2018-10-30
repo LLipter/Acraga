@@ -1,7 +1,9 @@
-# Acraga
+# Welcome to Acraga!
 An interpreter designed for Acraga language, which is a super simple, strong-type, c-like programming language.
 
+**Be open to any suggestions that can make Acraga better**
 
+**Star⭐️ Acraga, fork it and pull request is well received**
 
 
 
@@ -12,11 +14,9 @@ Acraga是一种简单的强类型编程语言，支持整数、实数、布尔�
 
 
 
-
-
 # Lexical Rules
 
- - Integer
+ - Integer:
 
    `digit ::= 0|1|2|3|4|5|6|7|8|9`
 
@@ -28,21 +28,21 @@ Acraga是一种简单的强类型编程语言，支持整数、实数、布尔�
 
    `hexadecimal ::= (0x|0X)hex+`  
 
- - Real
+ - Real:
 
    `real ::= decimal.digit+`
 
- - Boolean
+ - Boolean:
 
    `boolean ::= true|false`
 
- - String
+ - String:
 
    `alphabet ::= ASCII码能表示的所有字符`
 
    `literal ::= "alphabet*"`
 
- - Identifier
+ - Identifier:
 
     `alphabet_english ::= [a-zA-Z]`
 
@@ -52,29 +52,31 @@ Acraga是一种简单的强类型编程语言，支持整数、实数、布尔�
 
     `identifier ::= alphabet_id_first alphabet_id*`
 
- - Keywords/Reserved words：
+ - Keywords/Reserved words:
+
     - if
     - else
     - while
+    - for
+    - void
     - int
     - double
     - bool
     - string
-    - print
+    - void
+    - return
 
-- Comment
+- Comment:
 
     `//this is a comment, multiple lines of comments are not supported yet.`
 
-- Operator：
+- Operator:
 
     `operator ::=  '+' | '-' | '*' | '/' | '=' | '%' | '==' | '!=' | '>' | '<' | '>=' | '<='`
 
-- Delimiter：
+- Delimiter:
 
     `delimiter ::= '(' | ')' | '[' | ']' | '{' | '}' | ';' | ',' | '.'`
-
-
 
 
 
@@ -135,29 +137,32 @@ Acraga是一种简单的强类型编程语言，支持整数、实数、布尔�
 
 
 
-
-
-
-
 # How to use Acraga
 
 
 
 ## Arithmetic Statement
 
-Acraga supports operation of int, double, bool, string and hexadecimal number, including add `+`, subtract`-`, multiple`*`, divide`/`, module`%`。
+Acraga supports operation of int, double, bool, string and hexadecimal number, including add `+`, subtract`-`, multiple`*`, divide`/`, module`%` etc. For more operators see the priority list below.
 
 P.S.**For string, only '+' operation is allowed**
 
-**Priority of Operations（larger number stands for higher priority）：**
+**Priority of Operations（smaller number stands for higher priority）：**
 
-- Lv1：=
-- Lv2：==, !=
-- Lv3：>, <, >=, <=
-- Lv4：+, -
-- Lv5：*, /, %
-- Lv6：-(negative)
-- **(, ) has the highest priority**
+- **(, ) and [,] has the highest priority**
+- lv2: -(negative sign), ~, !
+- lv3: %, /, *
+- lv4: +, -
+- lv5: <<, >>
+- lv6: <, <=, >, >=
+- lv7: ==, !=
+- lv8: &
+- lv9: ^
+- lv10: |
+- lv11: &&
+- lv12: ||
+- lv13: 
+- lv14: +=, -=, *=, /=, %=, &=, |=, ^=, <<=, >>=
 
 So that we can do something like these：
 
@@ -182,27 +187,37 @@ System.out.println(str2 + str3);// output:12
 
 
 
+## Function
+
+
+
+
+
+
+
+
+
 # TODO
 
 - 整数支持十六进制数字 eg. 0xF4A1 (直接显示对应十进制数字62625) ——(✔️)
 - 实数支持科学计数法表示 eg. 3.14e5 ——(✔️)
-- 支持布尔运算 eg. true & false
+- 支持布尔运算 eg. true & false——(✔️)
 - 支持数组 eg. test[10] ——(✔️)
-- 支持声明与赋值同时完成
-- 支持更复杂的输出语句 eg. print(x + y)
+- 支持声明与赋值同时完成——(✔️)
+- 支持更复杂的输出语句 eg. print(x + y)——(✔️)
 - 支持格式化输出语句 eg. printf("hello %s", your_name)
 - 支持输入语句 eg. int x = scanf()
 - 支持for循环语句 ——(✔️)
-- 支持+=、-=、/=、*=
+- 支持+=、-=、/=、*=——(✔️)
 - 修改表达式部分的定义，加入括号，并且使之可以提现运算符优先级的区别，可以参考上学期ppt ——(✔️)
 
-</hr>
+****
 
-0. test&debug
+0. test&debug——(✔️)
 1. 能够在全局区执行一些语句
 2. 让for语句可以执行初始化
 3. 引入多行注释的语法
-4. 引入显示类型转换的概念
+4. 引入显示类型转换的概念,在函数参数传递的过程中允许隐式类型转换
 5. **重构精简代码**
 6. ** 引入类的概念
 7. ** 用C++复刻项目，比较Java与C++版本性能上的区别
@@ -214,6 +229,14 @@ System.out.println(str2 + str3);// output:12
 13. 测试，争取没有逻辑错误以及运行时崩溃的情况
 14. 用Acraga编写一些简单的小程序， 检查解释器在更真实的场景下的正确性，同时检查设计的语法是否符合交互性
 15. 编写全面的文档，讲解解释器的整体构架以及具体细节并介绍如何编写合法的Acraga程序。
+
+
+
+****
+
+- 完成readme
+- 创建wiki
+- 构建自动机
 
 
 
