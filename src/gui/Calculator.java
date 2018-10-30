@@ -18,18 +18,18 @@ public class Calculator extends JFrame {
         setLocationRelativeTo(null);
         setLayout(new GridLayout(3, 1, 0, 0));
 
-        JPanel jp_upper = new JPanel();
+        JPanel jp_top = new JPanel();
         JPanel jp_middle = new JPanel();
         JPanel jp_bottom = new JPanel();
-        getContentPane().add(jp_upper);
+        getContentPane().add(jp_top);
         getContentPane().add(jp_middle);
         getContentPane().add(jp_bottom);
 
         JTextField inputBox = new JTextField(20);
         inputBox.setForeground(Color.gray);
         JLabel inputLable = new JLabel("Input: ");
-        jp_upper.add(inputLable);
-        jp_upper.add(inputBox);
+        jp_top.add(inputLable);
+        jp_top.add(inputBox);
 
         JLabel outputLable = new JLabel("Output: Null");
         outputLable.setHorizontalAlignment(JLabel.CENTER);

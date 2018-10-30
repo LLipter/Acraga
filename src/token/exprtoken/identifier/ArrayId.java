@@ -37,16 +37,6 @@ public class ArrayId extends Identifier {
     }
 
     @Override
-    public String toString() {
-        if (index != null)
-            return String.format("<ArrayId,%s,Index:%s>", id, index);
-        else if (length != null)
-            return String.format("<ArrayId,%s,Length:%s>", id, length);
-        else
-            return String.format("<ArrayId,%s>", id);
-    }
-
-    @Override
     public Value execute(DataStack context) throws RTException, ReturnValue {
         Value idx = index.execute(context);
         if (!idx.isInt())

@@ -11,6 +11,7 @@ public class Acraga {
         // test for interpret the whole program
 //        Preprocessor input = new Preprocessor("input1.acg");
 //        Scanner scanner = new Scanner(input);
+//        scanner.print();
 //        Parser parser = new Parser(scanner);
 //        parser.parseProgram();
 //        parser.print();
