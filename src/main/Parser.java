@@ -25,6 +25,7 @@ public class Parser {
 
     private Scanner scanner;
     private HashMap<FunctionSignature, Function> functionMap;
+    private ExpressionToken expressionRoot;
     private int line;
     private int pos;
 
@@ -32,10 +33,13 @@ public class Parser {
         this.scanner = scanner;
         functionMap = new HashMap<FunctionSignature, Function>();
         updateLinePos();
-        parse();
     }
 
-    private void parse() throws SyntaxException {
+    public void parseExpression() throws SyntaxException {
+        expressionRoot = detectExpression();
+    }
+
+    public void parseProgram() throws SyntaxException {
         while (!scanner.iseof()) {
             Function function = detectFunction();
             functionMap.put(function.getFunctionSignature(), function);
@@ -52,6 +56,10 @@ public class Parser {
 
     private Token getNextToken() {
         return scanner.getNextToken();
+    }
+
+    public ExpressionToken getExpressionRoot() {
+        return expressionRoot;
     }
 
     public HashMap<FunctionSignature, Function> getFunctionMap() {
@@ -554,7 +562,7 @@ public class Parser {
         if (root != null) {
             expression.setRoot(root);
             if (!detectSeparator(SeparatorType.SEMICOLON))
-                throwException("missing semicolon");
+                throw new SyntaxException(root.getLines(), root.getPos(), "missing semicolon");
             return expression;
         }
         return null;

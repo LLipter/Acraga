@@ -17,7 +17,7 @@ public class Identifier extends ExpressionToken {
         tokenType = TokenType.IDENTIFIER;
     }
 
-    public Identifier(String id){
+    public Identifier(String id) {
         this();
         this.id = id;
     }

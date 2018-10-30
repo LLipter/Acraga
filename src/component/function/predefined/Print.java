@@ -9,7 +9,7 @@ import type.ValueType;
 
 public class Print extends Function {
 
-    public Print(){
+    public Print() {
         super(new Identifier("print"), ValueType.VOID);
         addParameter(ValueType.STRING, new Identifier("msg"));
     }
@@ -19,5 +19,16 @@ public class Print extends Function {
         String msg = arguments.get(0).getStringValue();
         System.out.print(msg);
         return new Value(ValueType.VOID);
+    }
+
+    @Override
+    public void print() {
+        System.out.println("[Function]");
+        System.out.println(String.format("[Function Signature] %s", functionSignature));
+        System.out.println(String.format("[Return Type] %s", returnType));
+        System.out.println("[Statements]");
+        System.out.println("    System.out.print(msg)");
+        System.out.println("[End of Statements]");
+        System.out.println("[End of Function]");
     }
 }

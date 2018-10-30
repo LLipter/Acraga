@@ -5,7 +5,10 @@ import token.exprtoken.Value;
 import token.exprtoken.identifier.Identifier;
 import type.ValueType;
 
-import java.io.*;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.Reader;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.HashMap;
@@ -38,45 +41,52 @@ public class Preprocessor {
     private int line;
     private int pos;
 
-    public Preprocessor(String inputFile) throws SyntaxException {
+    public Preprocessor(String inputFile) {
         try {
             Reader reader = new InputStreamReader(new FileInputStream(inputFile));
-            buffer = new LinkedList<Integer>();
-            line = 1;
-            pos = 0;
-
-            int ch_cur = reader.read();
-            int ch_next = reader.read();
-            while (ch_cur != -1) {
-                // ignore /r in windows system
-                if (ch_cur == '\r') {
-                    ch_cur = ch_next;
-                    ch_next = reader.read();
-                    continue;
-                }
-
-                // ignore all comments
-                if (ch_cur == '/' && ch_next == '/') {
-                    while (ch_cur != '\n' && ch_cur != -1) {
-                        ch_cur = ch_next;
-                        ch_next = reader.read();
-                    }
-                    if (ch_cur == -1)
-                        return;
-                }
-
-                buffer.addLast(ch_cur);
-                ch_cur = ch_next;
-                ch_next = reader.read();
-            }
-
-
-        } catch (FileNotFoundException e) {
-            System.err.println(e.getMessage());
+            preprocess(reader);
         } catch (IOException e) {
             System.err.println(e.getMessage());
         }
+    }
 
+    public Preprocessor(Reader reader) {
+        try {
+            preprocess(reader);
+        } catch (IOException e) {
+            System.err.println(e.getMessage());
+        }
+    }
+
+    private void preprocess(Reader reader) throws IOException {
+        buffer = new LinkedList<Integer>();
+        line = 1;
+        pos = 0;
+
+        int ch_cur = reader.read();
+        int ch_next = reader.read();
+        while (ch_cur != -1) {
+            // ignore /r in windows system
+            if (ch_cur == '\r') {
+                ch_cur = ch_next;
+                ch_next = reader.read();
+                continue;
+            }
+
+            // ignore all comments
+            if (ch_cur == '/' && ch_next == '/') {
+                while (ch_cur != '\n' && ch_cur != -1) {
+                    ch_cur = ch_next;
+                    ch_next = reader.read();
+                }
+                if (ch_cur == -1)
+                    return;
+            }
+
+            buffer.addLast(ch_cur);
+            ch_cur = ch_next;
+            ch_next = reader.read();
+        }
     }
 
     private void throwException(String msg) throws SyntaxException {

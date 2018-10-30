@@ -29,7 +29,7 @@ public class Scanner {
 
     public Scanner(Preprocessor preprocessor) throws SyntaxException {
         this.preprocessor = preprocessor;
-        tokens = new LinkedList<Token>();
+        tokens = new LinkedList<>();
 
         while (!this.preprocessor.iseof()) {
             this.preprocessor.nextNotWhiteSpace();

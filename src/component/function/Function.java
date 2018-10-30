@@ -11,7 +11,6 @@ import type.Casting;
 import type.ValueType;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.LinkedList;
 
 public class Function implements Executable {
