@@ -41,6 +41,10 @@ public class Calculator extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 String expr = inputBox.getText();
+                if (expr.trim().equals("")){
+                    outputLable.setText("Output: Null");
+                    return;
+                }
                 Value value = Interpreter.interpretExpression(expr);
                 if (value != null)
                     outputLable.setText("Output: " + value.toString());
