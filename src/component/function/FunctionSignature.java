@@ -35,7 +35,7 @@ public class FunctionSignature {
 
     @Override
     public int hashCode() {
-        long hashCode = 0;
+        long hashCode = 1;
         int MOD = 1000000007;
         char[] chs = functionName.toCharArray();
         for (int i = 0; i < chs.length; i++) {
