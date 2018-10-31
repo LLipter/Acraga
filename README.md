@@ -150,19 +150,42 @@ P.S.**For string, only '+' operation is allowed**
 **Priority of Operations（smaller number stands for higher priority）：**
 
 - **(, ) and [,] has the highest priority**
-- lv2: -(negative sign), ~, !
-- lv3: %, /, *
-- lv4: +, -
-- lv5: <<, >>
-- lv6: <, <=, >, >=
-- lv7: ==, !=
-- lv8: &
-- lv9: ^
-- lv10: |
-- lv11: &&
-- lv12: ||
-- lv13: 
-- lv14: +=, -=, *=, /=, %=, &=, |=, ^=, <<=, >>=
+
+- | Operator |            Explanation             |  type  | Priority |
+  | :------: | :--------------------------------: | :----: | :------: |
+  |    -     |           negative sign            | unary  |    2     |
+  |    +     |           positive sign            | unary  |    2     |
+  |    !     |            logical NOT             | unary  |    2     |
+  |    ~     |            bitwise NOT             | unary  |    2     |
+  |    \*    |           multiplication           | binary |    3     |
+  |    /     |              division              | binary |    3     |
+  |    %     |              reminder              | binary |    3     |
+  |    +     |              addition              | binary |    4     |
+  |    -     |            subtraction             | binary |    4     |
+  |    <<    |             left shift             | binary |    5     |
+  |    >>    |            right shift             | binary |    5     |
+  |    <     |             less than              | binary |    6     |
+  |    <=    |         less than or equal         | binary |    6     |
+  |    >     |            greater than            | binary |    6     |
+  |    >=    |       greater than or equal        | binary |    6     |
+  |    ==    |               equal                | binary |    7     |
+  |    !=    |             not equal              | binary |    7     |
+  |    &     |            bitwise AND             | binary |    8     |
+  |    ^     |            bitwise XOR             | binary |    9     |
+  |    \|    |             bitwise OR             | binary |    10    |
+  |    &&    |            logical AND             | binary |    11    |
+  |   \|\|   |             logical OR             | binary |    12    |
+  |    =     |               assign               | binary |    14    |
+  |    +=    |     compound assignment by sum     | binary |    14    |
+  |    -=    | compound assignment by difference  | binary |    14    |
+  |   \*=    |   compound assignment by product   | binary |    14    |
+  |    /=    |  compound assignment by quotient   | binary |    14    |
+  |    %=    |  compound assignment by remainder  | binary |    14    |
+  |    &=    | compound assignment by bitwise AND | binary |    14    |
+  |    ^=    | compound assignment by bitwise XOR | binary |    14    |
+  |   \|=    | compound assignment by bitwise OR  | binary |    14    |
+  |   <<=    | compound assignment by left shift  | binary |    14    |
+  |   >>=    | compound assignment by right shift | binary |    14    |
 
 So that we can do something like these：
 
