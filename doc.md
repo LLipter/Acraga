@@ -91,6 +91,6 @@ Escape characters are properly recognized and organized. At this point, we only 
 | :-: | :-: |
 | \n | new line |
 | \t | horizontal tab |
-| \' | single quotation marks |
+| \\' | single quotation marks |
 | \\" | double quotation marks |
 | \\\\ | backslash |
