@@ -83,6 +83,23 @@ public class Preprocessor {
                     return;
             }
 
+            // ignore multiple lines of comments
+            if (ch_cur == '/' && ch_next == '*') {
+                while (!(ch_cur == '*' && ch_next == '/') && ch_cur != -1) {
+                    if (ch_cur == '\n')
+                        buffer.addLast(ch_cur);
+                    ch_cur = ch_next;
+                    ch_next = reader.read();
+                }
+                if (ch_cur == -1)
+                    return;
+
+                ch_cur = reader.read();
+                ch_next = reader.read();
+
+            }
+
+
             buffer.addLast(ch_cur);
             ch_cur = ch_next;
             ch_next = reader.read();
