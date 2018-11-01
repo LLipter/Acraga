@@ -67,7 +67,9 @@ public class Function implements Executable {
             for (Statement s : statements) {
                 s.execute(context);
             }
-
+            //main
+            if(functionSignature.equals(FunctionSignature.mainFunctionSignature) && returnType==ValueType.VOID)
+                return new Value(ValueType.INTEGER);
             // no return statement meet
             if (returnType != ValueType.VOID)
                 throw new RTException(id.getLines(), id.getPos(), String.format("function %s missing return statement", id.getId()));

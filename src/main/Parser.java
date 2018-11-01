@@ -508,8 +508,6 @@ public class Parser {
             fStatement.setInitialization(definition);
         else {
             ExpressionToken init = detectExpression();
-            if(init == null)
-                throwException("missing initialization");
             fStatement.setInit(init);
         }
         if (!detectSeparator(SeparatorType.SEMICOLON))

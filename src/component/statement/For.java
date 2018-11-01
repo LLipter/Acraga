@@ -47,7 +47,7 @@ public class For extends Loop {
         context.createFrame();
         if(definition != null)
             definition.execute(context);
-        else if(init != null)
+        else
             init.execute(context);
         Value cond = condition.execute(context);
         Value castedValue = Casting.casting(cond, ValueType.BOOLEAN);
