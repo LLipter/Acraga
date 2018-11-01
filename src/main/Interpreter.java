@@ -73,7 +73,7 @@ public class Interpreter {
         HashMap<FunctionSignature, Function> functionMap = parser.getFunctionMap();
         if (!functionMap.containsKey(signature))
             throw new RTException(String.format("function '%s' not found", signature));
-        Function function = functionMap.get(FunctionSignature.mainFunctionSignature);
+        Function function = functionMap.get(signature);
         return function.execute(context);
     }
 
