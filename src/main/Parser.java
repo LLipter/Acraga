@@ -503,7 +503,15 @@ public class Parser {
             return null;
         if (!detectSeparator(SeparatorType.LEFTPARENTHESES))
             throwException("missing left parentheses");
-        ExpressionToken init = detectExpression();
+        Initialization definition=detectInitialization();
+        if(definition != null)
+            fStatement.setInitialization(definition);
+        else {
+            ExpressionToken init = detectExpression();
+            if(init == null)
+                throwException("missing initialization");
+            fStatement.setInit(init);
+        }
         if (!detectSeparator(SeparatorType.SEMICOLON))
             throwException("missing semicolon");
         ExpressionToken condition = detectExpression();
@@ -514,7 +522,6 @@ public class Parser {
             throwException("missing right parentheses");
 
         LinkedList<Statement> loopStatement = detectCodeBlock();
-        fStatement.setInit(init);
         fStatement.setCondition(condition);
         fStatement.setIncr(incr);
         fStatement.setLoopStatements(loopStatement);

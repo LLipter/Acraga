@@ -29,7 +29,7 @@ public class LessThanEqual extends BinaryOperator {
         if (lvalue.isString() && rvalue.isString()) {
             String str1 = lvalue.getStringValue();
             String str2 = rvalue.getStringValue();
-            if (str1.compareTo(str2) >= 0)
+            if (str1.compareTo(str2) > 0)
                 res.setBoolValue(false);
             else
                 res.setBoolValue(true);
@@ -39,7 +39,7 @@ public class LessThanEqual extends BinaryOperator {
         else if (lvalue.isDouble() || rvalue.isDouble()) {
             BigDecimal number1 = Casting.casting(lvalue, ValueType.DOUBLE).getDoubleValue();
             BigDecimal number2 = Casting.casting(rvalue, ValueType.DOUBLE).getDoubleValue();
-            if (number1.compareTo(number2) >= 0)
+            if (number1.compareTo(number2) > 0)
                 res.setBoolValue(false);
             else
                 res.setBoolValue(true);
@@ -48,7 +48,7 @@ public class LessThanEqual extends BinaryOperator {
         else if (lvalue.isInt() || rvalue.isInt()) {
             BigInteger number1 = Casting.casting(lvalue, ValueType.INTEGER).getIntValue();
             BigInteger number2 = Casting.casting(rvalue, ValueType.INTEGER).getIntValue();
-            if (number1.compareTo(number2) >= 0)
+            if (number1.compareTo(number2) > 0)
                 res.setBoolValue(false);
             else
                 res.setBoolValue(true);

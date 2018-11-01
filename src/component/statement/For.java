@@ -12,6 +12,7 @@ import type.ValueType;
 public class For extends Loop {
 
     private ExpressionToken init;
+    private Initialization definition;
     private ExpressionToken incr;
 
     public For() {
@@ -26,6 +27,13 @@ public class For extends Loop {
         this.init = init;
     }
 
+    public Initialization getInitialization() {
+        return definition;
+    }
+    public void setInitialization(Initialization definition){
+        this.definition=definition;
+    }
+
     public ExpressionToken getIncr() {
         return incr;
     }
@@ -37,7 +45,10 @@ public class For extends Loop {
     @Override
     public Value execute(DataStack context) throws RTException, ReturnValue {
         context.createFrame();
-        init.execute(context);
+        if(definition != null)
+            definition.execute(context);
+        else if(init != null)
+            init.execute(context);
         Value cond = condition.execute(context);
         Value castedValue = Casting.casting(cond, ValueType.BOOLEAN);
         if (castedValue == null)
@@ -62,7 +73,10 @@ public class For extends Loop {
     public void print(int indent) {
         printWithIndent(indent, "[For Statement]");
         printWithIndent(indent, "[Initialization Statement]");
-        init.print(indent + 4);
+        if(definition != null)
+            definition.print(indent + 4);
+        else
+            init.print(indent + 4);
         printWithIndent(indent, "[End of Initialization Statement]");
         printWithIndent(indent, "[Condition Statement]");
         condition.print(indent + 4);
