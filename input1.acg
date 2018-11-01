@@ -1,46 +1,7 @@
 int main(){
-    print("hello, " + "I'm LLipter\n");
-    int i=0;
-    for(i=0;i<3;i+=1){
-        if(true){
-            ; // do nothing
-        }else{
-            ; 
-        }
-        int j = 20;
-        while(j > 0){
-            j -= 1;
-            // do nothing
-        }
-        foo();
-
-        j + 10 * 7;
-        int x[] = {1,2,3,4}
-
-        double a = 1E3;
-        int sum = 1+add(1,a,2+(2+2))-3 + x[i];
-        
-        print("sum is " + sum + "\n");
-
-
-
+    int i;
+    for(i=1;i<=10;i+=1){
+        print("a");
     }
-    double d = foo();
-    string s = d;
-    print(s);
-    print("\n");
-    print("goodbye! have a good night!\n");
     return 0;
-}
-
-double add(int a, double b, int c){
-    return a;
-}
-
-double foo(){
-    return 1.234455e-4;
-}
-
-void bar(int a, int b){
-    // do Nothing
 }

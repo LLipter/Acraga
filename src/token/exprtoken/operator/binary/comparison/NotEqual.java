@@ -37,8 +37,8 @@ public class NotEqual extends BinaryOperator {
             throw new RTException(getLines(), getPos(), "string variable cannot be compared with non-string variable");
             // automatically promote to double
         else if (lvalue.isDouble() || rvalue.isDouble()) {
-            BigDecimal number1 = Casting.casting(lvalue, ValueType.BOOLEAN).getDoubleValue();
-            BigDecimal number2 = Casting.casting(rvalue, ValueType.BOOLEAN).getDoubleValue();
+            BigDecimal number1 = Casting.casting(lvalue, ValueType.DOUBLE).getDoubleValue();
+            BigDecimal number2 = Casting.casting(rvalue, ValueType.DOUBLE).getDoubleValue();
             if (number1.compareTo(number2) != 0)
                 res.setBoolValue(true);
             else
