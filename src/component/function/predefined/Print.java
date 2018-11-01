@@ -11,12 +11,12 @@ public class Print extends Function {
 
     public Print() {
         super(new Identifier("print"), ValueType.VOID);
-        addParameter(ValueType.BOOLEAN, new Identifier("msg"));
+        addParameter(ValueType.STRING, new Identifier("msg"));
     }
 
     @Override
     public Value execute(DataStack context) throws RTException {
-        Boolean msg = arguments.get(0).getBoolValue();
+        String msg = arguments.get(0).getStringValue();
         System.out.print(msg);
         return new Value(ValueType.VOID);
     }
