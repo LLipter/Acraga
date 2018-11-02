@@ -47,21 +47,34 @@ public class For extends Loop {
         context.createFrame();
         if(definition != null)
             definition.execute(context);
-        else
+        else if(init != null)
             init.execute(context);
-        Value cond = condition.execute(context);
-        Value castedValue = Casting.casting(cond, ValueType.BOOLEAN);
-        if (castedValue == null)
-            throw new RTException(condition.getLines(), condition.getPos(), "condition not compatible with boolean type");
-        while (castedValue.getBoolValue()) {
-            context.createFrame();
-            for (Statement s : loopStatements)
-                s.execute(context);
-            incr.execute(context);
+
+        Value cond;
+        Value castedValue;
+        if(condition!=null) {
             cond = condition.execute(context);
             castedValue = Casting.casting(cond, ValueType.BOOLEAN);
             if (castedValue == null)
                 throw new RTException(condition.getLines(), condition.getPos(), "condition not compatible with boolean type");
+        }
+        else {
+            castedValue=new Value(ValueType.BOOLEAN);
+            castedValue.setBoolValue(true);
+        }
+
+        while (castedValue.getBoolValue()) {
+            context.createFrame();
+            for (Statement s : loopStatements)
+                s.execute(context);
+            if(incr != null)
+                incr.execute(context);
+            if(condition!=null) {
+                cond = condition.execute(context);
+                castedValue = Casting.casting(cond, ValueType.BOOLEAN);
+                if (castedValue == null)
+                    throw new RTException(condition.getLines(), condition.getPos(), "condition not compatible with boolean type");
+            }
             context.releaseFrame();
         }
         context.releaseFrame();

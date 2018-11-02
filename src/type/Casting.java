@@ -6,7 +6,6 @@ import java.math.BigDecimal;
 import java.math.BigInteger;
 
 public class Casting {
-
     public static ValueType keywordType2ValueType(KeywordType type) {
         if (type == KeywordType.INT)
             return ValueType.INTEGER;

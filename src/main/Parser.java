@@ -397,8 +397,11 @@ public class Parser {
         initialization.setId(id);
         if (detectSeparator(SeparatorType.SEMICOLON))
             initialization.setValue(new Value(dataType));
-        else if (detectOperator(OperatorType.ASSIGN))
+        else if (detectOperator(OperatorType.ASSIGN)) {
             initialization.setValue(detectExpression());
+            if (!detectSeparator(SeparatorType.SEMICOLON))
+                throwException("missing semicolon");
+        }
         else if (detectSeparator(SeparatorType.LEFTBRACKET)) {
             // array initialization statement
             ArrayId aid = new ArrayId();
@@ -519,9 +522,9 @@ public class Parser {
         else {
             ExpressionToken init = detectExpression();
             fStatement.setInit(init);
+            if (!detectSeparator(SeparatorType.SEMICOLON))
+                throwException("missing semicolon");
         }
-        if (!detectSeparator(SeparatorType.SEMICOLON))
-            throwException("missing semicolon");
         ExpressionToken condition = detectExpression();
         if (!detectSeparator(SeparatorType.SEMICOLON))
             throwException("missing semicolon");
