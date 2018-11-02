@@ -1,5 +1,8 @@
 void main(){
-    print("a");
+    double a;
+    a=12.3;
+    bool b=(bool) a;
+    print((string) b);
 }
 
 

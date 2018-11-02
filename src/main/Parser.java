@@ -14,6 +14,7 @@ import token.exprtoken.identifier.FunctionId;
 import token.exprtoken.identifier.Identifier;
 import token.exprtoken.operator.Operator;
 import token.exprtoken.operator.binary.BinaryOperator;
+import token.exprtoken.operator.unary.CastOperator;
 import token.exprtoken.operator.unary.UnaryOperator;
 import type.*;
 
@@ -268,6 +269,15 @@ public class Parser {
             // Whenever meets "(" go recursion
             Token tk = getToken();
             if (detectSeparator(SeparatorType.LEFTPARENTHESES)) {
+                //add explicit casting here
+                ValueType type=detectDataType();
+                if(type != null && detectSeparator(SeparatorType.RIGHTPARENTHESES)){
+                    CastOperator castOp = new CastOperator();
+                    castOp.setDesType(type);
+                    operatorSt.push(castOp);
+                    continue;
+                }
+                //recursion
                 operandSt.push(detectExpression());
                 if (!detectSeparator(SeparatorType.RIGHTPARENTHESES))
                     throw new SyntaxException(tk.getLines(), tk.getPos(), "unmatched left parentheses");

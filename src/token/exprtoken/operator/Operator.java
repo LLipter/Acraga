@@ -11,6 +11,7 @@ public abstract class Operator extends ExpressionToken {
     private static HashMap<OperatorType, Integer> priorityMap = new HashMap<OperatorType, Integer>();
 
     static {
+        priorityMap.put(OperatorType.CASTING,2);
         priorityMap.put(OperatorType.NEGATIVESIGN, 2);
         priorityMap.put(OperatorType.POSITIVESIGN, 2);
         priorityMap.put(OperatorType.LOGICALNOT, 2);
