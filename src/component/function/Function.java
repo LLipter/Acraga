@@ -26,6 +26,10 @@ public class Function implements Executable {
         returnType = type;
     }
 
+    public Identifier getId() {
+        return id;
+    }
+
     public ArrayList<Value> getArguments() {
         return arguments;
     }
