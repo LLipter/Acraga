@@ -6,9 +6,9 @@ void main(){
 
     print(a+"\n");
 
-    for(;;){
-        print("aaa\n");
-    }
+//    for(;;){
+//        print("aaa\n");
+//    }
 }
 
 

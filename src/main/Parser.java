@@ -173,6 +173,20 @@ public class Parser {
         return true;
     }
 
+    // check whether current token is a data type
+    private boolean isDataType(){
+        Token token = getToken();
+        if(token == null)
+            return false;
+        if (token.getTokenType() != TokenType.KEYWORD)
+            return false;
+        Keyword keyword = (Keyword) token;
+        ValueType result = Casting.keywordType2ValueType(keyword.getKeywordType());
+        if(result == null)
+            return false;
+        return true;
+    }
+
     // check whether current token indicates a data type
     private ValueType detectDataType() {
         Token token = getToken();
@@ -270,11 +284,14 @@ public class Parser {
             Token tk = getToken();
             if (detectSeparator(SeparatorType.LEFTPARENTHESES)) {
                 //add explicit casting here
-                ValueType type=detectDataType();
-                if(type != null && detectSeparator(SeparatorType.RIGHTPARENTHESES)){
+                if(isDataType() && isSeparator(getNextToken(),SeparatorType.RIGHTPARENTHESES)){
+                    Token typeTk=getToken();
                     CastOperator castOp = new CastOperator();
-                    castOp.setDesType(type);
+                    castOp.setDesType(detectDataType());
+                    castOp.setLines(typeTk.getLines());
+                    castOp.setPos(typeTk.getPos());
                     operatorSt.push(castOp);
+                    next();
                     continue;
                 }
                 //recursion
