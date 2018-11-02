@@ -21,8 +21,9 @@ public class CastOperator extends UnaryOperator{
     @Override
     public Value execute(DataStack context) throws RTException, ReturnValue {
         Value value = child.execute(context);
-        if(value == null)
-            throw new RTException(getLines(), getPos(), "void variable is not allowed to do operation");
+        //if(value == null)
+        //    throw new RTException(getLines(), getPos(), "void variable is not allowed to do operation");
+        //TODO:add this in casting.
         return Casting.casting(value,desType);
     }
 }

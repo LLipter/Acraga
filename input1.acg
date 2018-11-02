@@ -1,15 +1,13 @@
 void main(){
-    double a=123;
-    a=12.3;
-    bool b=(bool) a;
-    print((string) b);
-
-    print(a+"\n");
-
-//    for(;;){
-//        print("aaa\n");
-//    }
+    foo(1);
 }
 
+double foo(int a){
+    print("b\n");
+    return 0;
+}
 
-
+int foo(int a){
+    print("a\n");
+    return 0;
+}

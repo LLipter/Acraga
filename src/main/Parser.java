@@ -47,6 +47,8 @@ public class Parser {
     public void parseProgram() throws SyntaxException {
         while (!scanner.iseof()) {
             Function function = detectFunction();
+            if(functionMap.containsKey(function.getFunctionSignature()))
+                throwException("function with the same signature exists");
             functionMap.put(function.getFunctionSignature(), function);
         }
     }
