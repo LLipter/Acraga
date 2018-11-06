@@ -7,7 +7,7 @@ void main(){
 
     //int c = 10;
 
-double d=1.00005;
+double d=1.0000000000001345;
 
 print((string)d);
     //c = 12.1;

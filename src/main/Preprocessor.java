@@ -311,10 +311,10 @@ public class Preprocessor {
         // decimal number
         if (getCh() == '.') {
             next();
-            int i=0;
+            BigInteger i=BigInteger.ZERO;
             while(getCh() == '0'){
                 next();
-                i++;
+                i=i.add(BigInteger.ONE);
             }
             Value fractionPart = isDecInteger();
             if (fractionPart == null)
@@ -324,8 +324,10 @@ public class Preprocessor {
             BigDecimal fractionValue = new BigDecimal(fractionPart.getIntValue());
             while (fractionValue.compareTo(BigDecimal.ONE) >= 0)
                 fractionValue = fractionValue.divide(BigDecimal.TEN);
-            if(i!=0)
-                fractionValue = fractionValue.divide(BigDecimal.valueOf(Math.pow(10,i)));
+            while(i.compareTo(BigInteger.ZERO)!=0){
+                 fractionValue=fractionValue.divide(BigDecimal.TEN);
+                 i=i.subtract(BigInteger.ONE);
+            }
             if (intPart.getIntValue().compareTo(BigInteger.ZERO) > 0)
                 result = result.add(fractionValue);
             else
