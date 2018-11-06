@@ -217,9 +217,52 @@ System.out.print(str2 + str3);// output:12
 
 ## Function
 
+### Main function
+
+```c
+int main(){
+  //do something
+  return 0;
+}
+```
+
+```c
+void main(){
+  //do something
+}
+```
+
+Both are supported in Acraga.
+
+**Note that if you use 'int main', whatever the result is, append 'return 0' at the end of the function.**
 
 
 
+### Other functions
+
+```c
+int foo(){
+  //do something
+}
+
+double foo(int a){
+  //do something
+}
+```
+
+These are two different methods via override. 
+
+```c
+int foo(){
+  //do something
+}
+
+double foo(){
+  //do something
+}
+```
+
+**Warning:  these two functions have the same function signature, which will throw exceptoin.**
 
 
 
@@ -258,7 +301,7 @@ System.out.print(str2 + str3);// output:12
 14. 用Acraga编写一些简单的小程序， 检查解释器在更真实的场景下的正确性，同时检查设计的语法是否符合交互性
 15. 编写全面的文档，讲解解释器的整体构架以及具体细节并介绍如何编写合法的Acraga程序
 16. 支持增强的for循环
-17. 检测函数签名，如果相同，报错
+17. 检测函数签名，如果相同，报错 ——(✔️)
 18. 支持代码块
 19. ** 支持函数指针以及lambda表达式
 20. 考虑如何定义参数可变的函数，这点和传递数组类型的变量共同是实现类似printf函数的基础
