@@ -4,6 +4,7 @@ import token.exprtoken.Value;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
+import exception.RTException;
 
 public class Casting {
     public static ValueType keywordType2ValueType(KeywordType type) {
@@ -19,6 +20,39 @@ public class Casting {
             return ValueType.VOID;
         else
             return null;
+    }
+
+    public static Value safeCasting(Value value,ValueType type){
+        if (type == ValueType.VOID || value.isVoid())
+            return null;
+        Value ret =null;
+        if(value.getValueType()==ValueType.INTEGER){
+            if(type==ValueType.INTEGER){
+                ret = new Value(ValueType.INTEGER);
+                ret.setIntValue(value.getIntValue());
+            }
+            else if(type==ValueType.DOUBLE){
+                ret = new Value(ValueType.DOUBLE);
+                ret.setDoubleValue(new BigDecimal(value.getIntValue()));
+            }
+        }
+        else if(value.getValueType()==ValueType.DOUBLE && type==ValueType.DOUBLE){
+            ret=new Value(ValueType.DOUBLE);
+            ret.setDoubleValue(value.getDoubleValue());
+        }
+        else if(value.getValueType()==ValueType.BOOLEAN && type==ValueType.BOOLEAN){
+            ret=new Value(ValueType.BOOLEAN);
+            ret.setBoolValue(value.getBoolValue());
+        }
+        else if(value.getValueType()==ValueType.STRING && type==ValueType.STRING) {
+            ret=new Value(ValueType.STRING);
+            ret.setStringValue(value.getStringValue());
+        }
+        if(ret!=null){
+            ret.setPos(value.getPos());
+            ret.setLines(value.getLines());
+        }
+        return ret;
     }
 
     // cast value to a given data type
@@ -122,9 +156,11 @@ public class Casting {
                 }
                 break;
         }
-
+        if(ret!=null){
+            ret.setLines(value.getLines());
+            ret.setPos(value.getPos());
+        }
         return ret;
-
     }
 
 }

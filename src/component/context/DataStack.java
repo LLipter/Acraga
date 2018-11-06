@@ -48,6 +48,10 @@ public class DataStack {
         throw new RTException(identifier.getLines(), identifier.getPos(), msg);
     }
 
+    private void throwException(Value value, String msg) throws RTException {
+        throw new RTException(value.getLines(), value.getPos(), msg);
+    }
+
     public Value getValue(Identifier identifier) throws RTException {
         if (identifier instanceof FunctionId)
             throwException(identifier, "left value required");
@@ -92,9 +96,9 @@ public class DataStack {
         HashMap<String, Object> frame = dataStack.getFirst();
         if (frame.containsKey(identifier.getId()))
             throwException(identifier, String.format("%s defined multiple times", identifier.getId()));
-        Value castedValue = Casting.casting(value, type);
+        Value castedValue = Casting.safeCasting(value, type);
         if (castedValue == null)
-            throwException(identifier, String.format("%s is not compatible with type %s", identifier.getId(), value.getValueType()));
+            throwException(value, String.format("cannot implicitly cast from %s to %s", value.getValueString(), type));
         frame.put(identifier.getId(), castedValue);
     }
 
@@ -109,9 +113,9 @@ public class DataStack {
         int i;
         for (i = 0; i < elements.size(); i++) {
             Value value = elements.get(i);
-            Value castedValue = Casting.casting(value, type);
+            Value castedValue = Casting.safeCasting(value, type);
             if (castedValue == null)
-                throwException(identifier, String.format("%s is not compatible with type %s", identifier.getId(), value.getValueType()));
+                throwException(value, String.format("cannot implicitly cast from %s to %s", value.getValueString(), type));
             array.add(castedValue);
         }
         for (; i < length; i++)
@@ -137,9 +141,9 @@ public class DataStack {
                 if (array.size() < index + 1)
                     throwException(identifier, String.format("%s index out of range", identifier.getId()));
                 Value value_in_array = array.get(0);
-                Value castedValue = Casting.casting(value, value_in_array.getValueType());
+                Value castedValue = Casting.safeCasting(value, value_in_array.getValueType());
                 if (castedValue == null)
-                    throwException(identifier, String.format("%s is not compatible with type %s", identifier.getId(), value.getValueType()));
+                    throwException(value, String.format("cannot implicitly cast from %s to %s", value.getValueString(), value_in_array.getValueType()));
                 array.set(index, castedValue);
                 return;
             }
@@ -156,9 +160,9 @@ public class DataStack {
                 if (!(obj instanceof Value))
                     throwException(identifier, String.format("%s is an array", identifier.getId()));
                 Value oldValue = (Value) obj;
-                Value castedValue = Casting.casting(value, oldValue.getValueType());
+                Value castedValue = Casting.safeCasting(value, oldValue.getValueType());
                 if (castedValue == null)
-                    throwException(identifier, String.format("%s is not compatible with type %s", identifier.getId(), value.getValueType()));
+                    throwException(value, String.format("cannot implicitly cast from %s to %s", value.getValueString(), oldValue.getValueType()));
                 frame.put(identifier.getId(), castedValue);
                 return;
             }

@@ -82,12 +82,26 @@ public class Value extends ExpressionToken {
         return valueType == ValueType.VOID;
     }
 
+    public String getValueString(){
+        if (isInt())
+            return intValue.toString();
+        if (isDouble())
+            return doubleValue.toString();
+        if (isBool())
+            return Boolean.toString(boolValue);
+        if (isString())
+            return String.format("\"%s\"",stringValue);
+        if (isVoid())
+            return "void";
+        return "UnknownValue";
+    }
+
     @Override
     public String toString() {
         if (isInt())
             return String.format("<IntValue,%d>", intValue);
         if (isDouble())
-            return String.format("<DoubleValue,%.15f>", doubleValue);
+            return String.format("<DoubleValue,%f>", doubleValue);
         if (isBool())
             return String.format("<BoolValue,%b>", boolValue);
         if (isString())

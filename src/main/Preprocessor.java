@@ -311,15 +311,22 @@ public class Preprocessor {
         // decimal number
         if (getCh() == '.') {
             next();
+            int i=0;
+            while(getCh() == '0'){
+                next();
+                i++;
+            }
             Value fractionPart = isDecInteger();
             if (fractionPart == null)
                 throw new SyntaxException(line, pos, "missing fraction part number");
             if (getCh() != 'e' && getCh() != 'E' && isIdAlphabet())
                 throw new SyntaxException(line, pos, "invalid float point number");
             BigDecimal fractionValue = new BigDecimal(fractionPart.getIntValue());
-            while (fractionValue.compareTo(BigDecimal.ONE) == 1)
+            while (fractionValue.compareTo(BigDecimal.ONE) >= 0)
                 fractionValue = fractionValue.divide(BigDecimal.TEN);
-            if (intPart.getIntValue().compareTo(BigInteger.ZERO) == 1)
+            if(i!=0)
+                fractionValue = fractionValue.divide(BigDecimal.valueOf(Math.pow(10,i)));
+            if (intPart.getIntValue().compareTo(BigInteger.ZERO) > 0)
                 result = result.add(fractionValue);
             else
                 result = result.subtract(fractionValue);

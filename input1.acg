@@ -1,13 +1,21 @@
 void main(){
-    foo(1);
-}
+    //int i=2.3;
 
-double foo(int a){
-    print("b\n");
-    return 0;
-}
+    //int c[]={3,1.20};
 
-int foo(int a){
-    print("a\n");
-    return 0;
+
+    //int c = 10;
+
+double d=1.00005;
+
+print((string)d);
+    //c = 12.1;
+
+
+    //int x[] = {1,2};
+
+
+
+
+    //x[0] = 1.1;
 }
