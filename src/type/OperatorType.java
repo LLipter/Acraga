@@ -32,6 +32,8 @@ public enum OperatorType {
     BITWISEXOR,
     LEFTSHIFTING,
     RIGHTSHIFTING,
+    SELFINCREMENT,
+    SELFDECREMENT,
 
     // unary operator
     CASTING,
