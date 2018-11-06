@@ -160,7 +160,7 @@ P.S.**For string, only '+' operation is allowed**
   |    !     |            logical NOT             | unary  |    2     |
   |    ~     |            bitwise NOT             | unary  |    2     |
   |    ++    |       self Increment(prefix)       | unary  |    2     |
-  |    --    |       self Increment(prefix)       | unary  |    2     |
+  |    --    |       self Decrement(prefix)       | unary  |    2     |
   |    \*    |           multiplication           | binary |    3     |
   |    /     |              division              | binary |    3     |
   |    %     |              reminder              | binary |    3     |

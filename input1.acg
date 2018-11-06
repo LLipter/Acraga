@@ -1,13 +1,24 @@
+
 void main(){
-    foo(1);
+    //foo(1);
+    foo();
 }
+
+
 
 double foo(int a){
     print("b\n");
     return 0;
 }
 
-int foo(int a){
-    print("a\n");
+int foo(){
+    int a = 1;
+    //++a;
+    //--a;
+    //a++;
+    //a--;
+    string v = a;
+    print(v);
     return 0;
 }
+
