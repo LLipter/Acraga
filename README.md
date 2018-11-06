@@ -68,7 +68,9 @@ Acraga是一种简单的强类型编程语言，支持整数、实数、布尔�
 
 - Comment:
 
-    `//this is a comment, multiple lines of comments are not supported yet.`
+    `//this is a comment.`
+    `/*this is also`
+    `a comment */`
 
 - Operator:
 
@@ -76,7 +78,7 @@ Acraga是一种简单的强类型编程语言，支持整数、实数、布尔�
 
 - Delimiter:
 
-    `delimiter ::= '(' | ')' | '[' | ']' | '{' | '}' | ';' | ',' | '.'`
+    `delimiter ::= '(' | ')' | '[' | ']' | '{' | '}' | ';' | ','`
 
 
 
@@ -157,6 +159,8 @@ P.S.**For string, only '+' operation is allowed**
   |    +     |           positive sign            | unary  |    2     |
   |    !     |            logical NOT             | unary  |    2     |
   |    ~     |            bitwise NOT             | unary  |    2     |
+  |    ++    |       self Increment(prefix)       | unary  |    2     |
+  |    --    |       self Increment(prefix)       | unary  |    2     |
   |    \*    |           multiplication           | binary |    3     |
   |    /     |              division              | binary |    3     |
   |    %     |              reminder              | binary |    3     |
@@ -194,15 +198,16 @@ So that we can do something like these：
 - `1 + 3 % 2 = 2`
 - `1.3323 + 3.14 - 5.1 = -0.6277`
 - `0x0001 + 0x0A02 = 2563`
+- `++1 = 2, --4 = 3`
 
 In Java：
 
 ```java
 String str1 = "abc";
-System.out.println(str1 + "d");// output:abcd
+System.out.print(str1 + "d");// output:abcd
 String str2 = "1";
 String str3 = "2";
-System.out.println(str2 + str3);// output:12
+System.out.print(str2 + str3);// output:12
 ```
 
 - `a + b = ab`
@@ -246,7 +251,7 @@ System.out.println(str2 + str3);// output:12
 7. ** 用C++复刻项目，比较Java与C++版本性能上的区别
 8. 支持在函数参数中传递数组类型的变量
 9. 支持逗号运算符的操作 (int a=1, b=2;)
-10. 支持++,-- 两种运算符，考虑同时支持前置后置形式
+10. 支持++,-- 两种运算符，考虑同时支持前置后置形式 ——(✔️)
 11. 实现必要的库函数，例如提供函数输出方式的print()方法 ——(✔️)
 12. ** 实现类的概念后可以定义一些标准库数据结构，比如scanf，比如max，min等数学函数库
 13. 测试，争取没有逻辑错误以及运行时崩溃的情况
