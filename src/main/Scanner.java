@@ -17,6 +17,8 @@ import token.exprtoken.operator.unary.BitwiseNegate;
 import token.exprtoken.operator.unary.LogicalNot;
 import token.exprtoken.operator.unary.NegativeSign;
 import token.exprtoken.operator.unary.PositiveSign;
+import token.exprtoken.operator.unary.SelfIncrement;
+import token.exprtoken.operator.unary.SelfDecrement;
 import type.KeywordType;
 import type.SeparatorType;
 
@@ -81,6 +83,8 @@ public class Scanner {
     // detect operators
     public Operator detectOperator() {
         Operator op;
+        int line = preprocessor.getLine();
+        int pos = preprocessor.getPos();
 
         if (preprocessor.isOperator("<<="))
             op = new LeftShiftingAssign();
@@ -104,6 +108,10 @@ public class Scanner {
             op = new RightShifting();
         else if (preprocessor.isOperator("+="))
             op = new AddAssign();
+        else if (preprocessor.isOperator("++"))
+            op = new SelfIncrement();
+        else if (preprocessor.isOperator("--"))
+            op = new SelfDecrement();
         else if (preprocessor.isOperator("-="))
             op = new SubtractAssign();
         else if (preprocessor.isOperator("*="))
@@ -163,8 +171,8 @@ public class Scanner {
         } else
             return null;
 
-        op.setLines(preprocessor.getLine());
-        op.setPos(preprocessor.getPos());
+        op.setLines(line);
+        op.setPos(pos);
         return op;
     }
 
