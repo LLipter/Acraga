@@ -1,0 +1,7 @@
+int main(){
+    print("write sth from keyboard \n");
+    double input = readDecimal();
+    double a = input - 99.99;
+    print(a);
+    return 0;
+}
