@@ -262,7 +262,29 @@ double foo(){
 }
 ```
 
-**Warning:  these two functions have the same function signature, which will throw exceptoin.**
+**Warning:  these two functions have the same function signature, which will throw exception.**
+
+
+
+```Java
+void testPrint(){
+  print(Any type except void is supported);
+  println(Whatever you like, even with no parameter);
+}
+```
+
+
+
+```java
+void testRead(){
+  string str1 = read();// read until meets a whitespace
+  string str2 = readLine();// read until you press enter
+  int a = readInt();// read the first integer number which can be identified as a BigInteger
+  double b = readDecimal();// read the first real number which can be identified as a BigDecimal
+  bool c = readBool();// read the first boolean variable which can be identified as a Boolean
+  // read input from keyboard
+}
+```
 
 
 
@@ -306,6 +328,8 @@ double foo(){
 19. ** 支持函数指针以及lambda表达式
 20. 考虑如何定义参数可变的函数，这点和传递数组类型的变量共同是实现类似printf函数的基础
 21. 在detectExpression中做更加细致的判断，判断哪种和哪种token是不可能连在一起的，以此抛出潜在的缺乏分号的错误。
+22. 加入break, continue语法
+23. 加入switch case语法
 
 
 
