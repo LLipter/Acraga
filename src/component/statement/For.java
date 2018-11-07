@@ -44,40 +44,47 @@ public class For extends Loop {
 
     @Override
     public Value execute(DataStack context) throws RTException, ReturnValue {
-        context.createFrame();
-        if(definition != null)
-            definition.execute(context);
-        else if(init != null)
-            init.execute(context);
-
-        Value cond;
-        Value castedValue;
-        if(condition!=null) {
-            cond = condition.execute(context);
-            castedValue = Casting.casting(cond, ValueType.BOOLEAN);
-            if (castedValue == null)
-                throw new RTException(condition.getLines(), condition.getPos(), "condition not compatible with boolean type");
-        }
-        else {
-            castedValue=new Value(ValueType.BOOLEAN);
-            castedValue.setBoolValue(true);
-        }
-
-        while (castedValue.getBoolValue()) {
+        try {
             context.createFrame();
-            for (Statement s : loopStatements)
-                s.execute(context);
-            if(incr != null)
-                incr.execute(context);
-            if(condition!=null) {
+            if (definition != null)
+                definition.execute(context);
+            else if (init != null)
+                init.execute(context);
+
+            Value cond;
+            Value castedValue;
+            if (condition != null) {
                 cond = condition.execute(context);
                 castedValue = Casting.casting(cond, ValueType.BOOLEAN);
                 if (castedValue == null)
                     throw new RTException(condition.getLines(), condition.getPos(), "condition not compatible with boolean type");
+            } else {
+                castedValue = new Value(ValueType.BOOLEAN);
+                castedValue.setBoolValue(true);
             }
+
+            while (castedValue.getBoolValue()) {
+                try {
+                    context.createFrame();
+                    for (Statement s : loopStatements)
+                        s.execute(context);
+                    if (incr != null)
+                        incr.execute(context);
+                    if (condition != null) {
+                        cond = condition.execute(context);
+                        castedValue = Casting.casting(cond, ValueType.BOOLEAN);
+                        if (castedValue == null)
+                            throw new RTException(condition.getLines(), condition.getPos(), "condition not compatible with boolean type");
+                    }
+                }
+                finally {
+                    context.releaseFrame();
+                }
+            }
+        }
+        finally {
             context.releaseFrame();
         }
-        context.releaseFrame();
         // always return void
         return new Value(ValueType.VOID);
     }

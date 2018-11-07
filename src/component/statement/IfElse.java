@@ -52,15 +52,19 @@ public class IfElse extends Statement {
         Value castedValue = Casting.casting(cond, ValueType.BOOLEAN);
         if (castedValue == null)
             throw new RTException(condition.getLines(), condition.getPos(), "condition not compatible with boolean type");
-        context.createFrame();
-        if (castedValue.getBoolValue()) {
-            for (Statement s : ifBranch)
-                s.execute(context);
-        } else if (elseBranch != null) {
-            for (Statement s : elseBranch)
-                s.execute(context);
+        try {
+            context.createFrame();
+            if (castedValue.getBoolValue()) {
+                for (Statement s : ifBranch)
+                    s.execute(context);
+            } else if (elseBranch != null) {
+                for (Statement s : elseBranch)
+                    s.execute(context);
+            }
         }
-        context.releaseFrame();
+        finally {
+            context.releaseFrame();
+        }
         // always return void
         return new Value(ValueType.VOID);
     }

@@ -9,7 +9,7 @@ public class Acraga {
         // TODO Auto-generated method stub
 
         // test for interpret the whole program
-//        Preprocessor input = new Preprocessor("input1.acg");
+//        Preprocessor input = new Preprocessor("input2.acg");
 //        Scanner scanner = new Scanner(input);
 //        scanner.print();
 //        Parser parser = new Parser(scanner);
@@ -19,7 +19,7 @@ public class Acraga {
 //        interpreter.interpretProgram();
 
         // simple way to do it
-        Interpreter.interpretProgram("input3.acg");
+        Interpreter.interpretProgram("input1.acg");
 
 
         // test for interpret expression
