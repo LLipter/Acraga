@@ -2,7 +2,6 @@ package main;
 
 import component.ReturnValue;
 import exception.AcragaException;
-import token.exprtoken.Value;
 
 public class Acraga {
 
@@ -20,7 +19,7 @@ public class Acraga {
 //        interpreter.interpretProgram();
 
         // simple way to do it
-        Interpreter.interpretProgram("input1.acg");
+        Interpreter.interpretProgram("input2.acg");
 
 
         // test for interpret expression

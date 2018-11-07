@@ -58,6 +58,7 @@ public class Parser {
                 if (functionMap.containsKey(function.getFunctionSignature()))
                     throw new SyntaxException(function.getId().getLines(), function.getId().getPos(), "function with the same signature exists");
                 functionMap.put(function.getFunctionSignature(), function);
+                continue;
             }
             //detect global statements
             Statement statement=detectStatement();

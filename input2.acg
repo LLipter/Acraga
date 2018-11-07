@@ -1,0 +1,16 @@
+int fibonacci(int i){
+	if(i<=2){
+		return 1;
+	}
+	else{
+		return fibonacci(i-1)+fibonacci(i-2);
+	}
+}
+// 1 1 2 3 5 8 13
+void main(){
+    //print((string)fibonacci(30));
+	for(int x=1;x<=30;++x){
+		print((string)fibonacci(x)+"\n");
+		// print("1");
+	}
+}

@@ -156,6 +156,8 @@ public class Scanner {
                     && ((Separator) tokens.getLast()).getSeparatorType() != SeparatorType.RIGHTBRACKET
                     && ((Separator) tokens.getLast()).getSeparatorType() != SeparatorType.RIGHTBRACE)
                 op = new PositiveSign();
+            else if ((tokens.getLast() instanceof Keyword) && ((Keyword)tokens.getLast()).getKeywordType()==KeywordType.RETURN)
+                op = new PositiveSign();
             else
                 op = new Add();
         } else if (preprocessor.isOperator("-")) {
@@ -165,6 +167,8 @@ public class Scanner {
                     && ((Separator) tokens.getLast()).getSeparatorType() != SeparatorType.RIGHTPARENTHESES
                     && ((Separator) tokens.getLast()).getSeparatorType() != SeparatorType.RIGHTBRACKET
                     && ((Separator) tokens.getLast()).getSeparatorType() != SeparatorType.RIGHTBRACE)
+                op = new NegativeSign();
+            else if ((tokens.getLast() instanceof Keyword) && ((Keyword)tokens.getLast()).getKeywordType()==KeywordType.RETURN)
                 op = new NegativeSign();
             else
                 op = new Subtract();
