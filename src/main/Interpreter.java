@@ -6,6 +6,7 @@ import component.function.Function;
 import component.function.FunctionSignature;
 import component.function.predefined.Print;
 import component.statement.Statement;
+import component.function.predefined.*;
 import exception.AcragaException;
 import exception.RTException;
 import token.exprtoken.Value;
@@ -61,16 +62,16 @@ public class Interpreter {
         return null;
     }
 
-    public void runGlobalStatements(LinkedList<Statement> globalStatements) throws RTException{
-        if(!globalStatements.isEmpty()){
-            Statement statement=globalStatements.pollFirst();
+    public void runGlobalStatements(LinkedList<Statement> globalStatements) throws RTException {
+        if (!globalStatements.isEmpty()) {
+            Statement statement = globalStatements.pollFirst();
             try {
                 while (statement != null) {
                     statement.execute(context);
                     statement = globalStatements.pollFirst();
                 }
-            }catch (ReturnValue retValue){
-                throw new RTException(retValue.getLine(),retValue.getPos(),"cannot return in gloabl area");
+            } catch (ReturnValue retValue) {
+                throw new RTException(retValue.getLine(), retValue.getPos(), "cannot return in gloabl area");
             }
         }
     }
@@ -81,7 +82,7 @@ public class Interpreter {
         funcMap.putAll(predefinedFunction());
         context.setFunctionMap(funcMap);
 
-        LinkedList<Statement> globalStatements=parser.getGlobalStatements();
+        LinkedList<Statement> globalStatements = parser.getGlobalStatements();
         context.createFrame();
         runGlobalStatements(globalStatements);
 
@@ -108,22 +109,34 @@ public class Interpreter {
         HashMap<FunctionSignature, Function> funcMap = new HashMap<>();
         Print printString = new Print(false, ValueType.STRING);
         funcMap.put(printString.getFunctionSignature(), printString);
-        Print printInteger = new Print(false,ValueType.INTEGER);
-        funcMap.put(printInteger.getFunctionSignature(),printInteger);
-        Print printDouble = new Print(false,ValueType.DOUBLE);
-        funcMap.put(printDouble.getFunctionSignature(),printDouble);
-        Print printBoolean = new Print(false,ValueType.BOOLEAN);
-        funcMap.put(printBoolean.getFunctionSignature(),printBoolean);
+        Print printInteger = new Print(false, ValueType.INTEGER);
+        funcMap.put(printInteger.getFunctionSignature(), printInteger);
+        Print printDouble = new Print(false, ValueType.DOUBLE);
+        funcMap.put(printDouble.getFunctionSignature(), printDouble);
+        Print printBoolean = new Print(false, ValueType.BOOLEAN);
+        funcMap.put(printBoolean.getFunctionSignature(), printBoolean);
         Print printlnString = new Print(true, ValueType.STRING);
         funcMap.put(printlnString.getFunctionSignature(), printlnString);
-        Print printlnInteger = new Print(true,ValueType.INTEGER);
-        funcMap.put(printlnInteger.getFunctionSignature(),printlnInteger);
-        Print printlnDouble = new Print(true,ValueType.DOUBLE);
-        funcMap.put(printlnDouble.getFunctionSignature(),printlnDouble);
-        Print printlnBoolean = new Print(true,ValueType.BOOLEAN);
-        funcMap.put(printlnBoolean.getFunctionSignature(),printlnBoolean);
-        Print println = new Print(true,ValueType.VOID);
-        funcMap.put(println.getFunctionSignature(),println);
+        Print printlnInteger = new Print(true, ValueType.INTEGER);
+        funcMap.put(printlnInteger.getFunctionSignature(), printlnInteger);
+        Print printlnDouble = new Print(true, ValueType.DOUBLE);
+        funcMap.put(printlnDouble.getFunctionSignature(), printlnDouble);
+        Print printlnBoolean = new Print(true, ValueType.BOOLEAN);
+        funcMap.put(printlnBoolean.getFunctionSignature(), printlnBoolean);
+        Print println = new Print(true, ValueType.VOID);
+        funcMap.put(println.getFunctionSignature(), println);
+
+        Read read = new Read();
+        funcMap.put(read.getFunctionSignature(), read);
+        ReadLine readLine = new ReadLine();
+        funcMap.put(readLine.getFunctionSignature(), readLine);
+        ReadBool readBool = new ReadBool();
+        funcMap.put(readBool.getFunctionSignature(), readBool);
+        ReadInt readInt = new ReadInt();
+        funcMap.put(readInt.getFunctionSignature(), readInt);
+        ReadDecimal readDecimal = new ReadDecimal();
+        funcMap.put(readDecimal.getFunctionSignature(), readDecimal);
+
         return funcMap;
     }
 
