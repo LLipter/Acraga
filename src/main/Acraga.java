@@ -1,11 +1,12 @@
 package main;
 
+import component.ReturnValue;
 import exception.AcragaException;
 import token.exprtoken.Value;
 
 public class Acraga {
 
-    public static void main(String[] args) throws AcragaException {
+    public static void main(String[] args) throws AcragaException, ReturnValue {
         // TODO Auto-generated method stub
 
         // test for interpret the whole program

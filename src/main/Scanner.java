@@ -283,6 +283,12 @@ public class Scanner {
         return tokens.get(1);
     }
 
+    public Token getThirdToken(){
+        if(tokens.size() < 3)
+            return null;
+        return tokens.get(2);
+    }
+
     public boolean iseof() {
         return tokens.isEmpty();
     }

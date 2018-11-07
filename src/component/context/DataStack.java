@@ -162,7 +162,7 @@ public class DataStack {
                 Value oldValue = (Value) obj;
                 Value castedValue = Casting.safeCasting(value, oldValue.getValueType());
                 if (castedValue == null)
-                    throwException(value, String.format("cannot implicitly cast from %s to %s", value.getValueString(), oldValue.getValueType()));
+                    throwException(identifier, String.format("cannot implicitly cast from %s to %s", value.getValueString(), oldValue.getValueType()));
                 frame.put(identifier.getId(), castedValue);
                 return;
             }

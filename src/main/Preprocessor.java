@@ -93,10 +93,12 @@ public class Preprocessor {
                 }
                 if (ch_cur == -1)
                     return;
-
                 ch_cur = reader.read();
                 ch_next = reader.read();
-
+                if(ch_cur=='\r') {
+                    ch_cur = ch_next;
+                    ch_next=reader.read();
+                }
             }
 
 

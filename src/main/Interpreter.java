@@ -5,12 +5,14 @@ import component.context.DataStack;
 import component.function.Function;
 import component.function.FunctionSignature;
 import component.function.predefined.Print;
+import component.statement.Statement;
 import exception.AcragaException;
 import exception.RTException;
 import token.exprtoken.Value;
 
 import java.io.StringReader;
 import java.util.HashMap;
+import java.util.LinkedList;
 
 public class Interpreter {
 
@@ -22,7 +24,7 @@ public class Interpreter {
         context = new DataStack();
     }
 
-    public static void interpretProgram(String inpuFile) throws AcragaException {
+    public static void interpretProgram(String inpuFile) throws AcragaException, ReturnValue {
         // TODO: add try catch to catch all AcragaException
         Preprocessor preprocessor = new Preprocessor(inpuFile);
         Scanner scanner = new Scanner(preprocessor);
@@ -58,14 +60,38 @@ public class Interpreter {
         return null;
     }
 
+    public void runGlobalStatements(LinkedList<Statement> globalStatements) throws RTException{
+        if(!globalStatements.isEmpty()){
+            Statement statement=globalStatements.pollFirst();
+            try {
+                while (statement != null) {
+                    statement.execute(context);
+                    statement = globalStatements.pollFirst();
+                }
+            }catch (ReturnValue retValue){
+                throw new RTException(retValue.getLine(),retValue.getPos(),"cannot return in gloabl area");
+            }
+        }
+    }
+
     public void interpretProgram() throws AcragaException {
         // TODO: add try catch to catch all AcragaException
         HashMap<FunctionSignature, Function> funcMap = parser.getFunctionMap();
         funcMap.putAll(predefinedFunction());
         context.setFunctionMap(funcMap);
+
+        LinkedList<Statement> globalStatements=parser.getGlobalStatements();
+        context.createFrame();
+        runGlobalStatements(globalStatements);
+
+
         Value exitCode = runFunction(FunctionSignature.mainFunctionSignature);
         String format = "Program ends with %d";
+
+        runGlobalStatements(globalStatements);
+
         System.out.println(String.format(format, exitCode.getIntValue().intValue()));
+        context.releaseFrame();
     }
 
 

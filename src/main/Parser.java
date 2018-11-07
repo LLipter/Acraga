@@ -26,6 +26,7 @@ public class Parser {
 
     private Scanner scanner;
     private HashMap<FunctionSignature, Function> functionMap;
+    private LinkedList<Statement> globalStatements;
     private ExpressionToken expressionRoot;
     private int line;
     private int pos;
@@ -33,6 +34,7 @@ public class Parser {
     public Parser(Scanner scanner) throws SyntaxException {
         this.scanner = scanner;
         functionMap = new HashMap<FunctionSignature, Function>();
+        globalStatements=new LinkedList<>();
         updateLinePos();
     }
 
@@ -46,10 +48,21 @@ public class Parser {
 
     public void parseProgram() throws SyntaxException {
         while (!scanner.iseof()) {
+            //detect functions
             Function function = detectFunction();
-            if(functionMap.containsKey(function.getFunctionSignature()))
-                throw new SyntaxException(function.getId().getLines(),function.getId().getPos(),"function with the same signature exists");
-            functionMap.put(function.getFunctionSignature(), function);
+            if(function!=null) {
+                //locate main function
+                if(function.getFunctionSignature().equals(FunctionSignature.mainFunctionSignature))
+                    globalStatements.addLast(null);
+                //add functions to function map
+                if (functionMap.containsKey(function.getFunctionSignature()))
+                    throw new SyntaxException(function.getId().getLines(), function.getId().getPos(), "function with the same signature exists");
+                functionMap.put(function.getFunctionSignature(), function);
+            }
+            //detect global statements
+            Statement statement=detectStatement();
+            if(statement!=null)
+                globalStatements.addLast(statement);
         }
     }
 
@@ -64,6 +77,10 @@ public class Parser {
     private Token getNextToken() {
         return scanner.getNextToken();
     }
+    //for function detection
+    private Token getThirdToken(){
+        return scanner.getThirdToken();
+    }
 
     public ExpressionToken getExpressionRoot() {
         return expressionRoot;
@@ -71,6 +88,10 @@ public class Parser {
 
     public HashMap<FunctionSignature, Function> getFunctionMap() {
         return functionMap;
+    }
+
+    public LinkedList<Statement> getGlobalStatements(){
+        return globalStatements;
     }
 
     private void next() {
@@ -405,6 +426,10 @@ public class Parser {
     }
 
     private Initialization detectInitialization() throws SyntaxException {
+//        if(!(isDataType()
+//                && (getNextToken() instanceof Identifier)
+//                && (isSeparator(getThirdToken(),SeparatorType.SEMICOLON) || isOperator(getThirdToken(),OperatorType.ASSIGN))))
+//            return null;
         Initialization initialization = new Initialization();
         ValueType dataType = detectDataType();
         if (dataType == null)
@@ -638,8 +663,12 @@ public class Parser {
 
 
     private Function detectFunction() throws SyntaxException {
-        Function function;
+        if(!(isDataType()
+                && (getNextToken() instanceof Identifier)
+                && isSeparator(getThirdToken(),SeparatorType.LEFTPARENTHESES)))
+            return null;
 
+        Function function;
         // check return type
         ValueType returnType = detectDataType();
         if (returnType == null)
@@ -677,10 +706,7 @@ public class Parser {
 
         function.setStatements(detectCodeBlock());
 
-
         return function;
-
-
     }
 
 

@@ -5,10 +5,15 @@ import component.context.DataStack;
 import exception.RTException;
 import token.exprtoken.Value;
 import type.Casting;
+import type.OperatorType;
 import type.ValueType;
 
 public class CastOperator extends UnaryOperator{
     private ValueType desType;
+
+    public CastOperator(){
+        operatorType=OperatorType.CASTING;
+    }
 
     public ValueType getDesType() {
         return desType;
