@@ -1,4 +1,6 @@
 void main(){
     int a=1;
-    println(13.3);
+    print(a);
+    println();
+    println("a");
 }

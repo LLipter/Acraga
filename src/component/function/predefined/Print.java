@@ -25,8 +25,6 @@ public class Print extends Function {
         }
         this.isNextLine=isNextLine;
         this.type=type;
-        if(isNextLine)
-            super.setId(new Identifier("println"));
         if(type==ValueType.STRING)
             addParameter(ValueType.STRING, new Identifier("msg"));
         else if(type==ValueType.BOOLEAN)
@@ -39,6 +37,10 @@ public class Print extends Function {
 
     @Override
     public Value execute(DataStack context) throws RTException {
+        if(arguments.isEmpty()){
+            System.out.println();
+            return new Value(ValueType.VOID);
+        }
         Value value=arguments.get(0);
         String msg="";
         if(type==ValueType.STRING)

@@ -1,4 +1,3 @@
-
 int problem_size = 8;
 int A[problem_size+1];
 int ans = 0;
@@ -6,11 +5,8 @@ int cur = 0;
 
 void my_print(){
     for(int i=1;i<=problem_size;++i){
-        // cout << A[i] << " ";
-        print((string)A[i]);
-        print(" ");
+        print(A[i]+" ");
     }
-    // cout << endl;
     print("\n");
 }
 
@@ -51,7 +47,5 @@ void dfs(){
 
 void main(){
     dfs();
-    //cout << ans << endl;
-    print((string)ans);
-    print("\n");
+    println(ans);
 }

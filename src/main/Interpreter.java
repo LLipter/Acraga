@@ -122,6 +122,8 @@ public class Interpreter {
         funcMap.put(printlnDouble.getFunctionSignature(),printlnDouble);
         Print printlnBoolean = new Print(true,ValueType.BOOLEAN);
         funcMap.put(printlnBoolean.getFunctionSignature(),printlnBoolean);
+        Print println = new Print(true,ValueType.VOID);
+        funcMap.put(println.getFunctionSignature(),println);
         return funcMap;
     }
 
