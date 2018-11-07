@@ -26,8 +26,20 @@ public class Function implements Executable {
         returnType = type;
     }
 
+    public Function(){
+
+    }
+
     public Identifier getId() {
         return id;
+    }
+
+    public void setId(Identifier id){
+        this.id=id;
+    }
+
+    public void setFunctionSignature(FunctionSignature fs){
+        functionSignature=fs;
     }
 
     public ArrayList<Value> getArguments() {

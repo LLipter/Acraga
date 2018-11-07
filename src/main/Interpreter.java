@@ -9,6 +9,7 @@ import component.statement.Statement;
 import exception.AcragaException;
 import exception.RTException;
 import token.exprtoken.Value;
+import type.ValueType;
 
 import java.io.StringReader;
 import java.util.HashMap;
@@ -105,8 +106,22 @@ public class Interpreter {
 
     private HashMap<FunctionSignature, Function> predefinedFunction() {
         HashMap<FunctionSignature, Function> funcMap = new HashMap<>();
-        Print print = new Print();
-        funcMap.put(print.getFunctionSignature(), print);
+        Print printString = new Print(false, ValueType.STRING);
+        funcMap.put(printString.getFunctionSignature(), printString);
+        Print printInteger = new Print(false,ValueType.INTEGER);
+        funcMap.put(printInteger.getFunctionSignature(),printInteger);
+        Print printDouble = new Print(false,ValueType.DOUBLE);
+        funcMap.put(printDouble.getFunctionSignature(),printDouble);
+        Print printBoolean = new Print(false,ValueType.BOOLEAN);
+        funcMap.put(printBoolean.getFunctionSignature(),printBoolean);
+        Print printlnString = new Print(true, ValueType.STRING);
+        funcMap.put(printlnString.getFunctionSignature(), printlnString);
+        Print printlnInteger = new Print(true,ValueType.INTEGER);
+        funcMap.put(printlnInteger.getFunctionSignature(),printlnInteger);
+        Print printlnDouble = new Print(true,ValueType.DOUBLE);
+        funcMap.put(printlnDouble.getFunctionSignature(),printlnDouble);
+        Print printlnBoolean = new Print(true,ValueType.BOOLEAN);
+        funcMap.put(printlnBoolean.getFunctionSignature(),printlnBoolean);
         return funcMap;
     }
 

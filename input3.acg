@@ -1,6 +1,4 @@
 void main(){
     int a=1;
-    int b=2;
-    b=-a;
-    print((string)b);
+    println(13.3);
 }
