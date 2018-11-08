@@ -1,6 +1,6 @@
 package component.statement;
 
-import component.ReturnValue;
+import component.signal.ControlSignal;
 import component.context.DataStack;
 import exception.RTException;
 import token.exprtoken.ExpressionToken;
@@ -46,7 +46,7 @@ public class IfElse extends Statement {
     }
 
     @Override
-    public Value execute(DataStack context) throws RTException, ReturnValue {
+    public Value execute(DataStack context) throws RTException, ControlSignal {
 
         Value cond = condition.execute(context);
         Value castedValue = Casting.casting(cond, ValueType.BOOLEAN);

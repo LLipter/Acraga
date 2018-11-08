@@ -1,6 +1,6 @@
 package token.exprtoken.operator.unary;
 
-import component.ReturnValue;
+import component.signal.ControlSignal;
 import component.context.DataStack;
 import exception.RTException;
 import token.exprtoken.Value;
@@ -15,7 +15,7 @@ public class LogicalNot extends UnaryOperator {
     }
 
     @Override
-    public Value execute(DataStack context) throws RTException, ReturnValue {
+    public Value execute(DataStack context) throws RTException, ControlSignal {
         Value value = child.execute(context);
         Value res = new Value(ValueType.BOOLEAN);
         if (value.isVoid())

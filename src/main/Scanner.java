@@ -233,6 +233,10 @@ public class Scanner {
             keyword = new Keyword(KeywordType.VOID);
         else if (preprocessor.isKeyword("return"))
             keyword = new Keyword(KeywordType.RETURN);
+        else if (preprocessor.isKeyword("break"))
+            keyword = new Keyword(KeywordType.BREAK);
+        else if (preprocessor.isKeyword("continue"))
+            keyword = new Keyword(KeywordType.CONTINUE);
         else
             return null;
         keyword.setLines(lines);

@@ -1,6 +1,6 @@
 package main;
 
-import component.ReturnValue;
+import component.signal.ReturnValue;
 import exception.AcragaException;
 
 public class Acraga {
@@ -19,7 +19,7 @@ public class Acraga {
 //        interpreter.interpretProgram();
 
         // simple way to do it
-        Interpreter.interpretProgram("input1.acg");
+        Interpreter.interpretProgram("input3.acg");
 
 
         // test for interpret expression

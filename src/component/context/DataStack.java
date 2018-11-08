@@ -1,6 +1,6 @@
 package component.context;
 
-import component.ReturnValue;
+import component.signal.ReturnValue;
 import component.function.Function;
 import component.function.FunctionSignature;
 import exception.RTException;

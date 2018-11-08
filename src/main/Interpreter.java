@@ -1,6 +1,6 @@
 package main;
 
-import component.ReturnValue;
+import component.signal.*;
 import component.context.DataStack;
 import component.function.Function;
 import component.function.FunctionSignature;
@@ -55,8 +55,8 @@ public class Interpreter {
             return parser.getExpressionRoot().execute(context);
         } catch (AcragaException e) {
             System.err.println(e.getMessage());
-        } catch (ReturnValue returnValue) {
-            // never used
+        } catch (ControlSignal controlSignal) {
+            controlSignal.printStackTrace();
         }
         // never used
         return null;
@@ -72,6 +72,12 @@ public class Interpreter {
                 }
             } catch (ReturnValue retValue) {
                 throw new RTException(retValue.getLine(), retValue.getPos(), "cannot return in gloabl area");
+            } catch (BreakRequest br) {
+                throw new RTException(br.getLine(), br.getPos(), "cannot use break outside loop");
+            } catch (ContinueRequest cr) {
+                throw new RTException(cr.getLine(), cr.getPos(), "cannot use continue outside loop");
+            } catch (ControlSignal cs) {
+                //never used
             }
         }
     }

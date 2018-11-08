@@ -1,7 +1,10 @@
 package component.function;
 
 import component.Executable;
-import component.ReturnValue;
+import component.signal.BreakRequest;
+import component.signal.ContinueRequest;
+import component.signal.ControlSignal;
+import component.signal.ReturnValue;
 import component.context.DataStack;
 import component.statement.Statement;
 import exception.RTException;
@@ -92,12 +95,19 @@ public class Function implements Executable {
             else
                 return new Value(ValueType.VOID);
 
+        } catch (BreakRequest br){
+            throw new RTException(br.getLine(),br.getPos(),"cannot break outside loop");
+        } catch (ContinueRequest cr){
+            throw new RTException(cr.getLine(),cr.getPos(),"cannot continue outside loop");
         } catch (ReturnValue retValue) {
             Value castedValue = Casting.casting(retValue.getReturnValue(), returnType);
             if (castedValue == null)
                 throw new RTException(retValue.getLine(), retValue.getPos(), String.format("incompatible return type", id.getId()));
             return castedValue;
-        } finally {
+        } catch(ControlSignal cs){
+            throw new RTException("Unknown signal error");
+        }
+        finally {
             context.releaseFrame();
         }
     }

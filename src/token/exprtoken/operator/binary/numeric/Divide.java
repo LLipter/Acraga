@@ -1,6 +1,6 @@
 package token.exprtoken.operator.binary.numeric;
 
-import component.ReturnValue;
+import component.signal.ControlSignal;
 import component.context.DataStack;
 import exception.RTException;
 import token.exprtoken.Value;
@@ -20,7 +20,7 @@ public class Divide extends BinaryOperator {
     }
 
     @Override
-    public Value execute(DataStack context) throws RTException, ReturnValue {
+    public Value execute(DataStack context) throws RTException, ControlSignal {
         Value lvalue = lChild.execute(context);
         Value rvalue = rChild.execute(context);
 

@@ -1,6 +1,8 @@
 package component.statement;
 
-import component.ReturnValue;
+import component.signal.BreakRequest;
+import component.signal.ContinueRequest;
+import component.signal.ControlSignal;
 import component.context.DataStack;
 import exception.RTException;
 import token.exprtoken.ExpressionToken;
@@ -43,7 +45,7 @@ public class For extends Loop {
     }
 
     @Override
-    public Value execute(DataStack context) throws RTException, ReturnValue {
+    public Value execute(DataStack context) throws RTException, ControlSignal {
         try {
             context.createFrame();
             if (definition != null)
@@ -68,6 +70,19 @@ public class For extends Loop {
                     context.createFrame();
                     for (Statement s : loopStatements)
                         s.execute(context);
+                    if (incr != null)
+                        incr.execute(context);
+                    if (condition != null) {
+                        cond = condition.execute(context);
+                        castedValue = Casting.casting(cond, ValueType.BOOLEAN);
+                        if (castedValue == null)
+                            throw new RTException(condition.getLines(), condition.getPos(), "condition not compatible with boolean type");
+                    }
+                }
+                catch(BreakRequest br){
+                    break;
+                }
+                catch(ContinueRequest cr){
                     if (incr != null)
                         incr.execute(context);
                     if (condition != null) {

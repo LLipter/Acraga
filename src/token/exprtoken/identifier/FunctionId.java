@@ -1,6 +1,6 @@
 package token.exprtoken.identifier;
 
-import component.ReturnValue;
+import component.signal.ControlSignal;
 import component.context.DataStack;
 import component.function.Function;
 import component.function.FunctionSignature;
@@ -26,7 +26,7 @@ public class FunctionId extends Identifier {
     }
 
     @Override
-    public Value execute(DataStack context) throws RTException, ReturnValue {
+    public Value execute(DataStack context) throws RTException, ControlSignal {
         ArrayList<Value> arguments = new ArrayList<>();
         for (ExpressionToken para : parameters)
             arguments.add(para.execute(context));

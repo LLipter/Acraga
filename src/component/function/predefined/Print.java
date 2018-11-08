@@ -3,6 +3,7 @@ package component.function.predefined;
 import component.context.DataStack;
 import component.function.Function;
 import component.function.FunctionSignature;
+import component.signal.ControlSignal;
 import exception.RTException;
 import token.exprtoken.Value;
 import token.exprtoken.identifier.Identifier;

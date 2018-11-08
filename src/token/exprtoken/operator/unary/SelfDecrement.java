@@ -1,6 +1,6 @@
 package token.exprtoken.operator.unary;
 
-import component.ReturnValue;
+import component.signal.ControlSignal;
 import component.context.DataStack;
 import exception.RTException;
 import token.exprtoken.Value;
@@ -17,7 +17,7 @@ public class SelfDecrement extends UnaryOperator {
     }
 
     @Override
-    public Value execute(DataStack context) throws RTException, ReturnValue {
+    public Value execute(DataStack context) throws RTException, ControlSignal {
         Value value = child.execute(context);
         if (value.isVoid())
             throw new RTException(getLines(), getPos(), "void variable is not allowed to do operation");

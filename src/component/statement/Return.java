@@ -1,6 +1,7 @@
 package component.statement;
 
-import component.ReturnValue;
+import component.signal.ControlSignal;
+import component.signal.ReturnValue;
 import component.context.DataStack;
 import exception.RTException;
 import token.exprtoken.ExpressionToken;
@@ -42,7 +43,7 @@ public class Return extends Statement {
     }
 
     @Override
-    public Value execute(DataStack context) throws RTException, ReturnValue {
+    public Value execute(DataStack context) throws RTException, ControlSignal {
         Value retValue = returnValue.execute(context);
         ReturnValue v = new ReturnValue(retValue);
         v.setLine(line);

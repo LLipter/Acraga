@@ -1,6 +1,6 @@
 package token.exprtoken.identifier;
 
-import component.ReturnValue;
+import component.signal.ControlSignal;
 import component.context.DataStack;
 import exception.RTException;
 import token.exprtoken.ExpressionToken;
@@ -44,7 +44,7 @@ public class Identifier extends ExpressionToken {
     }
 
     @Override
-    public Value execute(DataStack context) throws RTException, ReturnValue {
+    public Value execute(DataStack context) throws RTException, ControlSignal {
         return context.getValue(this);
     }
 

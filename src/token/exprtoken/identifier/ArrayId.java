@@ -1,6 +1,6 @@
 package token.exprtoken.identifier;
 
-import component.ReturnValue;
+import component.signal.ControlSignal;
 import component.context.DataStack;
 import exception.RTException;
 import token.exprtoken.ExpressionToken;
@@ -37,7 +37,7 @@ public class ArrayId extends Identifier {
     }
 
     @Override
-    public Value execute(DataStack context) throws RTException, ReturnValue {
+    public Value execute(DataStack context) throws RTException, ControlSignal {
         Value idx = index.execute(context);
         if (!idx.isInt())
             throw new RTException(getLines(), getPos(), "only integer can be used as index");

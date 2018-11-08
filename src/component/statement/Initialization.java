@@ -1,6 +1,6 @@
 package component.statement;
 
-import component.ReturnValue;
+import component.signal.ControlSignal;
 import component.context.DataStack;
 import exception.RTException;
 import token.exprtoken.ExpressionToken;
@@ -51,7 +51,7 @@ public class Initialization extends Statement implements Iterable<ExpressionToke
     }
 
     @Override
-    public Value execute(DataStack context) throws RTException, ReturnValue {
+    public Value execute(DataStack context) throws RTException, ControlSignal {
         if (id instanceof FunctionId)
             throw new RTException(id.getLines(), id.getPos(), "function identifier cannot be used to declare an array");
         // declare an array

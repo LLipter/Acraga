@@ -10,5 +10,7 @@ public enum KeywordType {
     BOOL,
     STRING,
     VOID,
-    RETURN
+    RETURN,
+    BREAK,
+    CONTINUE
 }

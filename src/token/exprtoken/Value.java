@@ -1,6 +1,7 @@
 package token.exprtoken;
 
 import component.context.DataStack;
+import component.signal.ControlSignal;
 import exception.RTException;
 import type.TokenType;
 import type.ValueType;
@@ -130,7 +131,7 @@ public class Value extends ExpressionToken {
     }
 
     @Override
-    public Value execute(DataStack context) throws RTException {
+    public Value execute(DataStack context) throws RTException, ControlSignal {
         return this;
     }
 

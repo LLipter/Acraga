@@ -1,6 +1,6 @@
 package token.exprtoken.operator.binary.numeric;
 
-import component.ReturnValue;
+import component.signal.ControlSignal;
 import component.context.DataStack;
 import exception.RTException;
 import token.exprtoken.Value;
@@ -21,7 +21,7 @@ public class MultiplyAssign extends BinaryOperator {
     }
 
     @Override
-    public Value execute(DataStack context) throws RTException, ReturnValue {
+    public Value execute(DataStack context) throws RTException, ControlSignal {
         if (lChild.getTokenType() != TokenType.IDENTIFIER)
             throw new RTException(getLines(), getPos(), "left value required");
         Value rvalue = rChild.execute(context);

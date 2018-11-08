@@ -585,6 +585,28 @@ public class Parser {
         return fStatement;
     }
 
+    private Break detectBreak() throws SyntaxException {
+        Break bStatement = new Break();
+        bStatement.setLine(line);
+        bStatement.setPos(pos);
+        if(!detectKeyword(KeywordType.BREAK))
+            return null;
+        if(!detectSeparator(SeparatorType.SEMICOLON))
+            throwException("missing semicolon");
+        return bStatement;
+    }
+
+    private Continue detectContinue() throws SyntaxException {
+        Continue cStatement = new Continue();
+        cStatement.setLine(line);
+        cStatement.setPos(pos);
+        if(!detectKeyword(KeywordType.CONTINUE))
+            return null;
+        if(!detectSeparator(SeparatorType.SEMICOLON))
+            throwException("missing semicolon");
+        return cStatement;
+    }
+
     private Return detectReturn() throws SyntaxException {
         Return rStatement = new Return();
         rStatement.setLine(line);
@@ -623,6 +645,14 @@ public class Parser {
         For fStatement = detectFor();
         if (fStatement != null)
             return fStatement;
+
+        Break bStatement = detectBreak();
+        if (bStatement != null)
+            return bStatement;
+
+        Continue cStatement = detectContinue();
+        if(cStatement != null)
+            return cStatement;
 
         Return rStatement = detectReturn();
         if (rStatement != null)
