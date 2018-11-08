@@ -328,7 +328,7 @@ void testRead(){
 19. ** 支持函数指针以及lambda表达式
 20. 考虑如何定义参数可变的函数，这点和传递数组类型的变量共同是实现类似printf函数的基础
 21. 在detectExpression中做更加细致的判断，判断哪种和哪种token是不可能连在一起的，以此抛出潜在的缺乏分号的错误。
-22. 加入break, continue语法
+22. 加入break, continue语法 ——(✔️)
 23. 加入switch case语法
 
 
