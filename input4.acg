@@ -1,7 +1,15 @@
 int main(){
-    print("write sth from keyboard \n");
-    double input = readDecimal();
-    double a = input - 99.99;
-    print(a);
+    //print("write 1st num from keyboard \n");
+    double a = -18.0000;
+    double b = -17.0;
+    double c = max(a,abs(b));
+    print("bigger one:");
+    println(c);
+    int x = readInt();
+    int y = readInt();
+    int z = min(x,y);
+    print("smaller one:");
+    println(z);
+
     return 0;
 }
