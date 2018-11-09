@@ -1,12 +1,14 @@
 package main;
 
+import component.function.predefined.math.abs;
+import component.function.predefined.math.max;
+import component.function.predefined.math.min;
 import component.signal.*;
 import component.context.DataStack;
 import component.function.Function;
 import component.function.FunctionSignature;
-import component.function.predefined.Print;
 import component.statement.Statement;
-import component.function.predefined.*;
+import component.function.predefined.io.*;
 import exception.AcragaException;
 import exception.RTException;
 import token.exprtoken.Value;
@@ -142,6 +144,19 @@ public class Interpreter {
         funcMap.put(readInt.getFunctionSignature(), readInt);
         ReadDecimal readDecimal = new ReadDecimal();
         funcMap.put(readDecimal.getFunctionSignature(), readDecimal);
+
+        abs absInt = new abs(ValueType.INTEGER);
+        funcMap.put(absInt.getFunctionSignature(), absInt);
+        abs absDouble = new abs(ValueType.DOUBLE);
+        funcMap.put(absDouble.getFunctionSignature(), absDouble);
+        max maxInt = new max(ValueType.INTEGER, ValueType.INTEGER);
+        funcMap.put(maxInt.getFunctionSignature(), maxInt);
+        max maxDouble = new max(ValueType.DOUBLE, ValueType.DOUBLE);
+        funcMap.put(maxDouble.getFunctionSignature(), maxDouble);
+        min minInt = new min(ValueType.INTEGER, ValueType.INTEGER);
+        funcMap.put(minInt.getFunctionSignature(), minInt);
+        min minDouble = new min(ValueType.DOUBLE, ValueType.DOUBLE);
+        funcMap.put(minDouble.getFunctionSignature(), minDouble);
 
         return funcMap;
     }
