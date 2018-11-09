@@ -1,8 +1,7 @@
-package component.function.predefined;
+package component.function.predefined.io;
 
 import component.context.DataStack;
 import component.function.Function;
-import component.signal.ControlSignal;
 import exception.RTException;
 import token.exprtoken.Value;
 import token.exprtoken.identifier.Identifier;
@@ -20,14 +19,14 @@ public class ReadBool extends Function {
     public Value execute(DataStack context) throws RTException {
         Scanner sc = new Scanner(System.in);
         Boolean bool = false;
-        while (sc.hasNextLine()) {
+        while (sc.hasNext()) {
             if (sc.hasNextBoolean()) {
                 bool = sc.nextBoolean();
                 break;
             }
             sc.next();
         }
-        sc.close();
+        //sc.close();
         Value value = new Value(ValueType.BOOLEAN);
         value.setBoolValue(bool);
         return value;

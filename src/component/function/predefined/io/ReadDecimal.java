@@ -1,31 +1,35 @@
-package component.function.predefined;
+package component.function.predefined.io;
 
 import component.context.DataStack;
 import component.function.Function;
-import component.signal.ControlSignal;
 import exception.RTException;
 import token.exprtoken.Value;
 import token.exprtoken.identifier.Identifier;
 import type.ValueType;
 
+import java.math.BigDecimal;
 import java.util.Scanner;
 
-public class Read extends Function {
+public class ReadDecimal extends Function {
 
-    public Read() {
-        super(new Identifier("read"), ValueType.STRING);
+    public ReadDecimal() {
+        super(new Identifier("readDecimal"), ValueType.DOUBLE);
     }
 
     @Override
     public Value execute(DataStack context) throws RTException {
         Scanner sc = new Scanner(System.in);
-        String msg = "";
-        if (sc.hasNext()) {
-            msg = sc.next();
+        BigDecimal bigDecimal = new BigDecimal("0.0");
+        while (sc.hasNext()) {
+            if (sc.hasNextBigDecimal()) {
+                bigDecimal = sc.nextBigDecimal();
+                break;
+            }
+            sc.next();
         }
-        sc.close();
-        Value value = new Value(ValueType.STRING);
-        value.setStringValue(msg);
+        //sc.close();
+        Value value = new Value(ValueType.DOUBLE);
+        value.setDoubleValue(bigDecimal);
         return value;
     }
 
@@ -36,6 +40,4 @@ public class Read extends Function {
         System.out.println(String.format("[Return Type] %s", returnType));
         System.out.println("[End of Function]");
     }
-
-
 }
