@@ -36,6 +36,6 @@ public class Continue extends Statement{
 
     @Override
     public void print(int indent){
-
+        printWithIndent(indent, "[Continue Statement]");
     }
 }

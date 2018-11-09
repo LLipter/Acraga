@@ -12,3 +12,8 @@ void main(){
         println(fibonacci(i));
     }
 }
+
+
+int i;
+int j=1
+double c=1;

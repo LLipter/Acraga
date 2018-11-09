@@ -37,6 +37,6 @@ public class Break extends Statement {
 
     @Override
     public void print(int indent){
-
+        printWithIndent(indent, "[Break Statement]");
     }
 }

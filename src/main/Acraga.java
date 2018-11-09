@@ -19,7 +19,7 @@ public class Acraga {
 //        interpreter.interpretProgram();
 
         // simple way to do it
-        Interpreter.interpretProgram("input3.acg");
+        Interpreter.interpretProgram("input2.acg");
 
 
         // test for interpret expression

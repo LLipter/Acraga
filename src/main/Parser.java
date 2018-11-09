@@ -427,10 +427,6 @@ public class Parser {
     }
 
     private Initialization detectInitialization() throws SyntaxException {
-//        if(!(isDataType()
-//                && (getNextToken() instanceof Identifier)
-//                && (isSeparator(getThirdToken(),SeparatorType.SEMICOLON) || isOperator(getThirdToken(),OperatorType.ASSIGN))))
-//            return null;
         Initialization initialization = new Initialization();
         ValueType dataType = detectDataType();
         if (dataType == null)
