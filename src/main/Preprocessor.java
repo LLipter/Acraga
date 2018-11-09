@@ -319,8 +319,10 @@ public class Preprocessor {
                 i=i.add(BigInteger.ONE);
             }
             Value fractionPart = isDecInteger();
-            if (fractionPart == null)
-                throw new SyntaxException(line, pos, "missing fraction part number");
+            if (fractionPart == null){
+                fractionPart = new Value(ValueType.INTEGER);
+                fractionPart.setIntValue(BigInteger.ZERO);
+            }
             if (getCh() != 'e' && getCh() != 'E' && isIdAlphabet())
                 throw new SyntaxException(line, pos, "invalid float point number");
             BigDecimal fractionValue = new BigDecimal(fractionPart.getIntValue());
