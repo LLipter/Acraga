@@ -27,24 +27,24 @@ public class Value extends ExpressionToken {
         return intValue;
     }
 
-    public void setIntValue(BigInteger intValue) {
-        this.intValue = intValue;
-    }
-
     public void setIntValue(Integer value) {
         intValue = new BigInteger(value.toString());
+    }
+
+    public void setIntValue(BigInteger intValue) {
+        this.intValue = intValue;
     }
 
     public BigDecimal getDoubleValue() {
         return doubleValue;
     }
 
-    public void setDoubleValue(BigDecimal doubleValue) {
-        this.doubleValue = doubleValue;
-    }
-
     public void setDoubleValue(Double value) {
         doubleValue = new BigDecimal(value.toString());
+    }
+
+    public void setDoubleValue(BigDecimal doubleValue) {
+        this.doubleValue = doubleValue;
     }
 
     public boolean getBoolValue() {
@@ -83,7 +83,7 @@ public class Value extends ExpressionToken {
         return valueType == ValueType.VOID;
     }
 
-    public String getValueString(){
+    public String getValueString() {
         if (isInt())
             return intValue.toString();
         if (isDouble())
@@ -91,7 +91,7 @@ public class Value extends ExpressionToken {
         if (isBool())
             return Boolean.toString(boolValue);
         if (isString())
-            return String.format("\"%s\"",stringValue);
+            return String.format("\"%s\"", stringValue);
         if (isVoid())
             return "void";
         return "UnknownValue";

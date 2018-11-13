@@ -46,10 +46,10 @@ public class max extends Function {
             else
                 value1.setIntValue(bigInteger2);
         }
-        if (type1 == ValueType.DOUBLE && type2 == type1){
+        if (type1 == ValueType.DOUBLE && type2 == type1) {
             BigDecimal bigDecimal1 = value1.getDoubleValue();
             BigDecimal bigDecimal2 = value2.getDoubleValue();
-            if(bigDecimal1.compareTo(bigDecimal2) >= 0)
+            if (bigDecimal1.compareTo(bigDecimal2) >= 0)
                 value1.setDoubleValue(bigDecimal1);
             else
                 value1.setDoubleValue(bigDecimal2);

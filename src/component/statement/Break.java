@@ -1,7 +1,7 @@
 package component.statement;
 
-import component.signal.BreakRequest;
 import component.context.DataStack;
+import component.signal.BreakRequest;
 import component.signal.ControlSignal;
 import exception.RTException;
 import token.exprtoken.Value;
@@ -36,7 +36,7 @@ public class Break extends Statement {
     }
 
     @Override
-    public void print(int indent){
+    public void print(int indent) {
         printWithIndent(indent, "[Break Statement]");
     }
 }

@@ -1,7 +1,7 @@
 package token.exprtoken.operator.binary.bitwise;
 
-import component.signal.ControlSignal;
 import component.context.DataStack;
+import component.signal.ControlSignal;
 import exception.RTException;
 import token.exprtoken.Value;
 import token.exprtoken.operator.binary.BinaryOperator;

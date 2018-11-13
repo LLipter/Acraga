@@ -6,7 +6,7 @@ import component.signal.ControlSignal;
 import exception.RTException;
 import token.exprtoken.Value;
 
-public class Continue extends Statement{
+public class Continue extends Statement {
     private int line;
     private int pos;
 
@@ -35,7 +35,7 @@ public class Continue extends Statement{
     }
 
     @Override
-    public void print(int indent){
+    public void print(int indent) {
         printWithIndent(indent, "[Continue Statement]");
     }
 }

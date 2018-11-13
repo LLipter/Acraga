@@ -1,9 +1,9 @@
 package component.statement;
 
+import component.context.DataStack;
 import component.signal.BreakRequest;
 import component.signal.ContinueRequest;
 import component.signal.ControlSignal;
-import component.context.DataStack;
 import exception.RTException;
 import token.exprtoken.Value;
 import type.Casting;
@@ -32,17 +32,16 @@ public class While extends Loop {
                     castedValue = Casting.casting(cond, ValueType.BOOLEAN);
                     if (castedValue == null)
                         throw new RTException(condition.getLines(), condition.getPos(), "condition not compatible with boolean type");
-                } catch(BreakRequest br){
+                } catch (BreakRequest br) {
                     break;
-                } catch(ContinueRequest cr){
+                } catch (ContinueRequest cr) {
                     cond = condition.execute(context);
                     castedValue = Casting.casting(cond, ValueType.BOOLEAN);
                     if (castedValue == null)
                         throw new RTException(condition.getLines(), condition.getPos(), "condition not compatible with boolean type");
                 }
             }
-        }
-        finally {
+        } finally {
             context.releaseFrame();
         }
         // always return void

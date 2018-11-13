@@ -2,37 +2,36 @@ package component.function.predefined.io;
 
 import component.context.DataStack;
 import component.function.Function;
-import component.signal.ControlSignal;
 import exception.RTException;
 import token.exprtoken.Value;
 import token.exprtoken.identifier.Identifier;
 import type.ValueType;
 
-
 import java.util.HashMap;
-import java.util.Scanner;
 import java.util.InputMismatchException;
+import java.util.Scanner;
 
 public class Read extends Function {
 
-    private ValueType readType = null;
     private static Scanner sc = new Scanner(System.in);
-    private static HashMap<ValueType,String> functionNameDict;
+    private static HashMap<ValueType, String> functionNameDict;
 
-    static{
+    static {
         functionNameDict = new HashMap<>();
-        functionNameDict.put(ValueType.INTEGER,"Int");
-        functionNameDict.put(ValueType.DOUBLE,"Double");
-        functionNameDict.put(ValueType.BOOLEAN,"Bool");
-        functionNameDict.put(ValueType.STRING,"String");
+        functionNameDict.put(ValueType.INTEGER, "Int");
+        functionNameDict.put(ValueType.DOUBLE, "Double");
+        functionNameDict.put(ValueType.BOOLEAN, "Bool");
+        functionNameDict.put(ValueType.STRING, "String");
     }
+
+    private ValueType readType = null;
 
     // readline
     public Read() {
         super(new Identifier("readLine"), ValueType.STRING);
     }
 
-    public Read(ValueType type){
+    public Read(ValueType type) {
         super(new Identifier("read" + functionNameDict.get(type)), type);
         readType = type;
     }
@@ -63,7 +62,7 @@ public class Read extends Function {
                         break;
                 }
             }
-        } catch (InputMismatchException e){
+        } catch (InputMismatchException e) {
             throw new RTException("not compatible input data");
         }
 

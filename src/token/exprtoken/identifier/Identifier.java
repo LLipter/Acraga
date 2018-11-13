@@ -1,7 +1,7 @@
 package token.exprtoken.identifier;
 
-import component.signal.ControlSignal;
 import component.context.DataStack;
+import component.signal.ControlSignal;
 import exception.RTException;
 import token.exprtoken.ExpressionToken;
 import token.exprtoken.Value;

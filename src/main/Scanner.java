@@ -13,12 +13,7 @@ import token.exprtoken.operator.binary.comparison.*;
 import token.exprtoken.operator.binary.logical.LogicalAnd;
 import token.exprtoken.operator.binary.logical.LogicalOr;
 import token.exprtoken.operator.binary.numeric.*;
-import token.exprtoken.operator.unary.BitwiseNegate;
-import token.exprtoken.operator.unary.LogicalNot;
-import token.exprtoken.operator.unary.NegativeSign;
-import token.exprtoken.operator.unary.PositiveSign;
-import token.exprtoken.operator.unary.SelfIncrement;
-import token.exprtoken.operator.unary.SelfDecrement;
+import token.exprtoken.operator.unary.*;
 import type.KeywordType;
 import type.SeparatorType;
 
@@ -156,7 +151,7 @@ public class Scanner {
                     && ((Separator) tokens.getLast()).getSeparatorType() != SeparatorType.RIGHTBRACKET
                     && ((Separator) tokens.getLast()).getSeparatorType() != SeparatorType.RIGHTBRACE)
                 op = new PositiveSign();
-            else if ((tokens.getLast() instanceof Keyword) && ((Keyword)tokens.getLast()).getKeywordType()==KeywordType.RETURN)
+            else if ((tokens.getLast() instanceof Keyword) && ((Keyword) tokens.getLast()).getKeywordType() == KeywordType.RETURN)
                 op = new PositiveSign();
             else
                 op = new Add();
@@ -168,7 +163,7 @@ public class Scanner {
                     && ((Separator) tokens.getLast()).getSeparatorType() != SeparatorType.RIGHTBRACKET
                     && ((Separator) tokens.getLast()).getSeparatorType() != SeparatorType.RIGHTBRACE)
                 op = new NegativeSign();
-            else if ((tokens.getLast() instanceof Keyword) && ((Keyword)tokens.getLast()).getKeywordType()==KeywordType.RETURN)
+            else if ((tokens.getLast() instanceof Keyword) && ((Keyword) tokens.getLast()).getKeywordType() == KeywordType.RETURN)
                 op = new NegativeSign();
             else
                 op = new Subtract();
@@ -291,8 +286,8 @@ public class Scanner {
         return tokens.get(1);
     }
 
-    public Token getThirdToken(){
-        if(tokens.size() < 3)
+    public Token getThirdToken() {
+        if (tokens.size() < 3)
             return null;
         return tokens.get(2);
     }

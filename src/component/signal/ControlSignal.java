@@ -3,6 +3,7 @@ package component.signal;
 public abstract class ControlSignal extends Throwable {
     private int line;
     private int pos;
+
     public int getLine() {
         return line;
     }

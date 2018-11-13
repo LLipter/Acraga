@@ -1,18 +1,18 @@
 package token.exprtoken.operator.unary;
 
-import component.signal.ControlSignal;
 import component.context.DataStack;
+import component.signal.ControlSignal;
 import exception.RTException;
 import token.exprtoken.Value;
 import type.Casting;
 import type.OperatorType;
 import type.ValueType;
 
-public class CastOperator extends UnaryOperator{
+public class CastOperator extends UnaryOperator {
     private ValueType desType;
 
-    public CastOperator(){
-        operatorType=OperatorType.CASTING;
+    public CastOperator() {
+        operatorType = OperatorType.CASTING;
     }
 
     public ValueType getDesType() {
@@ -29,6 +29,6 @@ public class CastOperator extends UnaryOperator{
         //if(value == null)
         //    throw new RTException(getLines(), getPos(), "void variable is not allowed to do operation");
         //TODO:add this in casting.
-        return Casting.casting(value,desType);
+        return Casting.casting(value, desType);
     }
 }

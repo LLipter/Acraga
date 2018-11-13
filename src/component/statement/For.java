@@ -1,9 +1,9 @@
 package component.statement;
 
+import component.context.DataStack;
 import component.signal.BreakRequest;
 import component.signal.ContinueRequest;
 import component.signal.ControlSignal;
-import component.context.DataStack;
 import exception.RTException;
 import token.exprtoken.ExpressionToken;
 import token.exprtoken.Value;
@@ -32,8 +32,9 @@ public class For extends Loop {
     public Initialization getInitialization() {
         return definition;
     }
-    public void setInitialization(Initialization definition){
-        this.definition=definition;
+
+    public void setInitialization(Initialization definition) {
+        this.definition = definition;
     }
 
     public ExpressionToken getIncr() {
@@ -78,11 +79,9 @@ public class For extends Loop {
                         if (castedValue == null)
                             throw new RTException(condition.getLines(), condition.getPos(), "condition not compatible with boolean type");
                     }
-                }
-                catch(BreakRequest br){
+                } catch (BreakRequest br) {
                     break;
-                }
-                catch(ContinueRequest cr){
+                } catch (ContinueRequest cr) {
                     if (incr != null)
                         incr.execute(context);
                     if (condition != null) {
@@ -91,13 +90,11 @@ public class For extends Loop {
                         if (castedValue == null)
                             throw new RTException(condition.getLines(), condition.getPos(), "condition not compatible with boolean type");
                     }
-                }
-                finally {
+                } finally {
                     context.releaseFrame();
                 }
             }
-        }
-        finally {
+        } finally {
             context.releaseFrame();
         }
         // always return void
@@ -108,7 +105,7 @@ public class For extends Loop {
     public void print(int indent) {
         printWithIndent(indent, "[For Statement]");
         printWithIndent(indent, "[Initialization Statement]");
-        if(definition != null)
+        if (definition != null)
             definition.print(indent + 4);
         else
             init.print(indent + 4);

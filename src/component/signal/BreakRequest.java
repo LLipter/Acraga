@@ -1,5 +1,5 @@
 package component.signal;
 
-public class BreakRequest extends ControlSignal{
+public class BreakRequest extends ControlSignal {
 
 }

@@ -34,7 +34,7 @@ public class Parser {
     public Parser(Scanner scanner) throws SyntaxException {
         this.scanner = scanner;
         functionMap = new HashMap<FunctionSignature, Function>();
-        globalStatements=new LinkedList<>();
+        globalStatements = new LinkedList<>();
         updateLinePos();
     }
 
@@ -50,9 +50,9 @@ public class Parser {
         while (!scanner.iseof()) {
             //detect functions
             Function function = detectFunction();
-            if(function!=null) {
+            if (function != null) {
                 //locate main function
-                if(function.getFunctionSignature().equals(FunctionSignature.mainFunctionSignature))
+                if (function.getFunctionSignature().equals(FunctionSignature.mainFunctionSignature))
                     globalStatements.addLast(null);
                 //add functions to function map
                 if (functionMap.containsKey(function.getFunctionSignature()))
@@ -61,8 +61,8 @@ public class Parser {
                 continue;
             }
             //detect global statements
-            Statement statement=detectStatement();
-            if(statement!=null)
+            Statement statement = detectStatement();
+            if (statement != null)
                 globalStatements.addLast(statement);
         }
     }
@@ -78,8 +78,9 @@ public class Parser {
     private Token getNextToken() {
         return scanner.getNextToken();
     }
+
     //for function detection
-    private Token getThirdToken(){
+    private Token getThirdToken() {
         return scanner.getThirdToken();
     }
 
@@ -91,7 +92,7 @@ public class Parser {
         return functionMap;
     }
 
-    public LinkedList<Statement> getGlobalStatements(){
+    public LinkedList<Statement> getGlobalStatements() {
         return globalStatements;
     }
 
@@ -198,15 +199,15 @@ public class Parser {
     }
 
     // check whether current token is a data type
-    private boolean isDataType(){
+    private boolean isDataType() {
         Token token = getToken();
-        if(token == null)
+        if (token == null)
             return false;
         if (token.getTokenType() != TokenType.KEYWORD)
             return false;
         Keyword keyword = (Keyword) token;
         ValueType result = Casting.keywordType2ValueType(keyword.getKeywordType());
-        if(result == null)
+        if (result == null)
             return false;
         return true;
     }
@@ -308,8 +309,8 @@ public class Parser {
             Token tk = getToken();
             if (detectSeparator(SeparatorType.LEFTPARENTHESES)) {
                 //add explicit casting here
-                if(isDataType() && isSeparator(getNextToken(),SeparatorType.RIGHTPARENTHESES)){
-                    Token typeTk=getToken();
+                if (isDataType() && isSeparator(getNextToken(), SeparatorType.RIGHTPARENTHESES)) {
+                    Token typeTk = getToken();
                     CastOperator castOp = new CastOperator();
                     castOp.setDesType(detectDataType());
                     castOp.setLines(typeTk.getLines());
@@ -442,8 +443,7 @@ public class Parser {
             initialization.setValue(detectExpression());
             if (!detectSeparator(SeparatorType.SEMICOLON))
                 throwException("missing semicolon");
-        }
-        else if (detectSeparator(SeparatorType.LEFTBRACKET)) {
+        } else if (detectSeparator(SeparatorType.LEFTBRACKET)) {
             // array initialization statement
             ArrayId aid = new ArrayId();
             aid.setDataType(dataType);
@@ -499,7 +499,7 @@ public class Parser {
                 }
                 if (!detectSeparator(SeparatorType.RIGHTBRACE))
                     throwException("missing right brace");
-                if(!detectSeparator(SeparatorType.SEMICOLON))
+                if (!detectSeparator(SeparatorType.SEMICOLON))
                     throwException("missing semicolon");
             }
         } else
@@ -557,8 +557,8 @@ public class Parser {
             return null;
         if (!detectSeparator(SeparatorType.LEFTPARENTHESES))
             throwException("missing left parentheses");
-        Initialization definition=detectInitialization();
-        if(definition != null)
+        Initialization definition = detectInitialization();
+        if (definition != null)
             fStatement.setInitialization(definition);
         else {
             ExpressionToken init = detectExpression();
@@ -585,9 +585,9 @@ public class Parser {
         Break bStatement = new Break();
         bStatement.setLine(line);
         bStatement.setPos(pos);
-        if(!detectKeyword(KeywordType.BREAK))
+        if (!detectKeyword(KeywordType.BREAK))
             return null;
-        if(!detectSeparator(SeparatorType.SEMICOLON))
+        if (!detectSeparator(SeparatorType.SEMICOLON))
             throwException("missing semicolon");
         return bStatement;
     }
@@ -596,9 +596,9 @@ public class Parser {
         Continue cStatement = new Continue();
         cStatement.setLine(line);
         cStatement.setPos(pos);
-        if(!detectKeyword(KeywordType.CONTINUE))
+        if (!detectKeyword(KeywordType.CONTINUE))
             return null;
-        if(!detectSeparator(SeparatorType.SEMICOLON))
+        if (!detectSeparator(SeparatorType.SEMICOLON))
             throwException("missing semicolon");
         return cStatement;
     }
@@ -647,7 +647,7 @@ public class Parser {
             return bStatement;
 
         Continue cStatement = detectContinue();
-        if(cStatement != null)
+        if (cStatement != null)
             return cStatement;
 
         Return rStatement = detectReturn();
@@ -690,9 +690,9 @@ public class Parser {
 
 
     private Function detectFunction() throws SyntaxException {
-        if(!(isDataType()
+        if (!(isDataType()
                 && (getNextToken() instanceof Identifier)
-                && isSeparator(getThirdToken(),SeparatorType.LEFTPARENTHESES)))
+                && isSeparator(getThirdToken(), SeparatorType.LEFTPARENTHESES)))
             return null;
 
         Function function;

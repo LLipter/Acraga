@@ -1,11 +1,11 @@
 package component.function;
 
 import component.Executable;
+import component.context.DataStack;
 import component.signal.BreakRequest;
 import component.signal.ContinueRequest;
 import component.signal.ControlSignal;
 import component.signal.ReturnValue;
-import component.context.DataStack;
 import component.statement.Statement;
 import exception.RTException;
 import token.exprtoken.Value;
@@ -29,7 +29,7 @@ public class Function implements Executable {
         returnType = type;
     }
 
-    public Function(){
+    public Function() {
 
     }
 
@@ -37,12 +37,8 @@ public class Function implements Executable {
         return id;
     }
 
-    public void setId(Identifier id){
-        this.id=id;
-    }
-
-    public void setFunctionSignature(FunctionSignature fs){
-        functionSignature=fs;
+    public void setId(Identifier id) {
+        this.id = id;
     }
 
     public ArrayList<Value> getArguments() {
@@ -59,6 +55,10 @@ public class Function implements Executable {
 
     public FunctionSignature getFunctionSignature() {
         return functionSignature;
+    }
+
+    public void setFunctionSignature(FunctionSignature fs) {
+        functionSignature = fs;
     }
 
     public ValueType getReturnType() {
@@ -87,7 +87,7 @@ public class Function implements Executable {
                 s.execute(context);
             }
             //main
-            if(functionSignature.equals(FunctionSignature.mainFunctionSignature) && returnType==ValueType.VOID)
+            if (functionSignature.equals(FunctionSignature.mainFunctionSignature) && returnType == ValueType.VOID)
                 return new Value(ValueType.INTEGER);
             // no return statement meet
             if (returnType != ValueType.VOID)
@@ -95,19 +95,18 @@ public class Function implements Executable {
             else
                 return new Value(ValueType.VOID);
 
-        } catch (BreakRequest br){
-            throw new RTException(br.getLine(),br.getPos(),"cannot break outside loop");
-        } catch (ContinueRequest cr){
-            throw new RTException(cr.getLine(),cr.getPos(),"cannot continue outside loop");
+        } catch (BreakRequest br) {
+            throw new RTException(br.getLine(), br.getPos(), "cannot break outside loop");
+        } catch (ContinueRequest cr) {
+            throw new RTException(cr.getLine(), cr.getPos(), "cannot continue outside loop");
         } catch (ReturnValue retValue) {
             Value castedValue = Casting.casting(retValue.getReturnValue(), returnType);
             if (castedValue == null)
                 throw new RTException(retValue.getLine(), retValue.getPos(), String.format("incompatible return type", id.getId()));
             return castedValue;
-        } catch(ControlSignal cs){
+        } catch (ControlSignal cs) {
             throw new RTException("Unknown signal error");
-        }
-        finally {
+        } finally {
             context.releaseFrame();
         }
     }

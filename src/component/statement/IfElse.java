@@ -1,7 +1,7 @@
 package component.statement;
 
-import component.signal.ControlSignal;
 import component.context.DataStack;
+import component.signal.ControlSignal;
 import exception.RTException;
 import token.exprtoken.ExpressionToken;
 import token.exprtoken.Value;
@@ -61,8 +61,7 @@ public class IfElse extends Statement {
                 for (Statement s : elseBranch)
                     s.execute(context);
             }
-        }
-        finally {
+        } finally {
             context.releaseFrame();
         }
         // always return void

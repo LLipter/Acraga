@@ -1,14 +1,18 @@
 package main;
 
-import component.function.predefined.math.abs;
-import component.function.predefined.math.max;
-import component.function.predefined.math.min;
-import component.signal.*;
 import component.context.DataStack;
 import component.function.Function;
 import component.function.FunctionSignature;
+import component.function.predefined.io.Print;
+import component.function.predefined.io.Read;
+import component.function.predefined.math.abs;
+import component.function.predefined.math.max;
+import component.function.predefined.math.min;
+import component.signal.BreakRequest;
+import component.signal.ContinueRequest;
+import component.signal.ControlSignal;
+import component.signal.ReturnValue;
 import component.statement.Statement;
-import component.function.predefined.io.*;
 import exception.AcragaException;
 import exception.RTException;
 import token.exprtoken.Value;

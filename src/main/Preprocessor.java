@@ -95,9 +95,9 @@ public class Preprocessor {
                     return;
                 ch_cur = reader.read();
                 ch_next = reader.read();
-                if(ch_cur=='\r') {
+                if (ch_cur == '\r') {
                     ch_cur = ch_next;
-                    ch_next=reader.read();
+                    ch_next = reader.read();
                 }
             }
 
@@ -313,13 +313,13 @@ public class Preprocessor {
         // decimal number
         if (getCh() == '.') {
             next();
-            BigInteger i=BigInteger.ZERO;
-            while(getCh() == '0'){
+            BigInteger i = BigInteger.ZERO;
+            while (getCh() == '0') {
                 next();
-                i=i.add(BigInteger.ONE);
+                i = i.add(BigInteger.ONE);
             }
             Value fractionPart = isDecInteger();
-            if (fractionPart == null){
+            if (fractionPart == null) {
                 fractionPart = new Value(ValueType.INTEGER);
                 fractionPart.setIntValue(BigInteger.ZERO);
             }
@@ -328,9 +328,9 @@ public class Preprocessor {
             BigDecimal fractionValue = new BigDecimal(fractionPart.getIntValue());
             while (fractionValue.compareTo(BigDecimal.ONE) >= 0)
                 fractionValue = fractionValue.divide(BigDecimal.TEN);
-            while(i.compareTo(BigInteger.ZERO)!=0){
-                 fractionValue=fractionValue.divide(BigDecimal.TEN);
-                 i=i.subtract(BigInteger.ONE);
+            while (i.compareTo(BigInteger.ZERO) != 0) {
+                fractionValue = fractionValue.divide(BigDecimal.TEN);
+                i = i.subtract(BigInteger.ONE);
             }
             if (intPart.getIntValue().compareTo(BigInteger.ZERO) > 0)
                 result = result.add(fractionValue);
