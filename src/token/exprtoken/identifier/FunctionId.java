@@ -38,7 +38,13 @@ public class FunctionId extends Identifier {
             throw new RTException(getLines(), getPos(), "undefined function");
         Function func = functionMap.get(functionSignature);
         func.setArguments(arguments);
-        return func.execute(context);
+        Value retValue;
+        try{
+            retValue = func.execute(context);
+        }catch (RTException e){
+            throw new RTException(getLines(), getPos(), e.getMessage());
+        }
+        return retValue;
     }
 
     @Override

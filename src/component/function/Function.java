@@ -86,7 +86,7 @@ public class Function implements Executable {
             for (Statement s : statements) {
                 s.execute(context);
             }
-            //main
+            // main
             if (functionSignature.equals(FunctionSignature.mainFunctionSignature) && returnType == ValueType.VOID)
                 return new Value(ValueType.INTEGER);
             // no return statement meet
