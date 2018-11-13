@@ -39,9 +39,9 @@ public class FunctionId extends Identifier {
         Function func = functionMap.get(functionSignature);
         func.setArguments(arguments);
         Value retValue;
-        try{
+        try {
             retValue = func.execute(context);
-        }catch (RTException e){
+        } catch (RTException e) {
             throw new RTException(getLines(), getPos(), e.getMessage());
         }
         return retValue;
