@@ -69,13 +69,4 @@ public class Read extends Predefined {
         return value;
     }
 
-    @Override
-    public void print() {
-        System.out.println("[Function]");
-        System.out.println(String.format("[Function Signature] %s", functionSignature));
-        System.out.println(String.format("[Return Type] %s", returnType));
-        System.out.println("[End of Function]");
-    }
-
-
 }
