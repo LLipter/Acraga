@@ -1,8 +1,12 @@
 int main(){
 
 
-    string xx = readString();
-    print(xx);
+
+    int a = readInt();
+    int b = readInt();
+    print(min(a,b));
+
+    print(abs(b));
 
     return 0;
 }

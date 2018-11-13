@@ -5,9 +5,9 @@ import component.function.Function;
 import component.function.FunctionSignature;
 import component.function.predefined.io.Print;
 import component.function.predefined.io.Read;
-import component.function.predefined.math.abs;
-import component.function.predefined.math.max;
-import component.function.predefined.math.min;
+import component.function.predefined.math.Abs;
+import component.function.predefined.math.Max;
+import component.function.predefined.math.Min;
 import component.signal.BreakRequest;
 import component.signal.ContinueRequest;
 import component.signal.ControlSignal;
@@ -149,17 +149,17 @@ public class Interpreter {
         Read readString = new Read(ValueType.STRING);
         funcMap.put(readString.getFunctionSignature(), readString);
 
-        abs absInt = new abs(ValueType.INTEGER);
+        Abs absInt = new Abs(ValueType.INTEGER);
         funcMap.put(absInt.getFunctionSignature(), absInt);
-        abs absDouble = new abs(ValueType.DOUBLE);
+        Abs absDouble = new Abs(ValueType.DOUBLE);
         funcMap.put(absDouble.getFunctionSignature(), absDouble);
-        max maxInt = new max(ValueType.INTEGER, ValueType.INTEGER);
+        Max maxInt = new Max(ValueType.INTEGER);
         funcMap.put(maxInt.getFunctionSignature(), maxInt);
-        max maxDouble = new max(ValueType.DOUBLE, ValueType.DOUBLE);
+        Max maxDouble = new Max(ValueType.DOUBLE);
         funcMap.put(maxDouble.getFunctionSignature(), maxDouble);
-        min minInt = new min(ValueType.INTEGER, ValueType.INTEGER);
+        Min minInt = new Min(ValueType.INTEGER);
         funcMap.put(minInt.getFunctionSignature(), minInt);
-        min minDouble = new min(ValueType.DOUBLE, ValueType.DOUBLE);
+        Min minDouble = new Min(ValueType.DOUBLE);
         funcMap.put(minDouble.getFunctionSignature(), minDouble);
 
         return funcMap;

@@ -1,7 +1,7 @@
 package component.function.predefined.io;
 
 import component.context.DataStack;
-import component.function.Function;
+import component.function.predefined.Predefined;
 import exception.RTException;
 import token.exprtoken.Value;
 import token.exprtoken.identifier.Identifier;
@@ -11,7 +11,7 @@ import java.util.HashMap;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
-public class Read extends Function {
+public class Read extends Predefined {
 
     private static Scanner sc = new Scanner(System.in);
     private static HashMap<ValueType, String> functionNameDict;

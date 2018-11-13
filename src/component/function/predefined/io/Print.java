@@ -1,14 +1,14 @@
 package component.function.predefined.io;
 
 import component.context.DataStack;
-import component.function.Function;
 import component.function.FunctionSignature;
+import component.function.predefined.Predefined;
 import exception.RTException;
 import token.exprtoken.Value;
 import token.exprtoken.identifier.Identifier;
 import type.ValueType;
 
-public class Print extends Function {
+public class Print extends Predefined {
     private boolean isNextLine;
     private ValueType type;
 
@@ -57,17 +57,4 @@ public class Print extends Function {
         return new Value(ValueType.VOID);
     }
 
-    @Override
-    public void print() {
-        System.out.println("[Function]");
-        System.out.println(String.format("[Function Signature] %s", functionSignature));
-        System.out.println(String.format("[Return Type] %s", returnType));
-        System.out.println("[Statements]");
-        if (isNextLine)
-            System.out.println("    System.out.println(msg)");
-        else
-            System.out.println("    System.out.print(msg)");
-        System.out.println("[End of Statements]");
-        System.out.println("[End of Function]");
-    }
 }
