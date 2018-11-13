@@ -11,5 +11,8 @@ int main(){
     print("smaller one:");
     println(z);
 
+    bool xx = readBool();
+    print(xx);
+
     return 0;
 }
