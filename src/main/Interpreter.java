@@ -134,16 +134,16 @@ public class Interpreter {
         Print println = new Print(true, ValueType.VOID);
         funcMap.put(println.getFunctionSignature(), println);
 
-        Read read = new Read();
-        funcMap.put(read.getFunctionSignature(), read);
-        ReadLine readLine = new ReadLine();
-        funcMap.put(readLine.getFunctionSignature(), readLine);
-        ReadBool readBool = new ReadBool();
-        funcMap.put(readBool.getFunctionSignature(), readBool);
-        ReadInt readInt = new ReadInt();
+        Read readline = new Read();
+        funcMap.put(readline.getFunctionSignature(), readline);
+        Read readInt = new Read(ValueType.INTEGER);
         funcMap.put(readInt.getFunctionSignature(), readInt);
-        ReadDecimal readDecimal = new ReadDecimal();
-        funcMap.put(readDecimal.getFunctionSignature(), readDecimal);
+        Read readDouble = new Read(ValueType.DOUBLE);
+        funcMap.put(readDouble.getFunctionSignature(), readDouble);
+        Read readBool = new Read(ValueType.BOOLEAN);
+        funcMap.put(readBool.getFunctionSignature(), readBool);
+        Read readString = new Read(ValueType.STRING);
+        funcMap.put(readString.getFunctionSignature(), readString);
 
         abs absInt = new abs(ValueType.INTEGER);
         funcMap.put(absInt.getFunctionSignature(), absInt);

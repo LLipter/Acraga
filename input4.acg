@@ -1,17 +1,7 @@
 int main(){
-    //print("write 1st num from keyboard \n");
-    double a = -18.0000;
-    double b = -17.0;
-    double c = max(a,abs(b));
-    print("bigger one:");
-    println(c);
-    int x = readInt();
-    int y = readInt();
-    int z = min(x,y);
-    print("smaller one:");
-    println(z);
 
-    bool xx = readBool();
+
+    string xx = readString();
     print(xx);
 
     return 0;

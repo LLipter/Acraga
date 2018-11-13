@@ -8,27 +8,65 @@ import token.exprtoken.Value;
 import token.exprtoken.identifier.Identifier;
 import type.ValueType;
 
+
+import java.util.HashMap;
 import java.util.Scanner;
+import java.util.InputMismatchException;
 
 public class Read extends Function {
 
+    private ValueType readType = null;
+    private static Scanner sc = new Scanner(System.in);
+    private static HashMap<ValueType,String> functionNameDict;
 
-
-    public Read() {
-        super(new Identifier("read"), ValueType.STRING);
+    static{
+        functionNameDict = new HashMap<>();
+        functionNameDict.put(ValueType.INTEGER,"Int");
+        functionNameDict.put(ValueType.DOUBLE,"Double");
+        functionNameDict.put(ValueType.BOOLEAN,"Bool");
+        functionNameDict.put(ValueType.STRING,"String");
     }
 
+    // readline
+    public Read() {
+        super(new Identifier("readLine"), ValueType.STRING);
+    }
+
+    public Read(ValueType type){
+        super(new Identifier("read" + functionNameDict.get(type)), type);
+        readType = type;
+    }
 
     @Override
     public Value execute(DataStack context) throws RTException {
         Scanner sc = new Scanner(System.in);
-        String msg = "";
-        if (sc.hasNext()) {
-            msg = sc.next();
+        Value value = null;
+        try {
+            // readline
+            if (readType == null) {
+                value = new Value(ValueType.STRING);
+                value.setStringValue(sc.nextLine());
+            } else {
+                value = new Value(readType);
+                switch (readType) {
+                    case INTEGER:
+                        value.setIntValue(sc.nextBigInteger());
+                        break;
+                    case DOUBLE:
+                        value.setDoubleValue(sc.nextBigDecimal());
+                        break;
+                    case BOOLEAN:
+                        value.setBoolValue(sc.nextBoolean());
+                        break;
+                    case STRING:
+                        value.setStringValue(sc.next());
+                        break;
+                }
+            }
+        } catch (InputMismatchException e){
+            throw new RTException("not compatible input data");
         }
-        //sc.close();
-        Value value = new Value(ValueType.STRING);
-        value.setStringValue(msg);
+
         return value;
     }
 
