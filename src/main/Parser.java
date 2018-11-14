@@ -15,6 +15,8 @@ import token.exprtoken.identifier.Identifier;
 import token.exprtoken.operator.Operator;
 import token.exprtoken.operator.binary.BinaryOperator;
 import token.exprtoken.operator.unary.CastOperator;
+import token.exprtoken.operator.unary.SelfDecrement;
+import token.exprtoken.operator.unary.SelfIncrement;
 import token.exprtoken.operator.unary.UnaryOperator;
 import type.*;
 
@@ -227,6 +229,13 @@ public class Parser {
         return result;
     }
 
+    private boolean isIdentifier() {
+        Token token = getToken();
+        if (token == null)
+            return false;
+        return token instanceof Identifier;
+    }
+
     // check whether current token is a identifier
     private Identifier detectIdentifier() {
         Token token = getToken();
@@ -386,7 +395,23 @@ public class Parser {
                 if (!detectSeparator(SeparatorType.RIGHTPARENTHESES))
                     throw new SyntaxException(tk.getLines(), tk.getPos(), "unmatched left parentheses");
 
+            } else if (isIdentifier() && (isOperator(getNextToken(), OperatorType.SELFINCREMENT))) {
+                SelfIncrement si = (SelfIncrement) getNextToken();
+                si.setPre(false);
+                si.setChild((Identifier) getToken());
+                operandSt.push(si);
+                next();
+                next();
+            } else if (isIdentifier() && (isOperator(getNextToken(), OperatorType.SELFDECREMENT))) {
+                SelfDecrement sd = (SelfDecrement) getNextToken();
+                sd.setPre(false);
+                sd.setChild((Identifier) getToken());
+                operandSt.push(sd);
+                next();
+                next();
             }
+
+
             // Operand(value or identifier)
             else {
                 operandSt.push((ExpressionToken) getToken());
