@@ -36,7 +36,7 @@ public class Break extends Statement {
     }
 
     @Override
-    public void print(int indent) {
-        printWithIndent(indent, "[Break Statement]");
+    public void print(StringBuilder sb, int indent) {
+        printWithIndent(sb, indent, "[Break Statement]");
     }
 }

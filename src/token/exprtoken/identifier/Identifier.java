@@ -49,7 +49,7 @@ public class Identifier extends ExpressionToken {
     }
 
     @Override
-    public void print(int indent) {
-        printWithIndent(indent, this.toString());
+    public void print(StringBuilder sb, int indent) {
+        printWithIndent(sb, indent, this.toString());
     }
 }

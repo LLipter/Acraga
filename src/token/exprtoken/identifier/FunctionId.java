@@ -48,15 +48,15 @@ public class FunctionId extends Identifier {
     }
 
     @Override
-    public void print(int indent) {
-        printWithIndent(indent, String.format("<FunctionId,%s>", id));
-        printWithIndent(indent, "[Arguments]");
+    public void print(StringBuilder sb, int indent) {
+        printWithIndent(sb, indent, String.format("<FunctionId,%s>", id));
+        printWithIndent(sb, indent, "[Arguments]");
         for (int i = 0; i < parameters.size(); i++) {
-            printWithIndent(indent, String.format("[Index %d]", i));
-            parameters.get(i).print(indent + 4);
-            printWithIndent(indent, String.format("[End of Index %d]", i));
+            printWithIndent(sb, indent, String.format("[Index %d]", i));
+            parameters.get(i).print(sb, indent + 4);
+            printWithIndent(sb, indent, String.format("[End of Index %d]", i));
         }
-        printWithIndent(indent, "[End of Arguments]");
+        printWithIndent(sb, indent, "[End of Arguments]");
 
     }
 }

@@ -21,11 +21,11 @@ public abstract class UnaryOperator extends Operator {
     }
 
     @Override
-    public void print(int indent) {
-        printWithIndent(indent, String.format("[UnaryOperator] %s", operatorType));
-        printWithIndent(indent, "[Operand]");
-        child.print(indent + 4);
-        printWithIndent(indent, "[Operand]");
-        printWithIndent(indent, String.format("[End of UnaryOperator] %s", operatorType));
+    public void print(StringBuilder sb, int indent) {
+        printWithIndent(sb, indent, String.format("[UnaryOperator] %s", operatorType));
+        printWithIndent(sb, indent, "[Operand]");
+        child.print(sb, indent + 4);
+        printWithIndent(sb, indent, "[Operand]");
+        printWithIndent(sb, indent, String.format("[End of UnaryOperator] %s", operatorType));
     }
 }

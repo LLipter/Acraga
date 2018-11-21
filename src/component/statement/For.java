@@ -102,24 +102,24 @@ public class For extends Loop {
     }
 
     @Override
-    public void print(int indent) {
-        printWithIndent(indent, "[For Statement]");
-        printWithIndent(indent, "[Initialization Statement]");
+    public void print(StringBuilder sb, int indent) {
+        printWithIndent(sb, indent, "[For Statement]");
+        printWithIndent(sb, indent, "[Initialization Statement]");
         if (definition != null)
-            definition.print(indent + 4);
+            definition.print(sb, indent + 4);
         else
-            init.print(indent + 4);
-        printWithIndent(indent, "[End of Initialization Statement]");
-        printWithIndent(indent, "[Condition Statement]");
-        condition.print(indent + 4);
-        printWithIndent(indent, "[End of Condition Statement]");
-        printWithIndent(indent, "[Increment Statement]");
-        incr.print(indent + 4);
-        printWithIndent(indent, "[End of Increment Statement]");
-        printWithIndent(indent, "[Loop Statement]");
+            init.print(sb, indent + 4);
+        printWithIndent(sb, indent, "[End of Initialization Statement]");
+        printWithIndent(sb, indent, "[Condition Statement]");
+        condition.print(sb, indent + 4);
+        printWithIndent(sb, indent, "[End of Condition Statement]");
+        printWithIndent(sb, indent, "[Increment Statement]");
+        incr.print(sb, indent + 4);
+        printWithIndent(sb, indent, "[End of Increment Statement]");
+        printWithIndent(sb, indent, "[Loop Statement]");
         for (Statement s : loopStatements)
-            s.print(indent + 4);
-        printWithIndent(indent, "[End of Loop Statement]");
-        printWithIndent(indent, "[End of For Statement]");
+            s.print(sb, indent + 4);
+        printWithIndent(sb, indent, "[End of Loop Statement]");
+        printWithIndent(sb, indent, "[End of For Statement]");
     }
 }

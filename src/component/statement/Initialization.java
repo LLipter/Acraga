@@ -75,31 +75,31 @@ public class Initialization extends Statement implements Iterable<ExpressionToke
     }
 
     @Override
-    public void print(int indent) {
-        printWithIndent(indent, "[Initialization Statement]");
-        printWithIndent(indent, String.format("[Data Type] %s", id.getDataType()));
+    public void print(StringBuilder sb, int indent) {
+        printWithIndent(sb, indent, "[Initialization Statement]");
+        printWithIndent(sb, indent, String.format("[Data Type] %s", id.getDataType()));
         if (id instanceof FunctionId) {
-            printWithIndent(indent, "{!!!ILLEGAL FUNCTION IDENTIFIER INITIALIZATION!!!}");
+            printWithIndent(sb, indent, "{!!!ILLEGAL FUNCTION IDENTIFIER INITIALIZATION!!!}");
         } else if (id instanceof ArrayId) {
-            printWithIndent(indent, "[Array Initialization]");
-            printWithIndent(indent, String.format("[ID %s]", id.getId()));
-            printWithIndent(indent, "[Array Length]");
-            ((ArrayId) id).getLength().print(indent + 4);
-            printWithIndent(indent, "[End of Array Length]");
-            printWithIndent(indent, "[Explicitly Initialized Elements]");
+            printWithIndent(sb, indent, "[Array Initialization]");
+            printWithIndent(sb, indent, String.format("[ID %s]", id.getId()));
+            printWithIndent(sb, indent, "[Array Length]");
+            ((ArrayId) id).getLength().print(sb, indent + 4);
+            printWithIndent(sb, indent, "[End of Array Length]");
+            printWithIndent(sb, indent, "[Explicitly Initialized Elements]");
             for (int i = 0; i < elements.size(); i++) {
-                printWithIndent(indent, String.format("[Index %d]", i));
-                elements.get(i).print(indent + 4);
-                printWithIndent(indent, String.format("[End of Index %d]", i));
+                printWithIndent(sb, indent, String.format("[Index %d]", i));
+                elements.get(i).print(sb, indent + 4);
+                printWithIndent(sb, indent, String.format("[End of Index %d]", i));
             }
-            printWithIndent(indent, "[End of Explicitly Initialized Elements]");
+            printWithIndent(sb, indent, "[End of Explicitly Initialized Elements]");
         } else {
-            printWithIndent(indent, "[Simple Variable Initialization]");
-            printWithIndent(indent, String.format("[ID %s]", id.getId()));
-            printWithIndent(indent, "[Value]");
-            value.print(indent + 4);
-            printWithIndent(indent, "[End of Value]");
+            printWithIndent(sb, indent, "[Simple Variable Initialization]");
+            printWithIndent(sb, indent, String.format("[ID %s]", id.getId()));
+            printWithIndent(sb, indent, "[Value]");
+            value.print(sb, indent + 4);
+            printWithIndent(sb, indent, "[End of Value]");
         }
-        printWithIndent(indent, "[End of Initialization Statement]");
+        printWithIndent(sb, indent, "[End of Initialization Statement]");
     }
 }

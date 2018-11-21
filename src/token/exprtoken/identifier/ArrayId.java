@@ -46,14 +46,14 @@ public class ArrayId extends Identifier {
     }
 
     @Override
-    public void print(int indent) {
+    public void print(StringBuilder sb, int indent) {
         if (index != null) {
-            printWithIndent(indent, String.format("<ArrayId,%s>", id));
-            printWithIndent(indent, "[Index]");
-            index.print(indent + 4);
-            printWithIndent(indent, "[End of Index]");
+            printWithIndent(sb, indent, String.format("<ArrayId,%s>", id));
+            printWithIndent(sb, indent, "[Index]");
+            index.print(sb, indent + 4);
+            printWithIndent(sb, indent, "[End of Index]");
         } else {
-            printWithIndent(indent, "{!!!MISSING INDEX!!!}");
+            printWithIndent(sb, indent, "{!!!MISSING INDEX!!!}");
         }
 
     }

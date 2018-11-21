@@ -116,14 +116,16 @@ public class Function implements Executable {
         return String.format("<Function,%s,%s>", returnType, functionSignature);
     }
 
-    public void print() {
-        System.out.println("[Function]");
-        System.out.println(String.format("[Function Signature] %s", functionSignature));
-        System.out.println(String.format("[Return Type] %s", returnType));
-        System.out.println("[Statements]");
+    public StringBuilder print() {
+        StringBuilder sb=new StringBuilder();
+        sb.append("[Function]\n");
+        sb.append(String.format("[Function Signature] %s\n", functionSignature));
+        sb.append(String.format("[Return Type] %s\n", returnType));
+        sb.append("[Statements]\n");
         for (Statement s : statements)
-            s.print(4);
-        System.out.println("[End of Statements]");
-        System.out.println("[End of Function]");
+            s.print(sb,4);
+        sb.append("[End of Statements]\n");
+        sb.append("[End of Function]\n");
+        return sb;
     }
 }

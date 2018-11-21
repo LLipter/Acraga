@@ -8,15 +8,14 @@ public abstract class Statement implements Executable {
 
     protected StatementType statementType;
 
-    protected static void printWithIndent(int number, String msg) {
-        StringBuffer sb = new StringBuffer();
+    protected static void printWithIndent(StringBuilder sb, int number, String msg) {
         for (int i = 0; i < number; i++)
             sb.append(" ");
         sb.append(msg);
-        System.out.println(sb.toString());
+        sb.append("\n");
     }
 
-    public abstract void print(int indent);
+    public abstract void print(StringBuilder sb, int indent);
 
 
 }

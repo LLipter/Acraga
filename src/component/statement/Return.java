@@ -52,9 +52,9 @@ public class Return extends Statement {
     }
 
     @Override
-    public void print(int indent) {
-        printWithIndent(indent, "[Return Statement]");
-        returnValue.print(indent + 4);
-        printWithIndent(indent, "[End of Return Statement]");
+    public void print(StringBuilder sb, int indent) {
+        printWithIndent(sb, indent, "[Return Statement]");
+        returnValue.print(sb, indent + 4);
+        printWithIndent(sb, indent, "[End of Return Statement]");
     }
 }

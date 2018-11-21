@@ -30,14 +30,14 @@ public abstract class BinaryOperator extends Operator {
     }
 
     @Override
-    public void print(int indent) {
-        printWithIndent(indent, String.format("[BinaryOperator] %s", operatorType));
-        printWithIndent(indent, "[Left Operand]");
-        lChild.print(indent + 4);
-        printWithIndent(indent, "[End of Left Operand]");
-        printWithIndent(indent, "[Right Operand]");
-        rChild.print(indent + 4);
-        printWithIndent(indent, "[End of Right Operand]");
-        printWithIndent(indent, String.format("[End of BinaryOperator] %s", operatorType));
+    public void print(StringBuilder sb, int indent) {
+        printWithIndent(sb, indent, String.format("[BinaryOperator] %s", operatorType));
+        printWithIndent(sb, indent, "[Left Operand]");
+        lChild.print(sb, indent + 4);
+        printWithIndent(sb, indent, "[End of Left Operand]");
+        printWithIndent(sb, indent, "[Right Operand]");
+        rChild.print(sb, indent + 4);
+        printWithIndent(sb, indent, "[End of Right Operand]");
+        printWithIndent(sb, indent, String.format("[End of BinaryOperator] %s", operatorType));
     }
 }

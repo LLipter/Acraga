@@ -1,3 +1,7 @@
+int b;
+
+print(b);
+
 int fibonacci(int i){
 	if(i<=2){
 		return 1;
@@ -15,5 +19,5 @@ void main(){
 
 
 int i;
-int j=1
+int j=1;
 double c=1;

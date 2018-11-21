@@ -32,11 +32,17 @@ public class Parser {
     private ExpressionToken expressionRoot;
     private int line;
     private int pos;
+    private StringBuilder sb;
+
+    public StringBuilder getSb() {
+        return sb;
+    }
 
     public Parser(Scanner scanner) throws SyntaxException {
         this.scanner = scanner;
         functionMap = new HashMap<FunctionSignature, Function>();
         globalStatements = new LinkedList<>();
+        sb=new StringBuilder();
         updateLinePos();
     }
 
@@ -66,6 +72,24 @@ public class Parser {
             Statement statement = detectStatement();
             if (statement != null)
                 globalStatements.addLast(statement);
+        }
+
+        addGlobalStat2Sb();
+        for (Function func : functionMap.values()) {
+            sb.append(func.print());
+            sb.append("\n");
+        }
+        addGlobalStat2Sb();
+    }
+
+    private void addGlobalStat2Sb(){
+        if(!globalStatements.isEmpty()) {
+            Statement statement = globalStatements.pollFirst();
+            while (statement != null) {
+                statement.print(sb,0);
+                sb.append("\n");
+                statement = globalStatements.pollFirst();
+            }
         }
     }
 
@@ -445,11 +469,7 @@ public class Parser {
     // used to debug
     // check whether all structures are detected correctly
     public void print() {
-        for (Function func : functionMap.values()) {
-            func.print();
-            System.out.println();
-        }
-
+        System.out.println(sb.toString());
     }
 
     private Initialization detectInitialization() throws SyntaxException {

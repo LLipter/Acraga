@@ -69,24 +69,24 @@ public class IfElse extends Statement {
     }
 
     @Override
-    public void print(int indent) {
-        printWithIndent(indent, "[If Statement]");
-        printWithIndent(indent, "[Condition Statement]");
-        condition.print(indent + 4);
-        printWithIndent(indent, "[End of Condition Statement]");
+    public void print(StringBuilder sb, int indent) {
+        printWithIndent(sb, indent, "[If Statement]");
+        printWithIndent(sb, indent, "[Condition Statement]");
+        condition.print(sb, indent + 4);
+        printWithIndent(sb, indent, "[End of Condition Statement]");
 
         if (ifBranch != null) {
-            printWithIndent(indent, "[If Branch Statement]");
+            printWithIndent(sb, indent, "[If Branch Statement]");
             for (Statement s : ifBranch)
-                s.print(indent + 4);
-            printWithIndent(indent, "[End of If Branch Statement]");
+                s.print(sb, indent + 4);
+            printWithIndent(sb, indent, "[End of If Branch Statement]");
         }
         if (elseBranch != null) {
-            printWithIndent(indent, "[Else Branch Statement]");
+            printWithIndent(sb, indent, "[Else Branch Statement]");
             for (Statement s : elseBranch)
-                s.print(indent + 4);
-            printWithIndent(indent, "[End of Else Branch Statement]");
+                s.print(sb, indent + 4);
+            printWithIndent(sb, indent, "[End of Else Branch Statement]");
         }
-        printWithIndent(indent, "[End of If Statement]");
+        printWithIndent(sb, indent, "[End of If Statement]");
     }
 }
