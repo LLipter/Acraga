@@ -13,7 +13,6 @@ import java.util.Scanner;
 
 public class Read extends Predefined {
 
-    private static Scanner sc = new Scanner(System.in);
     private static HashMap<ValueType, String> functionNameDict;
 
     static {
