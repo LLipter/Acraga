@@ -15,6 +15,7 @@ import component.signal.ReturnValue;
 import component.statement.Statement;
 import exception.AcragaException;
 import exception.RTException;
+import gui.TwoTuple;
 import token.exprtoken.Value;
 import type.ValueType;
 
@@ -42,14 +43,15 @@ public class Interpreter {
         interpreter.interpretProgram();
     }
 
-    public static Value interpretExpression(String expression) {
+    public static TwoTuple interpretExpression(String expression) {
         try {
             Preprocessor preprocessor = new Preprocessor(new StringReader(expression));
             Scanner scanner = new Scanner(preprocessor);
             Parser parser = new Parser(scanner);
             parser.parseExpression();
             Interpreter interpreter = new Interpreter(parser);
-            return interpreter.interpretExpression();
+            Value value=interpreter.interpretExpression();
+            return new TwoTuple<>(value,parser.getSb());
         } catch (AcragaException e) {
             System.err.println(e.getMessage());
         }
@@ -164,6 +166,4 @@ public class Interpreter {
 
         return funcMap;
     }
-
-
 }
