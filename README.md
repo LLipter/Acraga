@@ -141,9 +141,75 @@ Acraga是一种简单的强类型编程语言，支持整数、实数、布尔�
 
 # How to use Acraga
 
+## Acraga variables
+
+Acraga supports: local variables and global variables
+
+**Note that: we recommend name the identifiers in Camel-Case, and the names of them should be concise. Of course they are case sensitive.**
 
 
-## Arithmetic Statement
+
+## Acraga array
+
+Acraga supports more than one type of arrays, concluding int, double and string.
+
+```java
+int arr[2] = {1,2};
+println(arr[0]);//output: 1
+```
+
+
+
+## Acraga data Type
+
+**int:**
+
+- maximum: `∞`
+- minimum: `-∞`
+- default: `0`
+- support hexadecimal and character integer `'A'`
+
+**double:**
+
+- maximum: `∞`
+- minimum: `-∞`
+- default: `0.0`
+- support scientific notation
+
+**boolean:**
+
+- true or false
+- default: false
+
+**string:**
+
+- can store string of any length
+- enclosed by `''` or `""`
+- default: `''`
+
+**Examples will be displayed afterwards**
+
+
+
+## Acraga escape character
+
+Escape characters are properly recognized and organized. At this point, acraga only supports the escape characters in the following table.
+
+| Escape Character |    Logical Meaning     |
+| :--------------: | :--------------------: |
+|        \n        |        new line        |
+|        \t        |     horizontal tab     |
+|       \\'        | single quotation marks |
+|       \\"        | double quotation marks |
+|       \\\\       |       backslash        |
+
+
+
+## Type cast
+
+
+
+## Arithmetic statement
 
 Acraga supports operation of int, double, bool, string and hexadecimal number, including add `+`, subtract`-`, multiple`*`, divide`/`, module`%` etc. For more operators see the priority list below.
 
@@ -238,7 +304,7 @@ Both are supported in Acraga.
 
 
 
-### Other functions
+### User-define functions
 
 ```c
 int foo(){
@@ -266,6 +332,10 @@ double foo(){
 
 
 
+
+
+### Predefined functions
+
 ```Java
 void testPrint(){
   print(Any type except void is supported);
@@ -283,6 +353,27 @@ void testRead(){
   double b = readDecimal();// read the first real number which can be identified as a BigDecimal
   bool c = readBool();// read the first boolean variable which can be identified as a Boolean
   // read input from keyboard
+}
+```
+
+
+
+```Java
+void testMath(){
+  int a = 1;
+  int b = -3;
+  int c = max(a, abs(b));
+  int d = min(a++, b);
+  println(c);// output: 3
+  println(d);// output: 4
+}
+```
+
+
+
+```Java
+void main(){
+  print("Hello World!")// output: Hello World!
 }
 ```
 
@@ -318,7 +409,7 @@ void testRead(){
 9. 支持逗号运算符的操作 (int a=1, b=2;)
 10. 支持++,-- 两种运算符，考虑同时支持前置后置形式 ——(✔️)
 11. 实现必要的库函数，例如提供函数输出方式的print()方法 ——(✔️)
-12. ** 实现类的概念后可以定义一些标准库数据结构，比如scanf，比如max，min等数学函数库
+12. ** 实现类的概念后可以定义一些标准库数据结构，比如scanf，比如max，min等数学函数库 ——(✔️)
 13. 测试，争取没有逻辑错误以及运行时崩溃的情况
 14. 用Acraga编写一些简单的小程序， 检查解释器在更真实的场景下的正确性，同时检查设计的语法是否符合交互性 ——(✔️)
 15. 编写全面的文档，讲解解释器的整体构架以及具体细节并介绍如何编写合法的Acraga程序
