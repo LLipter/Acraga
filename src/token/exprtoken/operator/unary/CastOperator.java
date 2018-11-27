@@ -27,6 +27,9 @@ public class CastOperator extends UnaryOperator {
     public Value execute(DataStack context) throws RTException, ControlSignal {
         Value value = child.execute(context);
         //TODO:add this in casting.
-        return Casting.casting(value, desType);
+        Value newValue = Casting.casting(value, desType);
+        if(newValue==null)
+            throw new RTException(value.getLines(),value.getPos(),"cannot cast from type "+value.getValueType()+" of this value to type "+desType.toString());
+        return newValue;
     }
 }
