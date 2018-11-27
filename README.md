@@ -207,6 +207,33 @@ Escape characters are properly recognized and organized. At this point, acraga o
 
 ## Type cast
 
++ Implicit casting
+
+  Acraga supports assigning an integer to an identifier of type double, for example: `double d=1;`
+
+  Other expressions like `int i="aaa"` will be recognized as a syntax error.
+
++ Explicit casting
+
+  Acraga supports using `()` operator to explicitly cast a type to another:
+
+  |           Expression            |                           Meaning                            |
+  | :-----------------------------: | :----------------------------------------------------------: |
+  |    int i = (int) doubleValue    |        i will be the integer part of the double value        |
+  |     int i = (int) boolValue     |     i=1 if boolValue is true; i=0 if boolValue is false      |
+  |    int i = (int) stringValue    | if the content of stringValue is integer like "123", i will be the value |
+  |  double d = (double) intValue   |               d will be the value of intValue                |
+  |  double d = (double) boolValue  |     d=1 if boolValue is true; d=0 if boolValue is false      |
+  | double d = (double) stringValue | if the content of stringValue is integer or double, d will be the value |
+  |    bool b = (bool) intValue     |         b=true if intValue!=0; b=false if intValue=0         |
+  |   bool b = (bool) doubleValue   |      b=true if doubleValue!=0; b=false if doubleValue=0      |
+  |   bool b= (bool) stringValue    |     b=true if the length of stingValue!=0; else b= false     |
+  |  string s = (string) intValue   |            the content of s will be the intValue             |
+  | string s = (string) doubleValue |           the content of s will be the doubleValue           |
+  |  string s = (string) boolValue  | s="true" if boolValue is true; s="false" if boolValue is false |
+
+Cast a type to the same type will get the same result.
+
 
 
 ## Arithmetic statement

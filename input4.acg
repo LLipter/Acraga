@@ -2,11 +2,7 @@ int main(){
 
 
 
-    int a = readInt();
-    int b = readInt();
-    print(min(a,b));
-
-    print(abs(b));
+    print((int)"a");
 
     return 0;
 }
