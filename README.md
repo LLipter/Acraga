@@ -141,6 +141,8 @@ Acraga是一种简单的强类型编程语言，支持整数、实数、布尔�
 
 # How to use Acraga
 
+
+
 ## Acraga variables
 
 Acraga supports: local variables and global variables
@@ -291,7 +293,6 @@ So that we can do something like these：
 - `1 + 3 % 2 = 2`
 - `1.3323 + 3.14 - 5.1 = -0.6277`
 - `0x0001 + 0x0A02 = 2563`
-- `++1 = 2, --4 = 3`
 
 In Java：
 
@@ -392,7 +393,7 @@ void testMath(){
   int c = max(a, abs(b));
   int d = min(a++, b);
   println(c);// output: 3
-  println(d);// output: 4
+  println(d);// output: -3
 }
 ```
 
