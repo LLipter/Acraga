@@ -53,7 +53,7 @@ public class Interpreter {
             Value value=interpreter.interpretExpression();
             return new TwoTuple<>(value,parser.getSb());
         } catch (AcragaException e) {
-            System.err.println(e.getMessage());
+            System.err.println(e.toString());
         }
         return null;
     }
@@ -62,7 +62,7 @@ public class Interpreter {
         try {
             return parser.getExpressionRoot().execute(context);
         } catch (AcragaException e) {
-            System.err.println(e.getMessage());
+            System.err.println(e.toString());
         } catch (ControlSignal controlSignal) {
             controlSignal.printStackTrace();
         }

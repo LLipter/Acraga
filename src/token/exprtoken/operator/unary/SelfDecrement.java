@@ -19,7 +19,6 @@ public class SelfDecrement extends UnaryOperator {
         operatorType = OperatorType.SELFDECREMENT;
         this.isPre = true;
     }
-
     public boolean isPre() {
         return isPre;
     }

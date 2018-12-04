@@ -60,7 +60,10 @@ public class Calculator extends JFrame {
                 }
                 TwoTuple calculatorInfo=Interpreter.interpretExpression(expr);
                 if (calculatorInfo != null) {
-                    outputLable.setText("Output: " + calculatorInfo.first.toString());
+                    if(calculatorInfo.first==null)
+                        outputLable.setText("Output: " + "Syntax Error");
+                    else
+                        outputLable.setText("Output: " + calculatorInfo.first.toString());
                     StringBuilder sb=(StringBuilder)calculatorInfo.second;
                     StringBuilder newSb=new StringBuilder();
                     newSb.append("<html>");

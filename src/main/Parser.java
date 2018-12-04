@@ -361,8 +361,15 @@ public class Parser {
             // Whenever meets ")" or "]" break recursion
             else if (isSeparator(SeparatorType.RIGHTPARENTHESES) || isSeparator(SeparatorType.RIGHTBRACKET))
                 break;
-                // operator
+            // operator
             else if (isOperator()) {
+                Token nextToken=getNextToken();
+                if(nextToken!=null) {
+                    if (nextToken instanceof Operator)
+                        throw new SyntaxException(nextToken.getLines(), nextToken.getPos(), "redundant operator");
+                    if (!(nextToken instanceof Value || nextToken instanceof Identifier))
+                        throwException("missing operand");
+                }
                 Operator op = (Operator) getToken();
                 if (operatorSt.isEmpty()) {
                     operatorSt.push(op);
@@ -420,7 +427,9 @@ public class Parser {
                 if (!detectSeparator(SeparatorType.RIGHTPARENTHESES))
                     throw new SyntaxException(tk.getLines(), tk.getPos(), "unmatched left parentheses");
 
-            } else if (isIdentifier() && (isOperator(getNextToken(), OperatorType.SELFINCREMENT))) {
+            }
+            //post ++/--
+            else if (isIdentifier() && (isOperator(getNextToken(), OperatorType.SELFINCREMENT))) {
                 SelfIncrement si = (SelfIncrement) getNextToken();
                 si.setPre(false);
                 si.setChild((Identifier) getToken());
@@ -435,14 +444,22 @@ public class Parser {
                 next();
                 next();
             }
-
-
             // Operand(value or identifier)
             else {
+                Token nextToken=getNextToken();
+                if(nextToken!=null){
+                    if(nextToken instanceof Value || nextToken instanceof Identifier){
+                        if(nextToken.getLines()==tk.getLines())
+                            throw new SyntaxException(nextToken.getLines(),nextToken.getPos(),"redundant operand");
+                        else
+                            throwException("missing semicolon");
+                    }
+                }
                 operandSt.push((ExpressionToken) getToken());
                 next();
             }
         }
+
 
         while (!operatorSt.isEmpty()) {
             Operator op = operatorSt.pop();
@@ -453,18 +470,6 @@ public class Parser {
         if (operandSt.empty())
             return null;
         return operandSt.pop();
-    }
-
-    //print the tree(just for testing)
-    private void printExpressionTree(ExpressionToken ex) {
-        if (ex != null) {
-            System.out.println(ex);
-            if (ex instanceof BinaryOperator) {
-                printExpressionTree(((BinaryOperator) ex).getlChild());
-                printExpressionTree(((BinaryOperator) ex).getrChild());
-            } else if (ex instanceof UnaryOperator)
-                printExpressionTree(((UnaryOperator) ex).getChild());
-        }
     }
 
     // used to debug

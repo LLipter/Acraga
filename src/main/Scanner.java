@@ -15,6 +15,7 @@ import token.exprtoken.operator.binary.logical.LogicalOr;
 import token.exprtoken.operator.binary.numeric.*;
 import token.exprtoken.operator.unary.*;
 import type.KeywordType;
+import type.OperatorType;
 import type.SeparatorType;
 
 import java.util.LinkedList;
@@ -103,10 +104,14 @@ public class Scanner {
             op = new RightShifting();
         else if (preprocessor.isOperator("+="))
             op = new AddAssign();
-        else if (preprocessor.isOperator("++"))
+        else if (preprocessor.isOperator("++")) {
             op = new SelfIncrement();
-        else if (preprocessor.isOperator("--"))
+
+        }
+        else if (preprocessor.isOperator("--")) {
             op = new SelfDecrement();
+
+        }
         else if (preprocessor.isOperator("-="))
             op = new SubtractAssign();
         else if (preprocessor.isOperator("*="))
@@ -144,29 +149,43 @@ public class Scanner {
         else if (preprocessor.isOperator("!"))
             op = new LogicalNot();
         else if (preprocessor.isOperator("+")) {
-            if (tokens.isEmpty() || (tokens.getLast() instanceof Operator))
+            if (tokens.isEmpty())
                 op = new PositiveSign();
-            else if ((tokens.getLast() instanceof Separator)
-                    && ((Separator) tokens.getLast()).getSeparatorType() != SeparatorType.RIGHTPARENTHESES
-                    && ((Separator) tokens.getLast()).getSeparatorType() != SeparatorType.RIGHTBRACKET
-                    && ((Separator) tokens.getLast()).getSeparatorType() != SeparatorType.RIGHTBRACE)
-                op = new PositiveSign();
-            else if ((tokens.getLast() instanceof Keyword) && ((Keyword) tokens.getLast()).getKeywordType() == KeywordType.RETURN)
-                op = new PositiveSign();
-            else
-                op = new Add();
+            else{
+                Token lastTk=tokens.getLast();
+                if (lastTk instanceof Operator
+                        && ((Operator) lastTk).getOperatorType() != OperatorType.SELFINCREMENT
+                        && ((Operator) lastTk).getOperatorType() != OperatorType.SELFDECREMENT)
+                    op = new PositiveSign();
+                else if (lastTk instanceof Separator
+                        && ((Separator) lastTk).getSeparatorType() != SeparatorType.RIGHTPARENTHESES
+                        && ((Separator) lastTk).getSeparatorType() != SeparatorType.RIGHTBRACKET
+                        && ((Separator) lastTk).getSeparatorType() != SeparatorType.RIGHTBRACE)
+                    op = new PositiveSign();
+                else if ((lastTk instanceof Keyword) && ((Keyword) lastTk).getKeywordType() == KeywordType.RETURN)
+                    op = new PositiveSign();
+                else
+                    op = new Add();
+            }
         } else if (preprocessor.isOperator("-")) {
-            if (tokens.isEmpty() || (tokens.getLast() instanceof Operator))
+            if (tokens.isEmpty())
                 op = new NegativeSign();
-            else if ((tokens.getLast() instanceof Separator)
-                    && ((Separator) tokens.getLast()).getSeparatorType() != SeparatorType.RIGHTPARENTHESES
-                    && ((Separator) tokens.getLast()).getSeparatorType() != SeparatorType.RIGHTBRACKET
-                    && ((Separator) tokens.getLast()).getSeparatorType() != SeparatorType.RIGHTBRACE)
-                op = new NegativeSign();
-            else if ((tokens.getLast() instanceof Keyword) && ((Keyword) tokens.getLast()).getKeywordType() == KeywordType.RETURN)
-                op = new NegativeSign();
-            else
-                op = new Subtract();
+            else {
+                Token lastTk=tokens.getLast();
+                if (lastTk instanceof Operator
+                        && ((Operator) lastTk).getOperatorType() != OperatorType.SELFINCREMENT
+                        && ((Operator) lastTk).getOperatorType() != OperatorType.SELFDECREMENT)
+                    op = new NegativeSign();
+                else if ((lastTk instanceof Separator)
+                        && ((Separator) lastTk).getSeparatorType() != SeparatorType.RIGHTPARENTHESES
+                        && ((Separator) lastTk).getSeparatorType() != SeparatorType.RIGHTBRACKET
+                        && ((Separator) lastTk).getSeparatorType() != SeparatorType.RIGHTBRACE)
+                    op = new NegativeSign();
+                else if ((lastTk instanceof Keyword) && ((Keyword) lastTk).getKeywordType() == KeywordType.RETURN)
+                    op = new NegativeSign();
+                else
+                    op = new Subtract();
+            }
         } else
             return null;
 
