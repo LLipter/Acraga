@@ -18,9 +18,19 @@ public class Value extends ExpressionToken {
     private String stringValue;
 
     public Value(ValueType type) {
+        super();
         tokenType = TokenType.VALUE;
         valueType = type;
         setDefaultValue();
+    }
+
+    public Value(Value otherValue){
+        super(otherValue);
+        this.valueType = otherValue.valueType;
+        this.intValue = otherValue.intValue;
+        this.doubleValue = otherValue.doubleValue;
+        this.boolValue = otherValue.boolValue;
+        this.stringValue = otherValue.stringValue;
     }
 
     public BigInteger getIntValue() {

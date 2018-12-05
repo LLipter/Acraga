@@ -1,6 +1,7 @@
 package token.exprtoken;
 
 import component.Executable;
+import component.statement.Expression;
 import token.Token;
 
 public abstract class ExpressionToken extends Token implements Executable {
@@ -9,6 +10,14 @@ public abstract class ExpressionToken extends Token implements Executable {
             sb.append(" ");
         sb.append(msg);
         sb.append("\n");
+    }
+
+    public ExpressionToken(){
+        super();
+    }
+
+    public ExpressionToken(ExpressionToken otherToken){
+        super(otherToken);
     }
 
     public abstract void print(StringBuilder sb, int indent);

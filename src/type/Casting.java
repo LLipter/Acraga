@@ -7,7 +7,8 @@ import java.math.BigInteger;
 
 public class Casting {
 
-    private Casting(){}
+    private Casting() {
+    }
 
     public static ValueType keywordType2ValueType(KeywordType type) {
         if (type == KeywordType.INT)
@@ -25,46 +26,26 @@ public class Casting {
     }
 
     public static Value safeCasting(Value value, ValueType type) {
-        if (type == ValueType.VOID || value.isVoid())
-            return null;
-        Value ret = null;
-        if (value.getValueType() == ValueType.INTEGER) {
-            if (type == ValueType.INTEGER) {
-                ret = new Value(ValueType.INTEGER);
-                ret.setIntValue(value.getIntValue());
-            } else if (type == ValueType.DOUBLE) {
-                ret = new Value(ValueType.DOUBLE);
-                ret.setDoubleValue(new BigDecimal(value.getIntValue()));
-            }
-        } else if (value.getValueType() == ValueType.DOUBLE && type == ValueType.DOUBLE) {
-            ret = new Value(ValueType.DOUBLE);
-            ret.setDoubleValue(value.getDoubleValue());
-        } else if (value.getValueType() == ValueType.BOOLEAN && type == ValueType.BOOLEAN) {
-            ret = new Value(ValueType.BOOLEAN);
-            ret.setBoolValue(value.getBoolValue());
-        } else if (value.getValueType() == ValueType.STRING && type == ValueType.STRING) {
-            ret = new Value(ValueType.STRING);
-            ret.setStringValue(value.getStringValue());
+        if (value.getValueType() == type)
+            return new Value(value);
+        if (value.isInt() && type == ValueType.DOUBLE) {
+            Value ret = new Value(ValueType.DOUBLE);
+            ret.setDoubleValue(new BigDecimal(value.getIntValue()));
         }
-        if (ret != null) {
-            ret.setPos(value.getPos());
-            ret.setLines(value.getLines());
-        }
-        return ret;
+        return null;
     }
 
     // cast value to a given data type
     public static Value casting(Value value, ValueType type) {
-        if (type == ValueType.VOID || value.isVoid())
-            return null;
+        if (value.getValueType() == type)
+            return new Value(value);
+        if (type == ValueType.VOID)
+            return new Value(ValueType.VOID);
         Value ret = null;
         switch (type) {
             case INTEGER:
                 ret = new Value(ValueType.INTEGER);
                 switch (value.getValueType()) {
-                    case INTEGER:
-                        ret.setIntValue(value.getIntValue());
-                        break;
                     case DOUBLE:
                         ret.setIntValue(value.getDoubleValue().toBigInteger());
                         break;
@@ -82,6 +63,9 @@ public class Casting {
                             return null;
                         }
                         break;
+                    default:
+                        System.err.println("unknown data type in the process of casting");
+                        return null;
                 }
                 break;
             case DOUBLE:
@@ -89,9 +73,6 @@ public class Casting {
                 switch (value.getValueType()) {
                     case INTEGER:
                         ret.setDoubleValue(new BigDecimal(value.getIntValue()));
-                        break;
-                    case DOUBLE:
-                        ret.setDoubleValue(value.getDoubleValue());
                         break;
                     case BOOLEAN:
                         if (value.getBoolValue())
@@ -107,6 +88,9 @@ public class Casting {
                             return null;
                         }
                         break;
+                    default:
+                        System.err.println("unknown data type in the process of casting");
+                        return null;
                 }
                 break;
             case BOOLEAN:
@@ -124,15 +108,15 @@ public class Casting {
                         else
                             ret.setBoolValue(false);
                         break;
-                    case BOOLEAN:
-                        ret.setBoolValue(value.getBoolValue());
-                        break;
                     case STRING:
                         if (value.getStringValue().length() != 0)
                             ret.setBoolValue(true);
                         else
                             ret.setBoolValue(false);
                         break;
+                    default:
+                        System.err.println("unknown data type in the process of casting");
+                        return null;
                 }
                 break;
             case STRING:
@@ -148,9 +132,9 @@ public class Casting {
                         Boolean tmp = value.getBoolValue();
                         ret.setStringValue(tmp.toString());
                         break;
-                    case STRING:
-                        ret.setStringValue(value.getStringValue());
-                        break;
+                    default:
+                        System.err.println("unknown data type in the process of casting");
+                        return null;
                 }
                 break;
         }
