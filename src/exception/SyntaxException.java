@@ -3,7 +3,7 @@ package exception;
 public class SyntaxException extends AcragaException {
 
     public SyntaxException(int lines, int pos, String msg) {
-        super("SyntaxException Exception", lines, pos, msg);
+        super("SyntaxException", lines, pos, msg);
     }
 
     public SyntaxException(int lines, String msg) {

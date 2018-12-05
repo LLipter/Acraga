@@ -34,14 +34,18 @@ public class Interpreter {
         context = new DataStack();
     }
 
-    public static void interpretProgram(String inpuFile) throws AcragaException, ReturnValue {
-        // TODO: add try catch to catch all AcragaException
-        Preprocessor preprocessor = new Preprocessor(inpuFile);
-        Scanner scanner = new Scanner(preprocessor);
-        Parser parser = new Parser(scanner);
-        parser.parseProgram();
-        Interpreter interpreter = new Interpreter(parser);
-        interpreter.interpretProgram();
+    public static void interpretProgram(String inpuFile) {
+        try {
+            Preprocessor preprocessor = new Preprocessor(inpuFile);
+            Scanner scanner = new Scanner(preprocessor);
+            Parser parser = new Parser(scanner);
+            parser.parseProgram();
+            Interpreter interpreter = new Interpreter(parser);
+            interpreter.interpretProgram();
+        } catch (AcragaException e) {
+            System.err.println(e.toString());
+        }
+
     }
 
     public static TwoTuple interpretExpression(String expression) {

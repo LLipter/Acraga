@@ -3,7 +3,7 @@ package exception;
 public class RTException extends AcragaException {
 
     public RTException(int lines, int pos, String msg) {
-        super("RTException Exception", lines, pos, msg);
+        super("RTException", lines, pos, msg);
     }
 
     public RTException(int lines, String msg) {
