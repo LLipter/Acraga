@@ -1,8 +1,0 @@
-[BinaryOperator] ADD
-[Left Operand]
-    <IntValue,1>
-[End of Left Operand]
-[Right Operand]
-    <IntValue,2>
-[End of Right Operand]
-[End of BinaryOperator] ADD
