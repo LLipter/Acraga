@@ -674,7 +674,7 @@ public class Parser {
             return null;
         ExpressionToken returnValue = detectExpression(true);
         if (returnValue == null)
-            throwException("missing returned value");
+            returnValue = new Value(ValueType.VOID);
 
         rStatement.setReturnValue(returnValue);
 

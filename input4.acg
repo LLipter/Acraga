@@ -1,15 +1,15 @@
-//int b=4;
-//println(b++);
 
-int main(){
-    //for(int i;i<10;i++){
-    //    println("a");
-    //}
 
-    int a=4+(int)"123";
-    print(a);
-    return 0;
+void foo(){
+    for(int i=0;i<10;i++){
+        if(i == 5){
+            return;
+        }
+        println(i);
+    }
 }
 
-//println(++b);
-//println(b);
+int main(){
+    foo();
+    return 0;
+}

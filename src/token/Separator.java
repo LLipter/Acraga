@@ -8,6 +8,7 @@ public class Separator extends Token {
     protected SeparatorType separatorType;
 
     public Separator(SeparatorType sType) {
+        super();
         separatorType = sType;
         tokenType = TokenType.SEPARATOR;
     }

@@ -138,10 +138,6 @@ public class Casting {
                 }
                 break;
         }
-        if (ret != null) {
-            ret.setLines(value.getLines());
-            ret.setPos(value.getPos());
-        }
         return ret;
     }
 
