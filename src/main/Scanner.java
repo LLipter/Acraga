@@ -104,14 +104,10 @@ public class Scanner {
             op = new RightShifting();
         else if (preprocessor.isOperator("+="))
             op = new AddAssign();
-        else if (preprocessor.isOperator("++")) {
+        else if (preprocessor.isOperator("++"))
             op = new SelfIncrement();
-
-        }
-        else if (preprocessor.isOperator("--")) {
+        else if (preprocessor.isOperator("--"))
             op = new SelfDecrement();
-
-        }
         else if (preprocessor.isOperator("-="))
             op = new SubtractAssign();
         else if (preprocessor.isOperator("*="))

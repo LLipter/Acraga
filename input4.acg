@@ -1,6 +1,7 @@
+println(4);
+
 int main(){
-    int b=2;
-    int a=b+3
-    int c=3;
+    int a=3;
+    println(a);
     return 0;
 }

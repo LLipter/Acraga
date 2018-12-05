@@ -40,7 +40,7 @@ public class Parser {
 
     public Parser(Scanner scanner) throws SyntaxException {
         this.scanner = scanner;
-        functionMap = new HashMap<FunctionSignature, Function>();
+        functionMap = new HashMap<>();
         globalStatements = new LinkedList<>();
         sb=new StringBuilder();
         updateLinePos();
@@ -84,12 +84,10 @@ public class Parser {
     }
 
     private void addGlobalStat2Sb(){
-        if(!globalStatements.isEmpty()) {
-            Statement statement = globalStatements.pollFirst();
-            while (statement != null) {
+        for (Statement statement : globalStatements) {
+            if (statement != null) {
                 statement.print(sb,0);
                 sb.append("\n");
-                statement = globalStatements.pollFirst();
             }
         }
     }
@@ -289,24 +287,6 @@ public class Parser {
         return false;
     }
 
-    // check whether current token is a identifier, and next token is a certain separator
-    private boolean isIdSeparator(SeparatorType type) {
-        Token token = getToken();
-        if (token == null)
-            return false;
-        if (token.getTokenType() != TokenType.IDENTIFIER)
-            return false;
-        token = getNextToken();
-        if (token == null)
-            return false;
-        if (token.getTokenType() != TokenType.SEPARATOR)
-            return false;
-        Separator operator = (Separator) token;
-        if (operator.getSeparatorType() != type)
-            return false;
-        return true;
-    }
-
     // stack operation (condition is checked in detectExpression)
     private void StackOperation(Stack<ExpressionToken> operandSt, Operator op) throws SyntaxException {
         if (op instanceof BinaryOperator) {
@@ -339,10 +319,10 @@ public class Parser {
         Stack<Operator> operatorSt = new Stack<>();
 
         while (isExpressionToken()) {
-            // Whenever meets "(" go recursion
             Token tk = getToken();
+            // Whenever meets "(" go recursion
             if (detectSeparator(SeparatorType.LEFTPARENTHESES)) {
-                //add explicit casting here
+                //detect explicit casting
                 if (isDataType() && isSeparator(getNextToken(), SeparatorType.RIGHTPARENTHESES)) {
                     Token typeTk = getToken();
                     CastOperator castOp = new CastOperator();
@@ -353,7 +333,7 @@ public class Parser {
                     next();
                     continue;
                 }
-                //recursion
+                //go recursion
                 operandSt.push(detectExpression());
                 if (!detectSeparator(SeparatorType.RIGHTPARENTHESES))
                     throw new SyntaxException(tk.getLines(), tk.getPos(), "unmatched left parentheses");
@@ -367,7 +347,7 @@ public class Parser {
                 if(nextToken!=null) {
                     if (nextToken instanceof Operator)
                         throw new SyntaxException(nextToken.getLines(), nextToken.getPos(), "redundant operator");
-                    if (!(nextToken instanceof Value || nextToken instanceof Identifier))
+                    if (!(nextToken instanceof Value || nextToken instanceof Identifier || isSeparator(nextToken,SeparatorType.LEFTPARENTHESES)))
                         throwException("missing operand");
                 }
                 Operator op = (Operator) getToken();
@@ -389,74 +369,94 @@ public class Parser {
                     next();
                 }
             }
-            // detect array
-            else if (isIdSeparator(SeparatorType.LEFTBRACKET)) {
-                Identifier id = detectIdentifier();
-                ArrayId aid = new ArrayId();
-                aid.setId(id.getId());
-                aid.setLines(id.getLines());
-                aid.setPos(id.getPos());
-                operandSt.push(aid);
-                next();
-                ExpressionToken index = detectExpression();
-                if (index == null)
-                    throw new SyntaxException(tk.getLines(), tk.getPos(), "missing array index");
-                aid.setIndex(index);
-                if (!detectSeparator(SeparatorType.RIGHTBRACKET))
-                    throw new SyntaxException(tk.getLines(), tk.getPos(), "unmatched left bracket");
-            }
-            // detect function
-            else if (isIdSeparator(SeparatorType.LEFTPARENTHESES)) {
-                Identifier id = detectIdentifier();
-                FunctionId fid = new FunctionId();
-                fid.setId(id.getId());
-                fid.setLines(id.getLines());
-                fid.setPos(id.getPos());
-                operandSt.push(fid);
-                next();
-                ExpressionToken para = detectExpression();
-                if (para != null) {
-                    fid.addParameter(para);
-                    while (detectSeparator(SeparatorType.COMMA)) {
-                        para = detectExpression();
-                        if (para == null)
-                            throw new SyntaxException(tk.getLines(), tk.getPos(), "missing parameter");
-                        fid.addParameter(para);
-                    }
-                }
-                if (!detectSeparator(SeparatorType.RIGHTPARENTHESES))
-                    throw new SyntaxException(tk.getLines(), tk.getPos(), "unmatched left parentheses");
-
-            }
-            //post ++/--
-            else if (isIdentifier() && (isOperator(getNextToken(), OperatorType.SELFINCREMENT))) {
-                SelfIncrement si = (SelfIncrement) getNextToken();
-                si.setPre(false);
-                si.setChild((Identifier) getToken());
-                operandSt.push(si);
-                next();
-                next();
-            } else if (isIdentifier() && (isOperator(getNextToken(), OperatorType.SELFDECREMENT))) {
-                SelfDecrement sd = (SelfDecrement) getNextToken();
-                sd.setPre(false);
-                sd.setChild((Identifier) getToken());
-                operandSt.push(sd);
-                next();
-                next();
-            }
-            // Operand(value or identifier)
+            //identifier or value
             else {
-                Token nextToken=getNextToken();
-                if(nextToken!=null){
-                    if(nextToken instanceof Value || nextToken instanceof Identifier){
-                        if(nextToken.getLines()==tk.getLines())
-                            throw new SyntaxException(nextToken.getLines(),nextToken.getPos(),"redundant operand");
-                        else
-                            throwException("missing semicolon");
+                Token nextToken = getNextToken();
+                Token lastToken = null;
+                //detect identifier
+                if (isIdentifier()) {
+                    // detect array
+                    if (isSeparator(nextToken, SeparatorType.LEFTBRACKET)) {
+                        Identifier id = detectIdentifier();//next
+                        ArrayId aid = new ArrayId();
+                        aid.setId(id.getId());
+                        aid.setLines(id.getLines());
+                        aid.setPos(id.getPos());
+                        operandSt.push(aid);
+                        next();
+                        ExpressionToken index = detectExpression();
+                        if (index == null)
+                            throw new SyntaxException(tk.getLines(), tk.getPos(), "missing array index");
+                        aid.setIndex(index);
+                        lastToken=getToken();
+                        if (!detectSeparator(SeparatorType.RIGHTBRACKET))
+                            throw new SyntaxException(tk.getLines(), tk.getPos(), "unmatched left bracket");
+                    }
+                    // detect function
+                    else if (isSeparator(nextToken, SeparatorType.LEFTPARENTHESES)) {
+                        Identifier id = detectIdentifier();//next
+                        FunctionId fid = new FunctionId();
+                        fid.setId(id.getId());
+                        fid.setLines(id.getLines());
+                        fid.setPos(id.getPos());
+                        operandSt.push(fid);
+                        next();
+                        ExpressionToken para = detectExpression();
+                        if (para != null) {
+                            fid.addParameter(para);
+                            while (detectSeparator(SeparatorType.COMMA)) {
+                                para = detectExpression();
+                                if (para == null)
+                                    throw new SyntaxException(tk.getLines(), tk.getPos(), "missing parameter");
+                                fid.addParameter(para);
+                            }
+                        }
+                        lastToken=getToken();
+                        if (!detectSeparator(SeparatorType.RIGHTPARENTHESES))
+                            throw new SyntaxException(tk.getLines(), tk.getPos(), "unmatched left parentheses");
+
+                    }
+                    //post ++/--
+                    else if (isOperator(nextToken, OperatorType.SELFINCREMENT)) {
+                        SelfIncrement si = (SelfIncrement) nextToken;
+                        si.setPre(false);
+                        si.setChild((Identifier) getToken());
+                        operandSt.push(si);
+                        next();
+                        lastToken=getToken();
+                        next();
+                    } else if (isOperator(getNextToken(), OperatorType.SELFDECREMENT)) {
+                        SelfDecrement sd = (SelfDecrement) nextToken;
+                        sd.setPre(false);
+                        sd.setChild((Identifier) getToken());
+                        operandSt.push(sd);
+                        next();
+                        lastToken=getToken();
+                        next();
+                    }
+                    //just identifier
+                    else {
+                        operandSt.push((ExpressionToken) getToken());
+                        lastToken=getToken();
+                        next();
                     }
                 }
-                operandSt.push((ExpressionToken) getToken());
-                next();
+                //detect value
+                else {
+                    operandSt.push((ExpressionToken) getToken());
+                    lastToken=getToken();
+                    next();
+                }
+
+                Token theNext=getToken();
+                if(theNext!=null) {
+                    if (theNext instanceof Value || theNext instanceof Identifier) {
+                        if (theNext.getLines()!=lastToken.getLines())
+                            throw new SyntaxException(lastToken.getLines(),lastToken.getPos(),"missing semicolon after this token");
+                        else
+                            throw new SyntaxException(theNext.getLines(),theNext.getPos(),"redundant operand");
+                    }
+                }
             }
         }
 
