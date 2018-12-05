@@ -77,12 +77,16 @@ public class Scanner {
     }
 
     // detect operators
-    public Operator detectOperator() {
+    public Operator detectOperator() throws SyntaxException{
         Operator op;
         int line = preprocessor.getLine();
         int pos = preprocessor.getPos();
 
-        if (preprocessor.isOperator("<<="))
+        if(preprocessor.isOperator("+++"))
+            throw new SyntaxException(line,pos,"cannot use more than three '+' continuously");
+        else if(preprocessor.isOperator("---"))
+            throw new SyntaxException(line,pos,"cannot use more than three '-' continuously");
+        else if (preprocessor.isOperator("<<="))
             op = new LeftShiftingAssign();
         else if (preprocessor.isOperator(">>="))
             op = new RightShiftingAssign();
