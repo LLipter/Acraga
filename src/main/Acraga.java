@@ -18,7 +18,7 @@ public class Acraga {
 //        Interpreter interpreter = new Interpreter(parser);
 //        interpreter.interpretProgram();
         // simple way to do it
-        Interpreter.interpretProgram("input4.acg");
+        Interpreter.interpretProgram("input1.acg");
         // test for interpret expression
         //Value value = Interpreter.interpretExpression("(1+3)*7");
         //System.out.println(value);

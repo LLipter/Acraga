@@ -1,12 +1,15 @@
-int b=4;
-println(b++);
+//int b=4;
+//println(b++);
 
 int main(){
-    for(int i;i<10;i++){
-        println("a");
-    }
+    //for(int i;i<10;i++){
+    //    println("a");
+    //}
+
+    int a=4+(int)"123";
+    print(a);
     return 0;
 }
 
-println(++b);
-println(b);
+//println(++b);
+//println(b);

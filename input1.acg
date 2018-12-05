@@ -10,19 +10,13 @@ void my_print(){
     print("\n");
 }
 
-int my_abs(int a){
-    if(a >= 0){
-        return a;
-    }
-    return -a;
-}
 bool check(){
     for(int i=1;i<cur;++i){
         if(A[i] == A[cur]){
             return false;
         }
         int diff = cur - i;
-        if(diff == my_abs(A[cur] - A[i])){
+        if(diff == abs(A[cur] - A[i])){
             return false;
         }
     }
