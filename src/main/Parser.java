@@ -460,7 +460,6 @@ public class Parser {
             }
         }
 
-
         while (!operatorSt.isEmpty()) {
             Operator op = operatorSt.pop();
             StackOperation(operandSt, op);
@@ -639,7 +638,7 @@ public class Parser {
         if (!detectKeyword(KeywordType.BREAK))
             return null;
         if (!detectSeparator(SeparatorType.SEMICOLON))
-            throwException("missing semicolon");
+            throwException("missing semicolon after break");
         return bStatement;
     }
 
@@ -650,7 +649,7 @@ public class Parser {
         if (!detectKeyword(KeywordType.CONTINUE))
             return null;
         if (!detectSeparator(SeparatorType.SEMICOLON))
-            throwException("missing semicolon");
+            throwException("missing semicolon after continue");
         return cStatement;
     }
 

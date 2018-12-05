@@ -3,5 +3,6 @@ println(4);
 int main(){
     int a=3;
     println(a);
-    return 0;
+    //break
+    return 1+2
 }
