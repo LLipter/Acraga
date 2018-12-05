@@ -467,7 +467,7 @@ public class Parser {
             }
         }
 
-        if(hasSimicolon){
+        if(hasSimicolon && lastToken!=null){
             Token Tk=getToken();
             if(!isSeparator(Tk,SeparatorType.SEMICOLON))
                 throw new SyntaxException(lastToken.getLines(),lastToken.getPos(),"missing semicolon after this token");
@@ -566,7 +566,7 @@ public class Parser {
                     throwException("missing semicolon");
             }
         } else
-            throwException("missing semicolon");
+            throw new SyntaxException(id.getLines(),id.getPos(),"missing semicolon after this token");
         return initialization;
     }
 
@@ -624,12 +624,12 @@ public class Parser {
         if (definition != null)
             fStatement.setInitialization(definition);
         else {
-            ExpressionToken init = detectExpression(true);
+            ExpressionToken init = detectExpression(false);
             fStatement.setInit(init);
             if (!detectSeparator(SeparatorType.SEMICOLON))
                 throwException("missing semicolon");
         }
-        ExpressionToken condition = detectExpression(true);
+        ExpressionToken condition = detectExpression(false);
         if (!detectSeparator(SeparatorType.SEMICOLON))
             throwException("missing semicolon");
         ExpressionToken incr = detectExpression(false);
@@ -678,8 +678,8 @@ public class Parser {
 
         rStatement.setReturnValue(returnValue);
 
-        if (!detectSeparator(SeparatorType.SEMICOLON))
-            throwException("missing semicolon");
+        //if (!detectSeparator(SeparatorType.SEMICOLON))
+        //    throwException("missing semicolon");
 
         return rStatement;
     }
@@ -718,7 +718,7 @@ public class Parser {
             return rStatement;
 
         Expression expression = new Expression();
-        ExpressionToken root = detectExpression(false);
+        ExpressionToken root = detectExpression(true);
         if (root != null) {
             expression.setRoot(root);
             if (!detectSeparator(SeparatorType.SEMICOLON))

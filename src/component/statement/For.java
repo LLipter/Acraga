@@ -107,14 +107,16 @@ public class For extends Loop {
         printWithIndent(sb, indent, "[Initialization Statement]");
         if (definition != null)
             definition.print(sb, indent + 4);
-        else
+        else if(init != null)
             init.print(sb, indent + 4);
         printWithIndent(sb, indent, "[End of Initialization Statement]");
         printWithIndent(sb, indent, "[Condition Statement]");
-        condition.print(sb, indent + 4);
+        if(condition!=null)
+            condition.print(sb, indent + 4);
         printWithIndent(sb, indent, "[End of Condition Statement]");
         printWithIndent(sb, indent, "[Increment Statement]");
-        incr.print(sb, indent + 4);
+        if(incr!=null)
+            incr.print(sb, indent + 4);
         printWithIndent(sb, indent, "[End of Increment Statement]");
         printWithIndent(sb, indent, "[Loop Statement]");
         for (Statement s : loopStatements)
