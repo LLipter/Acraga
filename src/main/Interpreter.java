@@ -1,5 +1,6 @@
 package main;
 
+
 import component.context.DataStack;
 import component.function.Function;
 import component.function.FunctionSignature;
@@ -50,19 +51,20 @@ public class Interpreter {
             Parser parser = new Parser(scanner);
             parser.parseExpression();
             Interpreter interpreter = new Interpreter(parser);
-            Value value=interpreter.interpretExpression();
-            return new TwoTuple<>(value,parser.getSb());
+            Value value = interpreter.interpretExpression();
+            return new TwoTuple<>(value, parser.getSb());
         } catch (AcragaException e) {
-            System.err.println(e.toString());
+            Value value = new Value(ValueType.STRING);
+            String msg = e.toString().substring(e.toString().indexOf("position"));
+            value.setStringValue(msg);
+            return new TwoTuple<>(value, null);
         }
-        return null;
+
     }
 
-    public Value interpretExpression() {
+    public Value interpretExpression() throws AcragaException {
         try {
             return parser.getExpressionRoot().execute(context);
-        } catch (AcragaException e) {
-            System.err.println(e.toString());
         } catch (ControlSignal controlSignal) {
             controlSignal.printStackTrace();
         }
