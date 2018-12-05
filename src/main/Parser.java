@@ -718,7 +718,7 @@ public class Parser {
             return rStatement;
 
         Expression expression = new Expression();
-        ExpressionToken root = detectExpression(true);
+        ExpressionToken root = detectExpression(false);
         if (root != null) {
             expression.setRoot(root);
             if (!detectSeparator(SeparatorType.SEMICOLON))
