@@ -117,13 +117,13 @@ public class Function implements Executable {
     }
 
     public StringBuilder print() {
-        StringBuilder sb=new StringBuilder();
+        StringBuilder sb = new StringBuilder();
         sb.append("[Function]\n");
         sb.append(String.format("[Function Signature] %s\n", functionSignature));
         sb.append(String.format("[Return Type] %s\n", returnType));
         sb.append("[Statements]\n");
         for (Statement s : statements)
-            s.print(sb,4);
+            s.print(sb, 4);
         sb.append("[End of Statements]\n");
         sb.append("[End of Function]\n");
         return sb;

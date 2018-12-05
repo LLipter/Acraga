@@ -77,15 +77,15 @@ public class Scanner {
     }
 
     // detect operators
-    public Operator detectOperator() throws SyntaxException{
+    public Operator detectOperator() throws SyntaxException {
         Operator op;
         int line = preprocessor.getLine();
         int pos = preprocessor.getPos();
 
-        if(preprocessor.isOperator("+++"))
-            throw new SyntaxException(line,pos,"cannot use more than three '+' continuously");
-        else if(preprocessor.isOperator("---"))
-            throw new SyntaxException(line,pos,"cannot use more than three '-' continuously");
+        if (preprocessor.isOperator("+++"))
+            throw new SyntaxException(line, pos, "cannot use more than three '+' continuously");
+        else if (preprocessor.isOperator("---"))
+            throw new SyntaxException(line, pos, "cannot use more than three '-' continuously");
         else if (preprocessor.isOperator("<<="))
             op = new LeftShiftingAssign();
         else if (preprocessor.isOperator(">>="))
@@ -151,8 +151,8 @@ public class Scanner {
         else if (preprocessor.isOperator("+")) {
             if (tokens.isEmpty())
                 op = new PositiveSign();
-            else{
-                Token lastTk=tokens.getLast();
+            else {
+                Token lastTk = tokens.getLast();
                 if (lastTk instanceof Operator
                         && ((Operator) lastTk).getOperatorType() != OperatorType.SELFINCREMENT
                         && ((Operator) lastTk).getOperatorType() != OperatorType.SELFDECREMENT)
@@ -171,7 +171,7 @@ public class Scanner {
             if (tokens.isEmpty())
                 op = new NegativeSign();
             else {
-                Token lastTk=tokens.getLast();
+                Token lastTk = tokens.getLast();
                 if (lastTk instanceof Operator
                         && ((Operator) lastTk).getOperatorType() != OperatorType.SELFINCREMENT
                         && ((Operator) lastTk).getOperatorType() != OperatorType.SELFDECREMENT)

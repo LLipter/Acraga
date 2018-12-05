@@ -15,7 +15,7 @@ public abstract class Predefined extends Function {
 
     @Override
     public StringBuilder print() {
-        StringBuilder sb=new StringBuilder();
+        StringBuilder sb = new StringBuilder();
         sb.append("[Predefined Function]\n");
         sb.append(String.format("[Function Signature] %s\n", functionSignature));
         sb.append(String.format("[Return Type] %s\n", returnType));

@@ -28,8 +28,8 @@ public class CastOperator extends UnaryOperator {
         Value value = child.execute(context);
         //TODO:add this in casting.
         Value newValue = Casting.casting(value, desType);
-        if(newValue==null)
-            throw new RTException(value.getLines(),value.getPos(),"cannot cast from type "+value.getValueType()+" of this value to type "+desType.toString());
+        if (newValue == null)
+            throw new RTException(value.getLines(), value.getPos(), "cannot cast from type " + value.getValueType() + " of this value to type " + desType.toString());
         return newValue;
     }
 }

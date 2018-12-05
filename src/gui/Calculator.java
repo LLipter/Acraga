@@ -1,10 +1,6 @@
 package gui;
 
-import exception.AcragaException;
 import main.Interpreter;
-import main.Parser;
-import main.Preprocessor;
-import main.Scanner;
 import token.exprtoken.Value;
 
 import javax.swing.*;

@@ -24,7 +24,7 @@ public class Value extends ExpressionToken {
         setDefaultValue();
     }
 
-    public Value(Value otherValue){
+    public Value(Value otherValue) {
         super(otherValue);
         this.valueType = otherValue.valueType;
         this.intValue = otherValue.intValue;
@@ -37,24 +37,24 @@ public class Value extends ExpressionToken {
         return intValue;
     }
 
-    public void setIntValue(Integer value) {
-        intValue = new BigInteger(value.toString());
-    }
-
     public void setIntValue(BigInteger intValue) {
         this.intValue = intValue;
+    }
+
+    public void setIntValue(Integer value) {
+        intValue = new BigInteger(value.toString());
     }
 
     public BigDecimal getDoubleValue() {
         return doubleValue;
     }
 
-    public void setDoubleValue(Double value) {
-        doubleValue = new BigDecimal(value.toString());
-    }
-
     public void setDoubleValue(BigDecimal doubleValue) {
         this.doubleValue = doubleValue;
+    }
+
+    public void setDoubleValue(Double value) {
+        doubleValue = new BigDecimal(value.toString());
     }
 
     public boolean getBoolValue() {
@@ -147,6 +147,6 @@ public class Value extends ExpressionToken {
 
     @Override
     public void print(StringBuilder sb, int indent) {
-        printWithIndent(sb,indent, this.toString());
+        printWithIndent(sb, indent, this.toString());
     }
 }

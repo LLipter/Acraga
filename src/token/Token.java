@@ -8,14 +8,14 @@ public abstract class Token {
     private int lines;
     private int pos;
 
-    public Token(){
+    public Token() {
         super();
         tokenType = null;
         lines = -1;
         pos = -1;
     }
 
-    public Token(Token otherToken){
+    public Token(Token otherToken) {
         super();
         this.tokenType = otherToken.tokenType;
         this.lines = otherToken.lines;
