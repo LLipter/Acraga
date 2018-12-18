@@ -30,7 +30,11 @@ Acraga是一种简单的强类型编程语言，支持整数、实数、布尔�
 
  - Real:
 
-   `real ::= decimal.digit+`
+   `real ::= decimal.digit+(T)?`
+
+   `T ::= eF | EF`
+
+   `F ::= integer`
 
  - Boolean:
 
@@ -86,7 +90,7 @@ Acraga是一种简单的强类型编程语言，支持整数、实数、布尔�
 
  - Statements
 
-    `statement ::= declare_statement | assign_statement | output_statement | if_statement`
+    `statement ::= declare_statement | assign_statement | output_statement | if_statement | while statement | for statement`
 
     `statements ::= statement+`
 
@@ -120,6 +124,8 @@ Acraga是一种简单的强类型编程语言，支持整数、实数、布尔�
    `G ::= G+H | G-H | H`
 
    `H ::= H*I | H/I | H%I | J`
+
+   ......
 
    `J ::=  value | (T)`
 
@@ -459,8 +465,6 @@ void main(){
 - 完成readme
 - 创建wiki
 - 构建自动机
-
-
 
 
 
