@@ -1,0 +1,35 @@
+int main(){
+
+    //div 0
+    int a=3/0;
+
+    //++2;
+
+    //missing semicolon
+    //int a=2
+    //print(a);
+
+    //casting1
+    //string s="aaa";
+    //int b=(int)s;
+
+    //casting2
+    //int a=2.2;
+
+    //variable not defined
+    //c=2;
+
+    //duplicate definition
+    //int d=2;
+    //int d[3]={1,2,3};
+
+    //array1
+    //double array[3]={1.2, 2.3, 3.0, 1.7};
+
+    //array2
+    //int array[3]={1,2,3};
+    //array[4]=0;
+
+
+    return 0;
+}

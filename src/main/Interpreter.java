@@ -115,6 +115,7 @@ public class Interpreter {
 
 
         Value exitCode = runFunction(FunctionSignature.mainFunctionSignature);
+        System.out.println();
         System.out.println("----------------------");
         String format = "Program ends with %d";
 

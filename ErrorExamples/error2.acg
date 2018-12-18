@@ -1,0 +1,14 @@
+int add(int x1,int x2){
+    int a = x1+x2;
+    //1.missing return statement
+    //return a;
+
+    //2.return a wrong type
+    //return "sss";
+}
+
+int main(){
+    int a=add(1,2);
+    println(a);
+    return 0;
+}

@@ -31,6 +31,7 @@ public class Casting {
         if (value.isInt() && type == ValueType.DOUBLE) {
             Value ret = new Value(ValueType.DOUBLE);
             ret.setDoubleValue(new BigDecimal(value.getIntValue()));
+            return ret;
         }
         return null;
     }

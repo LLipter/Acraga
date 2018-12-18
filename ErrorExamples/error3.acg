@@ -1,0 +1,13 @@
+void show(){
+    int a=1;
+}
+
+//duplicate definition
+void show(){
+    double b=2;
+}
+
+int main(){
+    show()
+    return 0;
+}

@@ -1,0 +1,17 @@
+int main(){
+    //while misses condition
+    //while(){
+    //    println(1);
+    //}
+
+    //if misses condition
+    //if(){
+    //    print(1);
+    //}
+
+    if(true){
+        //break outside loop
+        break;
+    }
+    return 0;
+}
