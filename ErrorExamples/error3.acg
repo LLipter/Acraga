@@ -3,11 +3,17 @@ void show(){
 }
 
 //duplicate definition
-void show(){
+int show(){
     double b=2;
 }
 
+//but we support overload
+int show(int i){
+    return i;
+}
+
 int main(){
-    show()
+    int a=show(1);
+    println(a);
     return 0;
 }
