@@ -36,12 +36,19 @@ public class Interpreter {
 
     public static void interpretProgram(String inpuFile) {
         try {
+            long preprocessTime = System.currentTimeMillis();
             Preprocessor preprocessor = new Preprocessor(inpuFile);
             Scanner scanner = new Scanner(preprocessor);
             Parser parser = new Parser(scanner);
             parser.parseProgram();
+            long parserTime = System.currentTimeMillis();
+            double delta_1 = (parserTime - preprocessTime) / 1000.0;
             Interpreter interpreter = new Interpreter(parser);
             interpreter.interpretProgram();
+            long interpretTime = System.currentTimeMillis();
+            double delta_2 = (interpretTime - parserTime) / 1000.0;
+            System.out.println("parse time: " + delta_1 + "s");
+            System.out.println("interpret time: " + delta_2 + "s");
         } catch (AcragaException e) {
             System.err.println(e.toString());
         }
@@ -108,6 +115,7 @@ public class Interpreter {
 
 
         Value exitCode = runFunction(FunctionSignature.mainFunctionSignature);
+        System.out.println("----------------------");
         String format = "Program ends with %d";
 
         runGlobalStatements(globalStatements);
