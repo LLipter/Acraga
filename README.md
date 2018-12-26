@@ -97,7 +97,7 @@ Acraga是一种简单的强类型编程语言，支持整数、实数、布尔�
 
  - Declaration statement
 
-   `type ::= read | double | bool | string`
+   `type ::= integer | real | bool | string`
 
    `declare_statement ::= type identifier;`
 
@@ -141,7 +141,7 @@ Acraga是一种简单的强类型编程语言，支持整数、实数、布尔�
 
 - for statement
 
-  `for_statement ::= for(initialization; boolean expression; control variable){statements}`
+  `for_statement ::= for(assign_statement; boolean expression; control variable){statements}`
 
 
 
@@ -423,8 +423,8 @@ void main(){
 - 支持数组 eg. test[10] ——(✔️)
 - 支持声明与赋值同时完成 ——(✔️)
 - 支持更复杂的输出语句 eg. print(x + y) ——(✔️)
-- 支持格式化输出语句 eg. printf("hello %s", your_name)
-- 支持输入语句 eg. int x = scanf()
+- 支持格式化输出语句 eg. printf("hello %s", your_name) 
+- 支持输入语句 eg. int x = scanf() ——(✔️)
 - 支持for循环语句 ——(✔️)
 - 支持+=、-=、/=、*= ——(✔️)
 - 修改表达式部分的定义，加入括号，并且使之可以提现运算符优先级的区别，可以参考上学期ppt ——(✔️)
@@ -435,7 +435,7 @@ void main(){
 1. 能够在全局区执行一些语句 ——(✔️)
 2. 让for语句可以执行初始化 ——(✔️)
 3. 引入多行注释的语法 ——(✔️)
-4. 引入显示类型转换的概念,在函数参数传递的过程中允许隐式类型转换
+4. 引入显示类型转换的概念,在函数参数传递的过程中允许隐式类型转换 ——(✔️)
 5. **重构精简代码**
 6. ** 引入类的概念
 7. ** 用C++复刻项目，比较Java与C++版本性能上的区别
@@ -446,7 +446,7 @@ void main(){
 12. ** 实现类的概念后可以定义一些标准库数据结构，比如scanf，比如max，min等数学函数库 ——(✔️)
 13. 测试，争取没有逻辑错误以及运行时崩溃的情况
 14. 用Acraga编写一些简单的小程序， 检查解释器在更真实的场景下的正确性，同时检查设计的语法是否符合交互性 ——(✔️)
-15. 编写全面的文档，讲解解释器的整体构架以及具体细节并介绍如何编写合法的Acraga程序
+15. 编写全面的文档，讲解解释器的整体构架以及具体细节并介绍如何编写合法的Acraga程序 ——(✔️)
 16. 支持增强的for循环
 17. 检测函数签名，如果相同，报错 ——(✔️)
 18. 支持代码块
@@ -456,15 +456,4 @@ void main(){
 22. 加入break, continue语法 ——(✔️)
 23. 加入switch case语法
 24. 静态多个报错
-25. 报错位置不准确
-
-
-
-****
-
-- 完成readme
-- 创建wiki
-- 构建自动机
-
-
-
+25. 报错位置不准确 ——(✔️)
